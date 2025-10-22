@@ -1,0 +1,1272 @@
+﻿using Inspection.Utility;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
+
+namespace VisionSystemOperation.Device.PLC_Library
+{
+    public delegate void ErrDataDelegate(string data, Exception ex);
+    public delegate void LogDataDelegate(string data);
+    public class XGPLCManager
+    {
+        public string IP { get; set; } = "127.0.0.1";
+        public int Port { get; set; } = 2004;
+        public string Read_Model_StartAddress { get; set; } = "%MW97011";
+        public string Read_Eng_StartAddress { get; set; } = "%MW97013";
+        public string Read_Opt_StartAddress { get; set; } = "%MW97015";
+        public string Read_VinID_StartAddress { get; set; } = "%MW97020";
+        public string Read_PlcSeq_StartAddress { get; set; } = "%MW87010";
+        public string WriteVisionSeq_StartAddress { get; set; } = "%MW97011";
+
+        private object commLock = new object();
+
+        private bool[] _isVisionSeqRecvData = new bool[(int)eVision2PLCSeq.SEQ_COUNT];
+        public bool[] IsVisionSeqRecvData { get => _isVisionSeqRecvData; }
+        private bool[] _isSeqRecvData = new bool[(int)ePLC2VisionSeq.SEQ_COUNT];
+        public bool[] IsSeqRecvData { get => _isSeqRecvData; }
+
+        public LogDataDelegate evtRecvLogData { get; set; } = null;
+        public ErrDataDelegate evtErrLogData { get; set; } = null;
+
+        private XGCommSocket XGComm = new XGCommSocket();
+
+        public string ERR_MSG { get; set; }
+
+        public XGPLCManager(string serverIP, int port)
+        {
+            IP = serverIP;
+            Port = port;
+        }
+
+        public bool Save()
+        {
+            bool r = true;
+            string path = System.Environment.CurrentDirectory + @"\Config\";
+
+            try
+            {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                string fullPath = path + "PLC_Param.cfg";
+
+                XmlDocument xmlDocument = new XmlDocument();
+
+                HanMechXmlHelper.SaveDeclaration(xmlDocument);
+
+                XmlElement configElement = xmlDocument.CreateElement("", "PLCParam", "");
+                xmlDocument.AppendChild(configElement);
+                SaveParams(configElement);
+
+                xmlDocument.Save(fullPath);
+
+            }
+            catch (Exception ex)
+            {
+
+                r = false;
+            }
+
+            return r;
+        }
+
+        private void SaveParams(XmlElement configElement)
+        {
+            XmlElement paramElement = configElement.OwnerDocument.CreateElement("", "Param", "");
+            configElement.AppendChild(paramElement);
+
+            HanMechXmlHelper.SetValue(paramElement, "IP", IP);
+            HanMechXmlHelper.SetValue(paramElement, "Port", Port.ToString());
+            HanMechXmlHelper.SetValue(paramElement, "ReadModelStartAddress", Read_Model_StartAddress);
+            HanMechXmlHelper.SetValue(paramElement, "ReadEngStartAddress", Read_Eng_StartAddress);
+            HanMechXmlHelper.SetValue(paramElement, "ReadOptStartAddress", Read_Opt_StartAddress);
+            HanMechXmlHelper.SetValue(paramElement, "ReadVINIDStartAddress", Read_VinID_StartAddress);
+            HanMechXmlHelper.SetValue(paramElement, "ReadPlcSeqStartAddress", Read_PlcSeq_StartAddress);
+            HanMechXmlHelper.SetValue(paramElement, "WriteVisionSeqStartAddress", WriteVisionSeq_StartAddress);
+        }
+
+        internal void SetInit()
+        {
+            for (int i = (int)eVision2PLCSeq.READY_ON; i < (int)eVision2PLCSeq.EM_STOP; i++)
+            {
+                _isVisionSeqRecvData[i] = false;
+            }
+
+            _isVisionSeqRecvData[(int)eVision2PLCSeq.EM_STOP] = true;
+            WriteVistion2PLCSeq(_isVisionSeqRecvData, 16);
+        }
+
+        private void LoadParams(XmlElement configElement)
+        {
+            XmlElement operationElement = configElement["Param"];
+            if (operationElement == null)
+                return;
+
+            IP = HanMechXmlHelper.GetValue(operationElement, "IP", IP.ToString());
+            Port = Convert.ToInt32(HanMechXmlHelper.GetValue(operationElement, "Port", Port.ToString()));
+            Read_Model_StartAddress = HanMechXmlHelper.GetValue(operationElement, "ReadModelStartAddress", Read_Model_StartAddress.ToString());
+            Read_Eng_StartAddress = HanMechXmlHelper.GetValue(operationElement, "ReadEngStartAddress", Read_Eng_StartAddress.ToString());
+            Read_Opt_StartAddress = HanMechXmlHelper.GetValue(operationElement, "ReadOptStartAddress", Read_Opt_StartAddress.ToString());
+            Read_VinID_StartAddress = HanMechXmlHelper.GetValue(operationElement, "ReadVINIDStartAddress", Read_VinID_StartAddress.ToString());
+            Read_PlcSeq_StartAddress = HanMechXmlHelper.GetValue(operationElement, "ReadPlcSeqStartAddress", Read_PlcSeq_StartAddress.ToString());
+            WriteVisionSeq_StartAddress = HanMechXmlHelper.GetValue(operationElement, "WriteVisionSeqStartAddress", WriteVisionSeq_StartAddress.ToString());
+        }
+
+        public bool Load()
+        {
+            string path = System.Environment.CurrentDirectory + @"\Config\";
+
+            bool r = true;
+            try
+            {
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                {
+                    string fullPath = path + "PLC_Param.cfg";
+
+                    if (!File.Exists(fullPath))
+                        Save();
+
+                    XmlDocument xmlDocument = new XmlDocument();
+                    xmlDocument.Load(fullPath);
+                    XmlElement configElement = xmlDocument.DocumentElement;
+
+                    LoadParams(configElement);
+                }
+            }
+            catch (Exception ex)
+            {
+                r = false;
+            }
+
+            return r;
+        }
+
+        public bool WriteHeartBit()
+        {
+            bool r = false;
+            if (!IsConnected()) return r;
+
+            CheckedVision2PLCSeq();
+            r = _isVisionSeqRecvData[(int)eVision2PLCSeq.COM_CHK_FLICKER];
+            _isVisionSeqRecvData[(int)eVision2PLCSeq.COM_CHK_FLICKER] = !r;
+            WriteVistion2PLCSeq(_isVisionSeqRecvData, 16);
+            //uReturn = XGComm.UpdateKeepAlive();
+            //if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+            //{
+            //    r = true;
+            //}
+            //else
+            //{
+            //    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+            //}
+
+            return r;
+        }
+
+        public bool IsConnected()
+        {
+            uint uReturn;
+            bool r = false;
+
+            uReturn = XGComm.UpdateKeepAlive();
+            if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+            {
+                ERR_MSG = "";
+                r = true;
+            }
+            else
+            {
+                ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+            }
+
+            return r;
+        }
+
+        private void AddErrExeptLog(string str, Exception ex)
+        {
+            if (evtErrLogData != null)
+                evtErrLogData(str, ex);
+
+            //if (!WriteHeartBit())
+            //    Connect();
+
+            Machine.logger.WriteAsync(eLogType.DIO, "PLC Inform ERROR: " + str);
+            Machine.logger.WriteAsync(eLogType.ERROR, "PLC Inform ERROR: " + str);
+
+            if (ex != null)
+                Machine.logger.WriteException(eLogType.DIO, ex);
+        }
+
+        private void AddLog(string str, eLogType logType = eLogType.DIO)
+        {
+            if (evtRecvLogData != null)
+                evtRecvLogData(str);
+
+            Machine.logger.WriteAsync(logType, "PLC Inform: " + str);
+        }
+
+        public void InitStatusFlagData()
+        {
+            for (int i = (int)ePLC2VisionSeq.VISION_START; i < _isSeqRecvData.Length; i++)
+            {
+                _isSeqRecvData[i] = false;
+            }
+
+            for (int i = (int)eVision2PLCSeq.BT_MATCH_OK; i < (int)eVision2PLCSeq.EM_STOP; i++)
+            {
+                if ((int)eVision2PLCSeq.VISION_PASS == i)
+                    continue;
+
+                _isVisionSeqRecvData[i] = false;
+            }
+            _isVisionSeqRecvData[(int)eVision2PLCSeq.EM_STOP] = true;
+
+
+            if (!WriteVistion2PLCSeq(_isVisionSeqRecvData, 16)) //1Word = 2byte = 16bit
+            {
+                AddLog("Error Write Vision Sequence to PLC : " + ERR_MSG.ToString());
+            }
+
+        }
+
+
+        public void DoTest(char szDeviceType, int offset, int size, ref long lMaxAccessTimeWrite, ref long lMaxAccessTimeRead, ref long lCountErrorCheck, ref long lCountErrorWrite, ref long lCountErrorRead)
+        {
+            uint uReturn;
+
+            long lSize, lOffset, lCount;
+
+            double dReadTime, dWriteTime;
+            string strLog = "", strRead = "", strWrite = "", strHead = "", strFull = "";
+            Random rand = new Random();
+            Stopwatch stopwatch = new Stopwatch();
+
+            lSize = size;
+            lOffset = offset;
+
+            if (lSize <= 0)
+                return;
+
+            byte[] byWrite = new byte[lSize];
+            byte[] byRead = new byte[lSize];
+
+            for (lCount = 0; lCount < lSize; lCount++)
+            {
+                byWrite[lCount] = (byte)rand.Next(0, 255); ;
+            }
+
+            stopwatch.Start();
+            uReturn = XGComm.WriteDataByte(szDeviceType, lOffset, lSize, byWrite);
+            stopwatch.Stop();
+
+            dWriteTime = stopwatch.ElapsedMilliseconds;
+            if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+            {
+                lMaxAccessTimeWrite = Math.Max((long)dWriteTime, lMaxAccessTimeWrite);
+
+                strHead = string.Format("Write Data [{0, 4}][{1, 4}] ->", lSize, (long)dWriteTime);
+                for (lCount = 0; lCount < lSize; lCount++)
+                {
+                    strLog = string.Format((" {0:X2}"), byWrite[lCount]);
+                    strWrite += strLog;
+                }
+                strFull = strHead + strWrite;
+                AddLog(strFull);
+
+                stopwatch.Start();
+                uReturn = XGComm.ReadDataByte(szDeviceType, lOffset, lSize, byRead);
+                stopwatch.Stop();
+
+                dReadTime = stopwatch.ElapsedMilliseconds;
+                lMaxAccessTimeRead = Math.Max((long)dReadTime, lMaxAccessTimeRead);
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    strHead = string.Format("Read  Data [{0, 4}][{1, 4}] <-", lSize, (long)dReadTime);
+                    for (lCount = 0; lCount < lSize; lCount++)
+                    {
+                        strLog = string.Format(" {0:X2}", byRead[lCount]);
+                        strRead += strLog;
+                    }
+                    strFull = strHead + strRead;
+                    AddLog(strFull);
+
+                    if (strWrite != strRead)
+                    {
+                        lCountErrorCheck++;
+                        //if (chkUseErrorStop.Checked == true)
+                        //{
+                        //    tmLibTest.Enabled = false;
+                        //    chkTest.Checked = false;
+                        //}
+                    }
+                }
+                else
+                {
+                    lCountErrorRead++;
+                }
+            }
+            else
+            {
+                lCountErrorWrite++;
+                AddLog(XGComm.GetReturnCodeString(uReturn));
+            }
+        }
+
+        public bool Connect()
+        {
+            bool result = false;
+
+            if (IP == "") result = false;
+            else
+            {
+
+                uint r = XGComm.Connect(IP, (long)Port);
+                if (r == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    ERR_MSG = "";
+                    result = true;
+                    SetInit();
+                }
+                else
+                {
+                    ERR_MSG = XGComm.GetReturnCodeString(r);
+                    AddLog("PLC ==> Connect Fail !! \n");
+                }
+            }
+
+            return result;
+        }
+        private UInt16 ConvertTwoByte2UInt16(byte[] data)
+        {
+            UInt16 MSB = data[0];
+            UInt16 LSB = data[1];
+
+            return (UInt16)(((MSB << 8) & 0xFF00) + LSB);
+        }
+
+        private byte BitData2Byte(bool[] bitData) //1Byte == 8Bit
+        {
+            byte byteData = 0;
+
+            int typeSize = (sizeof(byte) * 8);
+            if (bitData.Length > typeSize) return byteData;
+
+            int bitSize = typeSize;
+            // This assumes the array never contains more than 8 elements!
+            int index = bitSize - bitData.Length;
+            // Loop through the array
+            foreach (bool b in bitData)
+            {
+                // if the element is 'true' set the bit at that position
+                if (b)
+                    byteData |= (byte)(1 << ((bitSize - 1) - index));
+
+                index++;
+            }
+
+            return byteData;
+        }
+
+        private ushort BitData2Word(bool[] bitData) //1Word == 2Byte
+        {
+            ushort wordData = 0;
+
+            try
+            {
+                int typeSize = (sizeof(ushort) * 8);
+                if (bitData.Length > (sizeof(ushort) * 8)) return wordData;
+
+                int bitSize = typeSize;
+                // This assumes the array never contains more than 8 elements!
+                int index = bitSize - bitData.Length;
+                // Loop through the array
+                foreach (bool b in bitData)
+                {
+                    // if the element is 'true' set the bit at that position
+                    if (b)
+                        wordData |= (ushort)(1 << ((bitSize - 1) - index));
+
+                    index++;
+                }
+            }
+            catch (Exception ex)
+            {
+                AddErrExeptLog("PLC ERROR. : BitData2Word Failed", ex);
+            }
+
+
+            return wordData;
+        }
+
+
+        public bool WriteDataBit(bool bitData, char szDeviceType, long lOffset)
+        {
+            bool result = false;
+
+            try
+            {
+                long lCount;
+                uint uReturn;
+                bool bUseWriteData;
+                string strFull, strLog;
+                double dAccessTime;
+                UInt16 uEditData;
+
+                Stopwatch stopwatch = new Stopwatch();
+                Random rand = new Random();
+
+                byte[] bWrite = new byte[1];
+                bWrite[0] = Convert.ToByte(bitData);
+
+                stopwatch.Start();
+                lock (commLock)
+                {
+                    uReturn = XGComm.WriteDataBit(szDeviceType, lOffset, bWrite.Length, bWrite);
+                }
+                stopwatch.Stop();
+
+                dAccessTime = stopwatch.ElapsedMilliseconds;
+
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    result = true;
+
+                    strFull = string.Format("Write Data [{0,4}][{1,4}] ->", bWrite.Length, (long)dAccessTime);
+                    for (lCount = 0; lCount < bWrite.Length; lCount++)
+                    {
+                        strLog = string.Format(" {0:X2}", bWrite[lCount]);
+                        strFull += strLog;
+                    }
+
+                    ERR_MSG = "";
+                    //AddLog(strFull);
+                }
+                else
+                {
+                    result = false;
+                    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+                    AddErrExeptLog("PLC ERROR. : " + ERR_MSG, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                AddErrExeptLog("PLC ERROR. : " + ERR_MSG, ex);
+            }
+
+            return result;
+        }
+
+        public bool WriteDataByte(bool[] bitData, char szDeviceType, long lOffset)
+        {
+            bool result = false;
+
+            try
+            {
+                long lCount;
+                uint uReturn;
+                bool bUseWriteData;
+                string strFull, strLog;
+                double dAccessTime;
+                UInt16 uEditData;
+
+                Stopwatch stopwatch = new Stopwatch();
+                Random rand = new Random();
+
+                byte[] bWrite = new byte[1];
+                bWrite[0] = BitData2Byte(bitData);
+
+                stopwatch.Start();
+                lock (commLock)
+                {
+                    uReturn = XGComm.WriteDataByte(szDeviceType, lOffset, bWrite.Length, bWrite);
+                }
+                stopwatch.Stop();
+
+                dAccessTime = stopwatch.ElapsedMilliseconds;
+
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    result = true;
+
+                    strFull = string.Format("Write Data [{0,4}][{1,4}] ->", bWrite.Length, (long)dAccessTime);
+                    for (lCount = 0; lCount < bWrite.Length; lCount++)
+                    {
+                        strLog = string.Format(" {0:X2}", bWrite[lCount]);
+                        strFull += strLog;
+                    }
+
+                    ERR_MSG = "";
+                    //AddLog(strFull);
+                }
+                else
+                {
+                    result = false;
+                    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+                    AddErrExeptLog("PLC ERROR. : " + ERR_MSG, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                AddErrExeptLog("PLC ERROR. : " + ERR_MSG, ex);
+            }
+
+            return result;
+        }
+
+        public bool WriteDataBitData2Word(bool[] bitData, char szDeviceType, uint nDataType, long lOffset)
+        {
+            bool result = false;
+
+            try
+            {
+                long lCount;
+                uint uReturn;
+                bool bUseWriteData;
+                string strFull, strLog;
+                double dAccessTime;
+                UInt16 uEditData;
+
+                Stopwatch stopwatch = new Stopwatch();
+                Random rand = new Random();
+
+                System.Collections.BitArray bitArray = new System.Collections.BitArray(bitData);
+                byte[] byteArr = new byte[bitArray.Length / 8];
+                bitArray.CopyTo(byteArr, 0);
+
+                UInt16[] uWrite = new UInt16[1];
+                uWrite[0] = BitConverter.ToUInt16(byteArr, 0);
+                //uWrite[0] = BitData2Word(bitData);
+
+                stopwatch.Start();
+                lock (commLock)
+                {
+                    uReturn = XGComm.WriteDataWord(szDeviceType, lOffset, uWrite.Length, false, uWrite);
+                }
+                stopwatch.Stop();
+
+                dAccessTime = stopwatch.ElapsedMilliseconds;
+
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    result = true;
+
+                    strFull = string.Format("Write Data : [{0,4}][{1,4}] ->", uWrite.Length, (long)dAccessTime);
+                    for (lCount = 0; lCount < uWrite.Length; lCount++)
+                    {
+                        strLog = string.Format(" {0:X4}", uWrite[lCount]);
+                        strFull += strLog;
+                    }
+
+                    ERR_MSG = "";
+                    //AddLog(strFull);
+                }
+                else
+                {
+                    result = false;
+                    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+                    AddErrExeptLog("PLC ERROR. : " + ERR_MSG, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                AddErrExeptLog("PLC ERROR. : " + ERR_MSG, ex);
+            }
+
+            return result;
+        }
+
+        public bool WriteDataString2Word(string writeTxt, char szDeviceType, uint nDataType, long lOffset)
+        {
+            bool result = true;
+
+            try
+            {
+                long lCount;
+                long lSize;
+                uint uReturn;
+                bool bUseWriteData;
+                string strFull, strLog;
+                double dAccessTime;
+                UInt16 uEditData;
+
+                Stopwatch stopwatch = new Stopwatch();
+
+                byte[] bTxtData = Encoding.ASCII.GetBytes(writeTxt);
+
+                lSize = bTxtData.Length / 2;
+                if (bTxtData.Length % 2 != 0)
+                    lSize += 1;
+
+                UInt16[] uWrite = new UInt16[lSize];
+                for (lCount = 0; lCount < lSize; lCount++)
+                {
+                    if (lCount + 1 + (lCount * 1) >= bTxtData.Length)
+                    {
+                        uWrite[lCount] = ConvertTwoByte2UInt16(new byte[2] { bTxtData[lCount + (lCount * 1)], 0 });
+                    }
+                    else
+                        uWrite[lCount] = ConvertTwoByte2UInt16(new byte[2] { bTxtData[lCount + (lCount * 1)], bTxtData[lCount + 1 + (lCount * 1)] });
+                }
+
+                stopwatch.Start();
+                lock (commLock)
+                {
+                    uReturn = XGComm.WriteDataWord(szDeviceType, lOffset, lSize, false, uWrite);
+                }
+                stopwatch.Stop();
+                dAccessTime = stopwatch.ElapsedMilliseconds;
+
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    result = true;
+
+                    strFull = string.Format("Write Data [{0,4}][{1,4}] ->", lSize, (long)dAccessTime);
+                    for (lCount = 0; lCount < lSize; lCount++)
+                    {
+                        strLog = string.Format(" {0:X4}", uWrite[lCount]);
+                        strFull += strLog;
+                    }
+
+                    ERR_MSG = "";
+                    //AddLog(strFull);
+                }
+                else
+                {
+                    result = false;
+                    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+                    AddErrExeptLog("PLC ERROR. : " + ERR_MSG, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                AddErrExeptLog("PLC ERROR. : ", ex);
+            }
+
+            return result;
+        }
+
+
+        private string ConvertAscll(short hexBuffer)
+        {
+            string resultStr = "";
+            try
+            {
+                if (hexBuffer == 0)
+                    return resultStr;
+                string strBuffer = hexBuffer.ToString("x");
+                string code = strBuffer;
+                if (strBuffer.Length != 4)
+                    return resultStr;
+
+                //plc가 반대로 들어와 first, second 바꿈
+                string second = code.Substring(0, 2);
+                string first = code.Substring(2, 2); 
+
+                byte[] resultByte = { Convert.ToByte(first, 16), Convert.ToByte(second, 16) };
+
+                if (resultByte[0] == 0)
+                    resultByte[0] = 32;
+
+                if (resultByte[1] == 0)
+                    resultByte[1] = 32;
+                string g = Encoding.ASCII.GetString(resultByte);
+                resultStr += Encoding.ASCII.GetString(resultByte).Trim();
+            }
+            catch (Exception ex)
+            {
+                AddErrExeptLog("PLC ERROR. : ConvertAscll Falied.", ex);
+            }
+            return resultStr;
+        }
+
+        public bool ReadDataWord2String(ref string readTxt, char szDeviceType, uint nDataType, long lOffset, long readTxtCnt)
+        {
+            bool result = true;
+
+            try
+            {
+                long lCount;
+                uint uReturn;
+                string strFull, strLog;
+                double dAccessTime;
+
+                UInt16[] bufRead = new UInt16[readTxtCnt];
+
+                Stopwatch stopwatch = new Stopwatch();
+
+                stopwatch.Start();
+
+                System.Collections.BitArray outBitArray = new System.Collections.BitArray(1);
+                lock (commLock)
+                {
+                    uReturn = XGComm.ReadDataWord(szDeviceType, lOffset, readTxtCnt, false, bufRead, ref outBitArray);
+                }
+
+                stopwatch.Stop();
+                dAccessTime = stopwatch.ElapsedMilliseconds;
+
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    for (int i = 0; i < bufRead.Length; i++)
+                    {
+                        readTxt += ConvertAscll((short)bufRead[i]);
+                    }
+
+                    result = true;
+
+                    strFull = string.Format("Read  Data [{0,4}][{1,4}] <-", bufRead.Length, (long)dAccessTime);
+                    for (lCount = 0; lCount < bufRead.Length; lCount++)
+                    {
+                        strLog = string.Format(" {0:X4}", bufRead[lCount]);
+                        strFull += strLog;
+                    }
+                    strFull += ": " + readTxt;
+
+                    ERR_MSG = "";
+                    //AddLog(strFull);
+                }
+                else
+                {
+                    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+                    AddErrExeptLog("PLC ERROR. : " + ERR_MSG, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                AddErrExeptLog("PLC ERROR. : " + ERR_MSG, ex);
+            }
+            
+
+            return result;
+        }
+
+        public bool ReadDataBit(ref char[] readBitData, char szDeviceType, long lSize, long lOffset)
+        {
+            bool result = true;
+
+            try
+            {
+                long lCount;
+                uint uReturn;
+                string strFull, strLog;
+                double dAccessTime;
+
+                byte[] bufRead = new byte[lSize];
+
+                Stopwatch stopwatch = new Stopwatch();
+
+                stopwatch.Start();
+
+                lock (commLock)
+                {
+                    uReturn = XGComm.ReadDataBit(szDeviceType, lOffset, lSize, bufRead);
+                }
+
+                stopwatch.Stop();
+                dAccessTime = stopwatch.ElapsedMilliseconds;
+
+                readBitData = new char[lSize]; // 8bit == 1Byte
+
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    strFull = string.Format("Read  Data [{0,4}][{1,4}] <-", lSize, (long)dAccessTime);
+                    for (lCount = 0; lCount < lSize; lCount++)
+                    {
+                        strLog = string.Format(" {0:X1}", bufRead[lCount]);
+
+                        int value = int.Parse(strLog, System.Globalization.NumberStyles.HexNumber);
+                        readBitData = Convert.ToString(value, 2).PadLeft(1, '0').ToArray(); /// Seq Status 확보 // ex) 2452 -> 0000 1001 1001 0100 // Hex2Bit
+
+                        strLog = "";
+                        for (int i = 0; i < readBitData.Length; i++)
+                        {
+                            strLog += readBitData[i].ToString();
+                        }
+                        strFull += " : " + strLog;
+                    }
+
+                    ERR_MSG = "";
+                    //AddLog(strFull);
+                }
+                else
+                {
+                    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+                    AddErrExeptLog("PLC ERROR. : " + ERR_MSG, null);
+                    result = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                AddErrExeptLog("PLC ERROR. : " + ERR_MSG, ex);
+            }
+
+            return result;
+        }
+
+        public bool ReadDataByte(ref char[] readBitData, char szDeviceType, long lSize, long lOffset)
+        {
+            bool result = true;
+
+            try
+            {
+                long lCount;
+                uint uReturn;
+                string strFull, strLog;
+                double dAccessTime;
+
+                byte[] bufRead = new byte[lSize];
+
+                Stopwatch stopwatch = new Stopwatch();
+
+                stopwatch.Start();
+
+                lock (commLock)
+                {
+                    uReturn = XGComm.ReadDataByte(szDeviceType, lOffset, lSize, bufRead);
+                }
+
+                stopwatch.Stop();
+                dAccessTime = stopwatch.ElapsedMilliseconds;
+
+                readBitData = new char[lSize * 8]; // 8bit == 1Byte
+
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    strFull = string.Format("Read  Data [{0,4}][{1,4}] <-", lSize, (long)dAccessTime);
+                    for (lCount = 0; lCount < lSize; lCount++)
+                    {
+                        strLog = string.Format(" {0:X2}", bufRead[lCount]);
+
+                        int value = int.Parse(strLog, System.Globalization.NumberStyles.HexNumber);
+                        readBitData = Convert.ToString(value, 2).PadLeft(8, '0').ToArray(); /// Seq Status 확보 // ex) 2452 -> 0000 1001 1001 0100 // Hex2Bit
+
+                        strLog = "";
+                        for (int i = 0; i < readBitData.Length; i++)
+                        {
+                            strLog += readBitData[i].ToString();
+                        }
+                        strFull += " : " + strLog;
+                    }
+
+                    ERR_MSG = "";
+                    //AddLog(strFull);
+                }
+                else
+                {
+                    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+                    AddErrExeptLog("PLC ERROR. : " + ERR_MSG, null);
+                    result = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                AddErrExeptLog("PLC ERROR. : " + ERR_MSG, ex);
+            }
+
+            return result;
+        }
+
+        public bool WriteVistion2PLCSeq(bool[] isSeqData, int bitCount)
+        {
+            bool r = true;
+
+            char deviceType = WriteVisionSeq_StartAddress[1];
+            uint dataType = (int)eDataType.WORD;
+            long address = Int32.Parse(WriteVisionSeq_StartAddress.Substring(3, (WriteVisionSeq_StartAddress.Count() - 3))); //Write Vision2PLC SIgnal
+
+            bool[] writeBitData = new bool[bitCount]; // 1 Word == 2 Byte == 16 Bit
+            for (int i = 0; i < isSeqData.Length; i++)
+            {
+                writeBitData[i] = isSeqData[i];
+            }
+
+            if (!WriteDataBitData2Word(writeBitData, deviceType, dataType, address))
+            {
+                int retCount = 1;
+                for (int i = 0; i < retCount; i++) // if Write fail, retry 3 time
+                {
+                    bool ret = WriteDataBitData2Word(writeBitData, deviceType, dataType, address);
+                    if(ret)
+                    {
+                        break;
+                    }
+
+                    if(i == retCount - 1 && ret == false)
+                    {
+                        AddLog($"Failed Write Vision to PLC Data:");
+                        r = false;
+                    }
+                }
+            }
+
+            return r;
+        }
+
+        public string ReadWordString(eReadSignalType signalType)
+        {
+            string readString = "";
+
+            if (signalType == eReadSignalType.CAR_ID)
+            {
+                char deviceType = Read_VinID_StartAddress[1];
+                uint dataType = (int)eDataType.WORD;
+                long vinIDAddress = Int32.Parse(Read_VinID_StartAddress.Substring(3, (Read_VinID_StartAddress.Count() - 3)));
+
+                int wordCount = 10;
+
+                ReadDataWord2String(ref readString, deviceType, dataType, vinIDAddress, wordCount);
+            }
+
+            return readString;
+        }
+
+        private int GetTurnOnIdx(char[] readBitData, int startOffsetIdx, int dataMaxCount)
+        {
+            int index = -1;
+
+            if (readBitData != null)
+            {
+                int readBitMaxCount = startOffsetIdx + dataMaxCount;
+                for (int i = startOffsetIdx; i < readBitMaxCount; i++)
+                {
+                    if (readBitData[i] == '1')
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+
+            return index;
+        }
+
+        private int[] GetTurnOnIndexArray(char[] readBitData, int startOffsetIdx, int dataMaxCount)
+        {
+            int[] index = Enumerable.Repeat<int>(-1, 16).ToArray<int>();
+
+            if (readBitData != null)
+            {
+                int readBitMaxCount = startOffsetIdx + dataMaxCount;
+                for (int i = startOffsetIdx; i < readBitMaxCount; i++)
+                {
+                    if (readBitData[i] == '1')
+                    {
+                        index[i] = i;
+                    }
+                }
+            }
+
+            return index.Where(idx => idx != -1).ToArray();
+        }
+
+        public char[] GetReadBitData(uint dataType, char deviceType, long address)
+        {
+            char[] readBitData = null;
+            ReadDataWord2BitArray(ref readBitData, deviceType, dataType, address);
+
+            return readBitData;
+        }
+
+        public void ReadCarTypeIdx(ref int[] modelIdxs, ref int[] engIdxs, ref int[] optIdxs, out int modelIdx, out int engineIdx, out int optionIdx)
+        {
+            modelIdx = -1;
+            engineIdx = -1;
+            optionIdx = -1;
+
+            char deviceType = Read_Model_StartAddress[1];
+            uint dataType = (int)eDataType.WORD;
+            long modelAddress = Int32.Parse(Read_Model_StartAddress.Substring(3, (Read_Model_StartAddress.Count() - 3)));
+            long engineAddress = Int32.Parse(Read_Eng_StartAddress.Substring(3, (Read_Eng_StartAddress.Count() - 3)));
+            long optionAddress = Int32.Parse(Read_Opt_StartAddress.Substring(3, (Read_Opt_StartAddress.Count() - 3)));
+
+            int startBitIdx = modelIdxs.Min();
+            char[] readBitData = null;
+            ReadDataWord2BitArray(ref readBitData, deviceType, dataType, modelAddress);
+            modelIdx = GetTurnOnIdx(readBitData, startBitIdx, 16 - startBitIdx); // Model Start Idx = 0, MaxBitCount = 8;
+
+            deviceType = Read_Eng_StartAddress[1];
+            startBitIdx = engIdxs.Min();
+            readBitData = null;
+            ReadDataWord2BitArray(ref readBitData, deviceType, dataType, engineAddress);
+            engineIdx = GetTurnOnIdx(readBitData, startBitIdx, 16 - startBitIdx); // Engine Start Idx = 10, MaxBitCount = 6;
+
+            deviceType = Read_Opt_StartAddress[1];
+            startBitIdx = optIdxs.Min();
+            readBitData = null;
+            ReadDataWord2BitArray(ref readBitData, deviceType, dataType, optionAddress);
+            optionIdx = GetTurnOnIdx(readBitData, startBitIdx, 16 - startBitIdx); // Option Start Idx = 15, MaxBitCount = 1; // F/L or not
+        }
+        //public void ReadCarTypeIdx(ref int[] modelIdxs, ref int[] engIdxs, ref int[] optIdxs, out int modelIdx, out int engineIdx, out int[] optionIndexArray)
+        //{
+        //    modelIdx = -1;
+        //    engineIdx = -1;
+
+        //    optionIndexArray = new int[16];
+        //    Array.Clear(optionIndexArray, 0, 16);
+        //    for (int i = 0; i < optionIndexArray.Length; i++)
+        //        optionIndexArray.SetValue(-1, i);
+
+        //    char deviceType = Read_Model_StartAddress[1];
+        //    uint dataType = (int)eDataType.WORD;
+        //    long modelAddress = Int32.Parse(Read_Model_StartAddress.Substring(3, (Read_Model_StartAddress.Count() - 3)));
+        //    long engineAddress = Int32.Parse(Read_Eng_StartAddress.Substring(3, (Read_Eng_StartAddress.Count() - 3)));
+        //    long optionAddress = Int32.Parse(Read_Opt_StartAddress.Substring(3, (Read_Opt_StartAddress.Count() - 3)));
+
+
+        //    int startBitIdx = modelIdxs.Min();
+        //    char[] readBitData = null;
+        //    ReadDataWord2BitArray(ref readBitData, deviceType, dataType, modelAddress);
+        //    //modelIdx = GetTurnOnIdx(readBitData, startBitIdx, 16 - startBitIdx); // Model Start Idx = 0, MaxBitCount = 8;
+        //    modelIdx = 1; // Model Start Idx = 0, MaxBitCount = 8;
+
+        //    deviceType = Read_Eng_StartAddress[1];
+        //    startBitIdx = engIdxs.Min();
+        //    readBitData = null;
+        //    ReadDataWord2BitArray(ref readBitData, deviceType, dataType, engineAddress);
+        //    //engineIdx = GetTurnOnIdx(readBitData, startBitIdx, 16 - startBitIdx); // Engine Start Idx = 10, MaxBitCount = 6;
+        //    engineIdx = 10; // Engine Start Idx = 10, MaxBitCount = 6;
+
+        //    deviceType = Read_Opt_StartAddress[1];
+        //    startBitIdx = optIdxs.Min();
+        //    readBitData = null;
+        //    //ReadDataWord2BitArray(ref readBitData, deviceType, dataType, optionAddress);
+        //    readBitData = new char[16];
+        //    //readBitData[6] = '1';
+        //    //readBitData[15] = '1';
+        //    //readBitData[0] = '1';
+
+        //    int[] tmpOtionIndexArray = GetTurnOnIndexArray(readBitData, startBitIdx, 16 - startBitIdx); // Option Start Idx = 15, MaxBitCount = 1; // F/L or not
+
+        //    for (int optIdx = 0; optIdx < optIdxs.Length; optIdx++)
+        //    {
+        //        for (int tmpIdx = 0; tmpIdx < tmpOtionIndexArray.Length; tmpIdx++)
+        //        {
+        //            if (optIdxs[optIdx] == tmpOtionIndexArray[tmpIdx])
+        //                optionIndexArray[tmpOtionIndexArray[tmpIdx]] = tmpOtionIndexArray[tmpIdx];
+        //        }
+        //    }
+
+        //    optionIndexArray = optionIndexArray.Where(idx => idx != -1).ToArray();
+
+        //    int k = 0;
+        //}
+        public void ReadCarTypeIdx(ref int[] modelIdxs, ref int[] engIdxs, ref int[] optIdxs, out int modelIdx, out int engineIdx, out int[] optionIndexArray)
+        {
+            modelIdx = -1;
+            engineIdx = -1;
+
+            optionIndexArray = new int[16];
+            Array.Clear(optionIndexArray, 0, 16);
+            for (int i = 0; i < optionIndexArray.Length; i++)
+                optionIndexArray.SetValue(-1, i);
+
+            char deviceType = Read_Model_StartAddress[1];
+            uint dataType = (int)eDataType.WORD;
+            long modelAddress = Int32.Parse(Read_Model_StartAddress.Substring(3, (Read_Model_StartAddress.Count() - 3)));
+            long engineAddress = Int32.Parse(Read_Eng_StartAddress.Substring(3, (Read_Eng_StartAddress.Count() - 3)));
+            long optionAddress = Int32.Parse(Read_Opt_StartAddress.Substring(3, (Read_Opt_StartAddress.Count() - 3)));
+
+            int startBitIdx = modelIdxs.Min();
+            char[] readBitData = null;
+            ReadDataWord2BitArray(ref readBitData, deviceType, dataType, modelAddress);
+            modelIdx = GetTurnOnIdx(readBitData, startBitIdx, 16 - startBitIdx); // Model Start Idx = 0, MaxBitCount = 8;
+
+            deviceType = Read_Eng_StartAddress[1];
+            startBitIdx = engIdxs.Min();
+            readBitData = null;
+            ReadDataWord2BitArray(ref readBitData, deviceType, dataType, engineAddress);
+            engineIdx = GetTurnOnIdx(readBitData, startBitIdx, 16 - startBitIdx); // Engine Start Idx = 10, MaxBitCount = 6;
+
+            deviceType = Read_Opt_StartAddress[1];
+            startBitIdx = optIdxs.Min();
+            readBitData = null;
+            ReadDataWord2BitArray(ref readBitData, deviceType, dataType, optionAddress);
+            //optionIndexArray = GetTurnOnIndexArray(readBitData, startBitIdx, 16 - startBitIdx); // Option Start Idx = 15, MaxBitCount = 1; // F/L or not
+
+            int[] tmpOtionIndexArray = GetTurnOnIndexArray(readBitData, startBitIdx, 16 - startBitIdx); // Option Start Idx = 15, MaxBitCount = 1; // F/L or not
+
+            for (int optIdx = 0; optIdx < optIdxs.Length; optIdx++)
+            {
+                for (int tmpIdx = 0; tmpIdx < tmpOtionIndexArray.Length; tmpIdx++)
+                {
+                    if (optIdxs[optIdx] == tmpOtionIndexArray[tmpIdx])
+                        optionIndexArray[tmpOtionIndexArray[tmpIdx]] = tmpOtionIndexArray[tmpIdx];
+                }
+            }
+
+            optionIndexArray = optionIndexArray.Where(idx => idx != -1).ToArray();
+        }
+
+        public bool CheckedVision2PLCSeq()
+        {
+            char deviceType = WriteVisionSeq_StartAddress[1];
+            uint dataType = (int)eDataType.WORD;
+            long address = Int32.Parse(WriteVisionSeq_StartAddress.Substring(3, (WriteVisionSeq_StartAddress.Count() - 3)));
+
+            if (!GetVisionSequenceRead(deviceType, dataType, address))
+            {
+                AddLog($"Failed Read PLC to Vision Data:  Message-{ERR_MSG}", eLogType.ERROR);
+            }
+
+            return true;
+        }
+
+        public bool CheckedPLC2VisionSeq(ePLC2VisionSeq seq)
+        {
+            char deviceType = Read_PlcSeq_StartAddress[1];
+            uint dataType = (int)eDataType.WORD;
+            long address = Int32.Parse(Read_PlcSeq_StartAddress.Substring(3, (Read_PlcSeq_StartAddress.Count() - 3)));
+
+            if(!GetSequenceRead(deviceType, dataType, address))
+            {
+                AddLog($"Failed Read PLC to Vision Data: Sequence-{seq.ToString()}  Message-{ERR_MSG}", eLogType.ERROR);
+            }
+
+            return _isSeqRecvData[(int)seq];
+        }
+        private bool GetVisionSequenceRead(char deviceType, uint dataType, long address) // DeviceType(Memory name) = M,W,R   DataType(Bit=X,Byte=B,Word=W), address = 0~999999
+        {
+            char[] readSeqBitData = null;
+            int offsetStartSig = 0;
+
+            if (!IsConnected()) return false;
+
+            if (ReadDataWord2BitArray(ref readSeqBitData, deviceType, dataType, address))
+            {
+                for (int i = 0; i < _isVisionSeqRecvData.Length; i++)
+                {
+                    _isVisionSeqRecvData[i] = readSeqBitData[i] == '0' ? false : true;
+
+                }
+                //_isVisionSeqRecvData[(int)eVision2PLCSeq.INSP_READY] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+                //_isVisionSeqRecvData[(int)eVision2PLCSeq.INSP_START] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+                //_isVisionSeqRecvData[(int)eVision2PLCSeq.INSP_END] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+                //_isVisionSeqRecvData[(int)eVision2PLCSeq.INSP_OK] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+                //_isVisionSeqRecvData[(int)eVision2PLCSeq.INSP_NG] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+                //_isVisionSeqRecvData[(int)eVision2PLCSeq.INSP_ERR] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool GetSequenceRead(char deviceType, uint dataType, long address) // DeviceType(Memory name) = M,W,R   DataType(Bit=X,Byte=B,Word=W), address = 0~999999
+        {
+            if (!IsConnected()) return false;
+
+            char[] readSeqBitData = null;
+            int offsetStartSig = 0;
+
+            if (ReadDataWord2BitArray(ref readSeqBitData, deviceType, dataType, address))
+            {
+                for (int i = 0; i < _isSeqRecvData.Length; i++)
+                    _isSeqRecvData[i] = readSeqBitData[i] == '0' ? false : true;
+
+                //_isSeqRecvData[(int)ePLC2VisionSeq.VISION_START] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+                //_isSeqRecvData[(int)ePLC2VisionSeq.VISION_END] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+                //_isSeqRecvData[(int)ePLC2VisionSeq.VISION_NG] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+                //_isSeqRecvData[(int)ePLC2VisionSeq.LAST_COMPL] = readSeqBitData[offsetStartSig++] == '0' ? false : true;
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool ReadDataWord2BitArray(ref char[] readBitData, char szDeviceType, uint nDataType, long lOffset)
+        {
+            bool result = true;
+
+            if (!IsConnected()) return false;
+
+            try
+            {
+                long lCount;
+                uint uReturn;
+                string strFull, strLog;
+                double dAccessTime;
+
+                UInt16[] bufRead = new UInt16[1];
+
+                Stopwatch stopwatch = new Stopwatch();
+
+                stopwatch.Start();
+
+                System.Collections.BitArray outBitArray = new System.Collections.BitArray(1);
+                lock (commLock)
+                {
+                    uReturn = XGComm.ReadDataWord(szDeviceType, lOffset, 1, true, bufRead, ref outBitArray);
+                }
+
+                stopwatch.Stop();
+                dAccessTime = stopwatch.ElapsedMilliseconds;
+
+                if (uReturn == (uint)XGCOMM_FUNC_RESULT.RT_XGCOMM_SUCCESS)
+                {
+                    strFull = string.Format("Read  Data [{0,4}][{1,4}] <-", 1, (long)dAccessTime);
+                    {
+                        strLog = string.Format(" {0:X4}", bufRead[0]);
+                        strFull += strLog;
+
+                        if(outBitArray.Length != 1)
+                        {
+                            bool[] bBitArray = new bool[outBitArray.Length];
+                            readBitData = new char[outBitArray.Length];
+                            outBitArray.CopyTo(bBitArray, 0);
+                            for (int i = 0; i < readBitData.Length; i++)
+                            {
+                                readBitData[i] = bBitArray[i] == false ? '0' : '1';
+                            }
+                        }
+                        else
+                        {
+                            int value = int.Parse(strLog, System.Globalization.NumberStyles.HexNumber);
+                            readBitData = Convert.ToString(value, 2).PadLeft(16, '0').ToArray(); /// Seq Status 확보 // ex) 2452 -> 0000 1001 1001 0100 // Hex2Bit
+                        }
+
+                        strLog = "";
+                        for (int i = 0; i < readBitData.Length; i++)
+                        {
+                            strLog += readBitData[i].ToString();
+                        }
+                        strFull += " : " + strLog;
+
+
+                        ERR_MSG = "";
+                        //AddLog(strFull);
+                    }
+                }
+                else
+                {
+                    ERR_MSG = XGComm.GetReturnCodeString(uReturn);
+                    AddErrExeptLog("PLC ERROR. : " + ERR_MSG, null);
+                    result = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                AddErrExeptLog("PLC ERROR. : " + ERR_MSG, ex);
+            }
+
+            return result;
+        }
+    }
+}

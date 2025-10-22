@@ -1,0 +1,325 @@
+﻿
+namespace VisionSystemOperation
+{
+    partial class FormMdi
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            this.tabLayoutMaster = new System.Windows.Forms.TableLayoutPanel();
+            this.pnlHeader = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnMain = new System.Windows.Forms.Button();
+            this.btnCamera = new System.Windows.Forms.Button();
+            this.btnInterface = new System.Windows.Forms.Button();
+            this.btnDB = new System.Windows.Forms.Button();
+            this.btnLog = new System.Windows.Forms.Button();
+            this.tblLayoutCarTypeVinCamPlc = new System.Windows.Forms.TableLayoutPanel();
+            this.pnlInspectionStartStop = new System.Windows.Forms.Panel();
+            this.pnlCamPlcStatus = new System.Windows.Forms.Panel();
+            this.btnShift = new System.Windows.Forms.Button();
+            this.lblInspCounter = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.pnlTypeVin = new System.Windows.Forms.Panel();
+            this.pnlLog = new System.Windows.Forms.Panel();
+            this.tmDeviseConnectionStatus = new System.Windows.Forms.Timer(this.components);
+            this.tabLayoutMaster.SuspendLayout();
+            this.pnlHeader.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
+            this.tblLayoutCarTypeVinCamPlc.SuspendLayout();
+            this.pnlCamPlcStatus.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // tabLayoutMaster
+            // 
+            this.tabLayoutMaster.ColumnCount = 1;
+            this.tabLayoutMaster.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tabLayoutMaster.Controls.Add(this.pnlHeader, 0, 0);
+            this.tabLayoutMaster.Controls.Add(this.tblLayoutCarTypeVinCamPlc, 0, 1);
+            this.tabLayoutMaster.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tabLayoutMaster.Location = new System.Drawing.Point(0, 0);
+            this.tabLayoutMaster.Name = "tabLayoutMaster";
+            this.tabLayoutMaster.RowCount = 2;
+            this.tabLayoutMaster.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 62F));
+            this.tabLayoutMaster.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tabLayoutMaster.Size = new System.Drawing.Size(1924, 108);
+            this.tabLayoutMaster.TabIndex = 1;
+            // 
+            // pnlHeader
+            // 
+            this.pnlHeader.BackColor = System.Drawing.Color.White;
+            this.pnlHeader.Controls.Add(this.flowLayoutPanel1);
+            this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlHeader.Location = new System.Drawing.Point(0, 0);
+            this.pnlHeader.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlHeader.Name = "pnlHeader";
+            this.pnlHeader.Size = new System.Drawing.Size(1924, 62);
+            this.pnlHeader.TabIndex = 1;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.btnMain);
+            this.flowLayoutPanel1.Controls.Add(this.btnCamera);
+            this.flowLayoutPanel1.Controls.Add(this.btnInterface);
+            this.flowLayoutPanel1.Controls.Add(this.btnDB);
+            this.flowLayoutPanel1.Controls.Add(this.btnLog);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(1474, 0);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(450, 62);
+            this.flowLayoutPanel1.TabIndex = 11;
+            // 
+            // btnMain
+            // 
+            this.btnMain.FlatAppearance.BorderSize = 0;
+            this.btnMain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMain.Image = global::VisionSystemOperation.Properties.Resources.monitor_icon;
+            this.btnMain.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnMain.Location = new System.Drawing.Point(2, 2);
+            this.btnMain.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMain.Name = "btnMain";
+            this.btnMain.Size = new System.Drawing.Size(79, 43);
+            this.btnMain.TabIndex = 6;
+            this.btnMain.Text = "Main";
+            this.btnMain.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnMain.UseVisualStyleBackColor = true;
+            this.btnMain.Click += new System.EventHandler(this.btnMain_Click);
+            // 
+            // btnCamera
+            // 
+            this.btnCamera.FlatAppearance.BorderSize = 0;
+            this.btnCamera.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCamera.Image = global::VisionSystemOperation.Properties.Resources.camera_icon;
+            this.btnCamera.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCamera.Location = new System.Drawing.Point(85, 2);
+            this.btnCamera.Margin = new System.Windows.Forms.Padding(2);
+            this.btnCamera.Name = "btnCamera";
+            this.btnCamera.Size = new System.Drawing.Size(94, 43);
+            this.btnCamera.TabIndex = 7;
+            this.btnCamera.Text = "Camera";
+            this.btnCamera.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCamera.UseVisualStyleBackColor = true;
+            this.btnCamera.Click += new System.EventHandler(this.btnCamera_Click);
+            // 
+            // btnInterface
+            // 
+            this.btnInterface.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.btnInterface.FlatAppearance.BorderSize = 0;
+            this.btnInterface.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnInterface.Image = global::VisionSystemOperation.Properties.Resources.icon_interface_28;
+            this.btnInterface.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnInterface.Location = new System.Drawing.Point(183, 2);
+            this.btnInterface.Margin = new System.Windows.Forms.Padding(2);
+            this.btnInterface.Name = "btnInterface";
+            this.btnInterface.Size = new System.Drawing.Size(97, 43);
+            this.btnInterface.TabIndex = 8;
+            this.btnInterface.Text = "Interface";
+            this.btnInterface.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnInterface.UseVisualStyleBackColor = true;
+            this.btnInterface.Click += new System.EventHandler(this.btnInterface_Click);
+            // 
+            // btnDB
+            // 
+            this.btnDB.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.btnDB.FlatAppearance.BorderSize = 0;
+            this.btnDB.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDB.Image = global::VisionSystemOperation.Properties.Resources.database_icon;
+            this.btnDB.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDB.Location = new System.Drawing.Point(284, 2);
+            this.btnDB.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDB.Name = "btnDB";
+            this.btnDB.Size = new System.Drawing.Size(61, 43);
+            this.btnDB.TabIndex = 9;
+            this.btnDB.Text = "DB";
+            this.btnDB.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDB.UseVisualStyleBackColor = true;
+            this.btnDB.Click += new System.EventHandler(this.btnDB_Click);
+            // 
+            // btnLog
+            // 
+            this.btnLog.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.btnLog.FlatAppearance.BorderSize = 0;
+            this.btnLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLog.Image = global::VisionSystemOperation.Properties.Resources.log_icon;
+            this.btnLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLog.Location = new System.Drawing.Point(349, 2);
+            this.btnLog.Margin = new System.Windows.Forms.Padding(2);
+            this.btnLog.Name = "btnLog";
+            this.btnLog.Size = new System.Drawing.Size(63, 43);
+            this.btnLog.TabIndex = 10;
+            this.btnLog.Text = "Log";
+            this.btnLog.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnLog.UseVisualStyleBackColor = true;
+            this.btnLog.Click += new System.EventHandler(this.btnLog_Click);
+            // 
+            // tblLayoutCarTypeVinCamPlc
+            // 
+            this.tblLayoutCarTypeVinCamPlc.ColumnCount = 3;
+            this.tblLayoutCarTypeVinCamPlc.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 37.71983F));
+            this.tblLayoutCarTypeVinCamPlc.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 28.86598F));
+            this.tblLayoutCarTypeVinCamPlc.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tblLayoutCarTypeVinCamPlc.Controls.Add(this.pnlInspectionStartStop, 2, 0);
+            this.tblLayoutCarTypeVinCamPlc.Controls.Add(this.pnlCamPlcStatus, 0, 0);
+            this.tblLayoutCarTypeVinCamPlc.Controls.Add(this.pnlTypeVin, 0, 0);
+            this.tblLayoutCarTypeVinCamPlc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tblLayoutCarTypeVinCamPlc.Location = new System.Drawing.Point(0, 62);
+            this.tblLayoutCarTypeVinCamPlc.Margin = new System.Windows.Forms.Padding(0);
+            this.tblLayoutCarTypeVinCamPlc.Name = "tblLayoutCarTypeVinCamPlc";
+            this.tblLayoutCarTypeVinCamPlc.RowCount = 1;
+            this.tblLayoutCarTypeVinCamPlc.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tblLayoutCarTypeVinCamPlc.Size = new System.Drawing.Size(1924, 46);
+            this.tblLayoutCarTypeVinCamPlc.TabIndex = 2;
+            // 
+            // pnlInspectionStartStop
+            // 
+            this.pnlInspectionStartStop.BackColor = System.Drawing.Color.White;
+            this.pnlInspectionStartStop.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlInspectionStartStop.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnlInspectionStartStop.Location = new System.Drawing.Point(1281, 0);
+            this.pnlInspectionStartStop.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlInspectionStartStop.Name = "pnlInspectionStartStop";
+            this.pnlInspectionStartStop.Size = new System.Drawing.Size(643, 46);
+            this.pnlInspectionStartStop.TabIndex = 5;
+            // 
+            // pnlCamPlcStatus
+            // 
+            this.pnlCamPlcStatus.BackColor = System.Drawing.Color.White;
+            this.pnlCamPlcStatus.Controls.Add(this.btnShift);
+            this.pnlCamPlcStatus.Controls.Add(this.lblInspCounter);
+            this.pnlCamPlcStatus.Controls.Add(this.label2);
+            this.pnlCamPlcStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlCamPlcStatus.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnlCamPlcStatus.Location = new System.Drawing.Point(726, 0);
+            this.pnlCamPlcStatus.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlCamPlcStatus.Name = "pnlCamPlcStatus";
+            this.pnlCamPlcStatus.Size = new System.Drawing.Size(555, 46);
+            this.pnlCamPlcStatus.TabIndex = 4;
+            // 
+            // btnShift
+            // 
+            this.btnShift.Location = new System.Drawing.Point(206, 11);
+            this.btnShift.Name = "btnShift";
+            this.btnShift.Size = new System.Drawing.Size(31, 26);
+            this.btnShift.TabIndex = 19;
+            this.btnShift.Text = "S";
+            this.btnShift.UseVisualStyleBackColor = true;
+            this.btnShift.Click += new System.EventHandler(this.btnShift_Click);
+            // 
+            // lblInspCounter
+            // 
+            this.lblInspCounter.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInspCounter.ForeColor = System.Drawing.Color.Gray;
+            this.lblInspCounter.Location = new System.Drawing.Point(140, 11);
+            this.lblInspCounter.Name = "lblInspCounter";
+            this.lblInspCounter.Size = new System.Drawing.Size(64, 27);
+            this.lblInspCounter.TabIndex = 18;
+            this.lblInspCounter.Text = "000";
+            this.lblInspCounter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(3, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(112, 29);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "COUNT:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // pnlTypeVin
+            // 
+            this.pnlTypeVin.BackColor = System.Drawing.Color.White;
+            this.pnlTypeVin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlTypeVin.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.pnlTypeVin.Location = new System.Drawing.Point(0, 0);
+            this.pnlTypeVin.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlTypeVin.Name = "pnlTypeVin";
+            this.pnlTypeVin.Size = new System.Drawing.Size(726, 46);
+            this.pnlTypeVin.TabIndex = 3;
+            // 
+            // pnlLog
+            // 
+            this.pnlLog.BackColor = System.Drawing.Color.White;
+            this.pnlLog.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.pnlLog.Location = new System.Drawing.Point(0, 517);
+            this.pnlLog.Margin = new System.Windows.Forms.Padding(0);
+            this.pnlLog.Name = "pnlLog";
+            this.pnlLog.Size = new System.Drawing.Size(1924, 73);
+            this.pnlLog.TabIndex = 6;
+            // 
+            // tmDeviseConnectionStatus
+            // 
+            this.tmDeviseConnectionStatus.Enabled = true;
+            this.tmDeviseConnectionStatus.Interval = 1000;
+            this.tmDeviseConnectionStatus.Tick += new System.EventHandler(this.tmDeviseConnectionStatus_Tick);
+            // 
+            // FormMdi
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1924, 590);
+            this.Controls.Add(this.pnlLog);
+            this.Controls.Add(this.tabLayoutMaster);
+            this.DoubleBuffered = true;
+            this.IsMdiContainer = true;
+            this.Name = "FormMdi";
+            this.Text = "FormMdi";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormMdi_FormClosed);
+            this.Load += new System.EventHandler(this.FormMdi_Load);
+            this.tabLayoutMaster.ResumeLayout(false);
+            this.pnlHeader.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.tblLayoutCarTypeVinCamPlc.ResumeLayout(false);
+            this.pnlCamPlcStatus.ResumeLayout(false);
+            this.pnlCamPlcStatus.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.TableLayoutPanel tabLayoutMaster;
+        private System.Windows.Forms.Panel pnlHeader;
+        private System.Windows.Forms.TableLayoutPanel tblLayoutCarTypeVinCamPlc;
+        private System.Windows.Forms.Panel pnlTypeVin;
+        private System.Windows.Forms.Panel pnlCamPlcStatus;
+        private System.Windows.Forms.Panel pnlLog;
+        private System.Windows.Forms.Panel pnlInspectionStartStop;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.Button btnMain;
+        private System.Windows.Forms.Button btnCamera;
+        private System.Windows.Forms.Button btnInterface;
+        private System.Windows.Forms.Button btnDB;
+        private System.Windows.Forms.Button btnLog;
+        private System.Windows.Forms.Timer tmDeviseConnectionStatus;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblInspCounter;
+        private System.Windows.Forms.Button btnShift;
+    }
+}

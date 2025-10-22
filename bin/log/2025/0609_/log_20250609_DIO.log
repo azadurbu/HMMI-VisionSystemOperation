@@ -1,0 +1,65 @@
+[0609 12:44:31.329ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 12:44:31.329ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:44:31.329ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:44:31.329ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 12:44:31.329ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0609 12:46:13.777ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:46:13.781ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:46:13.781ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 12:47:43.739ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 12:47:44.305ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:47:44.305ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:47:44.305ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 12:47:44.305ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0609 12:48:13.539ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:48:13.539ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:48:13.539ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 12:50:45.719ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 12:50:45.719ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 12:50:45.722ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 12:50:45.722ms] PLC Inform: Error Write Vision Sequence to PLC : Invalid comm driver
+[0609 12:51:31.456ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 12:51:31.458ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:51:31.458ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 12:51:31.458ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 12:51:31.458ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0609 14:13:54.357ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 14:13:54.359ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 14:13:54.359ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 14:13:54.360ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 14:13:54.361ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0609 14:37:04.918ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 14:37:04.919ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 14:37:04.922ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 14:52:46.812ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 14:52:46.813ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 14:52:46.815ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 14:52:46.815ms] PLC Inform: Error Write Vision Sequence to PLC : Invalid comm driver
+[0609 14:52:51.692ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 14:52:51.693ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 14:52:51.694ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 15:04:44.707ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 15:04:44.711ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:04:44.711ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:04:44.714ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 15:04:44.714ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0609 15:07:43.946ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:07:43.947ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:07:43.965ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 15:24:42.653ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 15:24:42.658ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:24:42.659ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:24:42.661ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 15:24:42.661ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0609 15:32:25.757ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 15:32:25.761ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:32:25.762ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:32:25.765ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 15:32:25.766ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed

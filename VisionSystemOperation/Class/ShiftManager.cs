@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using VisionSystemOperation.Device;
+
+namespace VisionSystemOperation.Class
+{
+    class ShiftManager
+    {
+        public static string CurrentShift()
+        {
+            // Define Day Shift start and end time
+            TimeSpan dayShiftStart = System.TimeSpan.Parse(Machine.config.setup.shiftProperty.DayShiftStart);
+            TimeSpan dayShiftEnd = System.TimeSpan.Parse(Machine.config.setup.shiftProperty.DayShiftEnd);
+
+            // Define Night Shift start and end time
+            TimeSpan nightShiftStart = System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftStart);
+            TimeSpan nightShiftEnd = System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftEnd);
+
+            // Get the current time (now)
+            TimeSpan currentTime = DateTime.Now.TimeOfDay;
+            if (currentTime >= dayShiftStart && currentTime <= dayShiftEnd)
+                return "D";
+            else if (currentTime >= nightShiftStart || currentTime < nightShiftEnd)
+                return "N";
+            else
+                return "";
+        }
+    }
+
+
+    public class ShiftProperty
+    {
+        public string DayShiftStart { get; set; } = "07:00:00";
+        public string DayShiftEnd { get; set; } = "18:00:00";
+        public string NightShiftStart { get; set; } = "20:00:00";
+        public string NightShiftEnd { get; set; } = "06:00:00";
+
+        public void SetProperty(ShiftProperty property)
+        {
+            this.NightShiftEnd = property.NightShiftEnd;
+            this.NightShiftStart = property.NightShiftStart;
+            this.DayShiftEnd = property.DayShiftEnd;
+            this.DayShiftStart = property.DayShiftStart;
+        }
+    }
+}

@@ -1,0 +1,131 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml.Serialization;
+using VisionSystemOperation.Class;
+using VisionSystemOperation.Device.Camera;
+using VisionSystemOperation.Device.Light;
+
+namespace VisionSystemOperation.Device
+{
+    [Serializable]
+    public class Setup
+    {
+        //Setting 폼에 있는 변수 
+        //Camera
+        public int maxCamCount = 1; //사용 가능한 카메라 최대 개수
+        public int TimeoutDataClear = 500; // millisecond
+        public int TimeoutGrab = 2000; // millisecond
+        public int TimeoutInsp = 5000; // millisecond
+        public string ImagePath = "D:\\Images";
+        public string usedDiskPercentage = "90";
+
+        //TowerLamp
+        public string TowerLampHost = "192.168.0.100";
+        public int TowerLampPort = 10000;
+        public int TowerLampReceiveTimeout = 5000;
+
+        public List<CameraProperty> cameraProp = new List<CameraProperty>();
+        public ShiftProperty shiftProperty = new ShiftProperty();
+        public LightProperty lightProperty = new LightProperty();
+
+        //HMMI db string
+        //@"Data Source=N-250221-001\SQLEXPRESS;Initial Catalog=daemyung;Integrated Security=True";
+        //public string DBconnectionString = @"Data Source=N-250221-002\SQLEXPRESS;Initial Catalog=HMMI_VISION;Integrated Security=True";
+        public string DBconnectionString = @"HMC-RND18\SQLEXPRESS;Initial Catalog=daemyung;Integrated Security=True";
+    }
+    [Serializable]
+    public class Config
+    {
+        public Setup setup = new Setup();
+
+        public void LoadConfig()
+        {
+            try
+            {
+                Load<Setup>(ref setup, "Setup");
+            }
+            catch
+            {
+                Machine.logger.WriteAsync(eLogType.ERROR, "Config Data 로드 실패");
+            }
+        }
+
+        public bool SaveConfig()
+        {
+            return Save<Setup>(setup, true, "Setup");
+        }
+
+        public static bool Load<T>(ref T obj, string fileName)
+        {
+            string strDir = System.Environment.CurrentDirectory + "\\Config";
+            string strPath = strDir + "\\" + fileName + ".cfg";
+
+            try
+            {
+                XmlSerializer xml = new XmlSerializer(typeof(T));
+
+                if (!Directory.Exists(strDir))
+                    Directory.CreateDirectory(strDir);
+
+                if (!File.Exists(strPath))
+                {
+                    using (TextWriter w = new StreamWriter(strPath))
+                    {
+                        xml.Serialize(w, obj);
+                    }
+                }
+
+                using (TextReader r = new StreamReader(strPath))
+                {
+                    obj = (T)xml.Deserialize(r);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Machine.logger.WriteAsync(eLogType.ERROR, "Config Data Xml 로드 실패 : " + fileName + "\r\n" + ex.ToString());
+                return false;
+            }
+        }
+
+        public static bool Save<T>(T obj, bool bBackup, string fileName)
+        {
+            try
+            {
+                string strDir = System.Environment.CurrentDirectory + "\\Config";
+                string strPath = strDir + "\\" + fileName + ".cfg";
+
+                if (bBackup)
+                {
+                    string strBackupPath = strPath + ".bak";
+                    if (File.Exists(strBackupPath))
+                    {
+                        File.Delete(strBackupPath);
+                    }
+                    File.Move(strPath, strBackupPath);
+                }
+
+                XmlSerializer xml = new XmlSerializer(typeof(T));
+                using (TextWriter w = new StreamWriter(strPath))
+                {
+                    xml.Serialize(w, obj);
+                }
+
+                Machine.logger.WriteAsync(eLogType.INFORMATION, "========== Save " + fileName + " Parameter ==========");
+            }
+            catch (Exception ex)
+            {
+                Machine.logger.WriteAsync(eLogType.ERROR, "Config Data Xml 세이브 실패 : " + fileName + "\r\n" + ex.ToString());
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    
+}

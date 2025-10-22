@@ -1,0 +1,260 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using Cognex.VisionPro;
+using Cognex.VisionPro.PMAlign;
+
+using VisionSystemOperation.Class;
+using VisionSystemOperation.Controls;
+using VisionSystemOperation.Device;
+using VisionSystemOperation.Forms;
+using AlignCheck.MasterImage;
+using VisionSystemOperation.MasterImage.UIForm;
+using VisionSystemOperation.Device.PLC_Library;
+
+namespace VisionSystemOperation
+{
+    public partial class FormMdi : Form
+    {
+
+        private CtrlHeader ctrlHeader = null;
+        private CtrlCarTypeVin ctrlCarTypeVin = null;
+        private CtrlCameraPlc ctrlCameraPlc = null;
+        private CtrlHistoryCountDetail ctrlHistoryCountDetail = null;
+        private CtrlHistoryData ctrlHistoryData = null;
+        private CtrlLogDisplay ctrlLogDisplay = null;
+        private CtrlButton ctrlButton = null;
+
+        //menu pages
+        private Forms.FormMain formMainWindow = null;
+        private FormCamera formCamera = null;
+        private FormInterface formInterface = null;
+        private FormDB formDB = null;
+        private FormLog formLog = null;
+        private FormSetting formSetting = null;
+        private FormShift formShift = null;
+
+        public CtrlButton CtrlButton { get => ctrlButton; }
+        public FormMain FormMainWindow { get => formMainWindow; }
+        public CtrlCarTypeVin CtrlCarTypeVin { get => ctrlCarTypeVin; set => ctrlCarTypeVin = value; }
+        public int TotalinspCount = 0;
+        public FormMdi()
+        {
+            InitializeComponent();
+
+            // to hide the form_controls from mdi_form
+            MenuStrip menu = new MenuStrip();
+            MainMenuStrip = menu;
+            TotalinspCount = InspCountToday();
+            lblInspCounter.Text = TotalinspCount.ToString();
+        }
+
+        private void FormMdi_Load(object sender, EventArgs e)
+        {
+            Machine.sequence = new Sequence(this);
+            Machine.sequence.OnCountChange += InspCount();
+            AddControls();
+            formMainWindow = new Forms.FormMain();
+            formMainWindow.MdiParent = this;
+            formMainWindow.WindowState = FormWindowState.Maximized;
+            formMainWindow.Show();
+        }             
+
+        private void AddControls()
+        {
+            ctrlHeader = new CtrlHeader();
+            pnlHeader.Controls.Add(ctrlHeader);
+            ctrlHeader.Dock = DockStyle.Fill;
+
+            ctrlCarTypeVin = new CtrlCarTypeVin();
+            pnlTypeVin.Controls.Add(ctrlCarTypeVin);
+
+            ctrlCameraPlc = new CtrlCameraPlc();
+            pnlCamPlcStatus.Controls.Add(ctrlCameraPlc);
+            ctrlCameraPlc.Dock = DockStyle.Right;
+            ctrlCameraPlc.CameraStatus(true);
+
+            ctrlLogDisplay = new CtrlLogDisplay();
+            pnlLog.Controls.Add(ctrlLogDisplay);
+            ctrlLogDisplay.Dock = DockStyle.Fill;
+
+            ctrlButton = new CtrlButton();
+            pnlInspectionStartStop.Controls.Add(ctrlButton);
+            ctrlButton.Dock = DockStyle.Fill;
+        }
+
+        private void btnMain_Click(object sender, EventArgs e)
+        {
+            if (formMainWindow == null)
+                formMainWindow = new Forms.FormMain();
+                
+            formMainWindow.MdiParent = this;
+            formMainWindow.WindowState = FormWindowState.Maximized;
+            formMainWindow.Show();
+        }
+
+        private void btnCamera_Click(object sender, EventArgs e)
+        {
+            if(formCamera == null)
+                formCamera = new Forms.FormCamera();
+
+            formCamera.MdiParent = this;
+            formCamera.WindowState = FormWindowState.Maximized;
+            formCamera.Show();
+        }
+
+        private delegate void ShowInterfaceDele();      
+        public void ShowInterface()
+        {
+            if (this.InvokeRequired)
+            {
+                ShowInterfaceDele callBack = ShowInterface;
+                BeginInvoke(callBack);      // 221019 메인에서 CAM 이미지 크게 보기
+                return;
+            }
+
+            if (formInterface == null)
+                formInterface = new FormInterface();
+            formInterface.MdiParent = this;
+            formInterface.WindowState = FormWindowState.Maximized;
+            formInterface.Show();
+
+        }
+
+        private void btnInterface_Click(object sender, EventArgs e)
+        {
+
+            ShowInterface();
+            //FormPLCInterface formPLCInterface = new FormPLCInterface();
+            //formPLCInterface.Show();
+        }
+
+        private void btnDB_Click(object sender, EventArgs e)
+        {
+            //if (formDB == null)
+            formDB = new FormDB();
+            formDB.MdiParent = this;
+            formDB.WindowState = FormWindowState.Maximized;
+            formDB.Show();
+        }
+
+        private void btnLog_Click(object sender, EventArgs e)
+        {
+            //if (formLog == null)
+            formLog = new FormLog();
+            formLog.MdiParent = this;
+            formLog.WindowState = FormWindowState.Maximized;
+            formLog.Show();
+        }
+
+        private void btnSetting_Click(object sender, EventArgs e)
+        {
+            if (formSetting == null)
+                formSetting = new FormSetting(this);
+            formSetting.MdiParent = this;
+            formSetting.WindowState = FormWindowState.Maximized;
+            formSetting.Show();
+        }
+
+        public void UpdateUI(string imgPath)
+        {
+            if (formSetting != null)
+                formSetting.SetImg(imgPath);
+
+        }
+        public void Log(eLogType type, string message, DateTime dateTime, bool isUIUpdate = false)
+        {
+            Machine.logger.WriteAsync(type, message);
+            //Console.WriteLine(message);
+            if (this.ctrlLogDisplay != null)
+            {
+                this.ctrlLogDisplay.AddLog(message);
+            }
+        }
+
+        private void FormMdi_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            CtrlButton.Stop();
+            Machine.Terminate();
+        }
+
+        XGPLCManager PLC { get; set; } = new XGPLCManager("", 0);
+        private void tmDeviseConnectionStatus_Tick(object sender, EventArgs e)
+        {
+            bool p = Machine.plc.IsConnected();
+            ctrlCameraPlc.PLCStatus(p);
+
+            bool c = Machine.camManager.IsOpen();
+            ctrlCameraPlc.CameraStatus(c);
+
+            bool l = Machine.lightmodule.isConnected();
+            ctrlCameraPlc.LightStatus(c);
+
+        }
+
+        private delegate string InspCountDele();      
+        public string InspCount()
+        {
+            if (this.InvokeRequired)
+            {
+                InspCountDele callBack = InspCount;
+                BeginInvoke(callBack);      // 221019 메인에서 CAM 이미지 크게 보기
+                return "";
+            }
+            TotalinspCount = InspCountToday();
+            lblInspCounter.Text = TotalinspCount.ToString();
+            return TotalinspCount.ToString();
+        }
+
+        public int InspCountToday()
+        {
+            var shift = ShiftManager.CurrentShift();
+            DateTime ShiftStart = DateTime.Today;
+            DateTime ShiftEnd = DateTime.Now;
+            if (shift == "D")
+            {
+                ShiftStart = DateTime.Today.Add(System.TimeSpan.Parse(Machine.config.setup.shiftProperty.DayShiftStart));
+                ShiftEnd = DateTime.Today.Add(System.TimeSpan.Parse(Machine.config.setup.shiftProperty.DayShiftEnd));
+            }
+            else if (shift == "N")
+            {
+                TimeSpan now = DateTime.Now.TimeOfDay;
+
+                var s = System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftStart);
+                var e = System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftEnd);
+
+                ShiftStart = DateTime.Today.Add(System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftStart));
+                ShiftEnd = DateTime.Today.Add(System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftEnd));
+
+                if (now.Hours >= s.Hours && now.Hours <= 23)
+                {
+                    ShiftEnd = ShiftEnd.AddDays(1);
+                }
+                else if (now.Hours >= 0 && now.Hours <= e.Hours)
+                {
+                    ShiftStart = ShiftStart.AddDays(-1);
+                }
+            }
+
+            List<InspectionResultDB> insp = Machine.HanMechDBHelper.GetInspectionResults(ShiftStart, ShiftEnd);
+            if (insp == null) return 0;
+
+           int count = insp.Count();
+            return count;
+        }
+
+        private void btnShift_Click(object sender, EventArgs e)
+        {
+            formShift = new FormShift();
+            formShift.Show();
+        }
+    }
+}

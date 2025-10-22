@@ -1,0 +1,494 @@
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csprojAssemblyReference.cache
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\Interop.XGCommLib.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.ResolveComReference.cache
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlButton.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraPlc.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraView.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHeader.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryCountDetail.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryData.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlInspectionStatus.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlLogDisplay.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlMenu.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCarTypeVin.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlTest.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.StatusButtonControl.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.FormMdi.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormCamera.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormDB.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormErrorInfomation.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormInterface.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormLog.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormMain.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormPLCInterface.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormSetting.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.Model.FormCarRecipe.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.FormModelSetting.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.frmToolPMAlign.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.FormToolPMMultiAlign.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.UserForm.frmMeasureNG.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.ObjectNameDlg.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Properties.Resources.resources
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.GenerateResource.cache
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CoreCompileInputs.cache
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\dll\x86\OpenCvSharpExtern.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\dll\x86\opencv_videoio_ffmpeg4100.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\dll\x64\OpenCvSharpExtern.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\dll\x64\opencv_videoio_ffmpeg4100_64.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\VisionSystemOperation.exe.config
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\VisionSystemOperation.exe
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\VisionSystemOperation.pdb
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Controls.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Core.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.Controls.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.Controls.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\OpenCvSharp.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\OpenCvSharp.Extensions.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Buffers.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Memory.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Numerics.Vectors.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Collections.Immutable.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Interop.Core.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\stdole.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Database.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Core.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\OpenCvSharp.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\OpenCvSharp.Extensions.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Buffers.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Memory.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Numerics.Vectors.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Database.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CopyComplete
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.exe
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.pdb
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\dll\x86\OpenCvSharpExtern.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\dll\x64\OpenCvSharpExtern.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\dll\x64\opencv_videoio_ffmpeg4100_64.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\VisionSystemOperation.exe.config
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\VisionSystemOperation.exe
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\VisionSystemOperation.pdb
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Controls.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Core.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.Controls.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.Controls.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\MvCameraControl.Net.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\OpenCvSharp.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\OpenCvSharp.Extensions.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\System.Buffers.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\System.Memory.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\System.Numerics.Vectors.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Interop.Core.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro3D.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\stdole.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Database.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Core.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\OpenCvSharp.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\OpenCvSharp.Extensions.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\System.Buffers.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\System.Memory.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\System.Numerics.Vectors.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro3D.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\bin\Cognex.VisionPro.Database.xml
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\Interop.XGCommLib.dll
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.ResolveComReference.cache
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlButton.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraPlc.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraView.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHeader.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryCountDetail.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryData.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlInspectionStatus.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlLogDisplay.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlMenu.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCarTypeVin.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlTest.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.StatusButtonControl.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.FormMdi.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormCamera.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormDB.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormErrorInfomation.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormInterface.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormLog.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormMain.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormPLCInterface.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormSetting.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormShift.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.Model.FormCarRecipe.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.FormModelSetting.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.frmToolPMAlign.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.FormToolPMMultiAlign.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.UserForm.frmMeasureNG.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.ObjectNameDlg.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Properties.Resources.resources
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.GenerateResource.cache
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CoreCompileInputs.cache
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CopyComplete
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.exe
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.pdb
+D:\HMC\대명\gitversion\visionoperationsystem_20250408\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.AssemblyReference.cache
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormShift.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\dll\x86\OpenCvSharpExtern.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\dll\x64\OpenCvSharpExtern.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\dll\x64\opencv_videoio_ffmpeg4100_64.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\VisionSystemOperation.exe.config
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\VisionSystemOperation.exe
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\VisionSystemOperation.pdb
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Controls.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Core.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.Controls.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.Controls.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\OpenCvSharp.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\OpenCvSharp.Extensions.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\System.Buffers.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\System.Memory.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\System.Numerics.Vectors.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Interop.Core.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\stdole.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Database.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Core.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\OpenCvSharp.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\OpenCvSharp.Extensions.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\System.Buffers.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\System.Memory.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\System.Numerics.Vectors.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Database.xml
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.AssemblyReference.cache
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\Interop.XGCommLib.dll
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.ResolveComReference.cache
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlButton.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraPlc.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraView.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHeader.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryCountDetail.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryData.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlInspectionStatus.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlLogDisplay.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlMenu.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCarTypeVin.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlTest.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.StatusButtonControl.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.FormMdi.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormCamera.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormDB.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormErrorInfomation.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormInterface.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormLog.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormMain.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormPLCInterface.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormSetting.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormShift.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.Model.FormCarRecipe.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.FormModelSetting.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.frmToolPMAlign.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.FormToolPMMultiAlign.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.UserForm.frmMeasureNG.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.ObjectNameDlg.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Properties.Resources.resources
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.GenerateResource.cache
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CoreCompileInputs.cache
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CopyComplete
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.exe
+D:\HMC\대명\code_20250409_2129\reai last\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.pdb
+D:\Program\Main Program\VisionSystemOperation\bin\dll\x86\OpenCvSharpExtern.dll
+D:\Program\Main Program\VisionSystemOperation\bin\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\Program\Main Program\VisionSystemOperation\bin\dll\x64\OpenCvSharpExtern.dll
+D:\Program\Main Program\VisionSystemOperation\bin\dll\x64\opencv_videoio_ffmpeg4100_64.dll
+D:\Program\Main Program\VisionSystemOperation\bin\VisionSystemOperation.exe.config
+D:\Program\Main Program\VisionSystemOperation\bin\VisionSystemOperation.exe
+D:\Program\Main Program\VisionSystemOperation\bin\VisionSystemOperation.pdb
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Controls.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Core.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.Controls.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.Controls.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.dll
+D:\Program\Main Program\VisionSystemOperation\bin\OpenCvSharp.dll
+D:\Program\Main Program\VisionSystemOperation\bin\OpenCvSharp.Extensions.dll
+D:\Program\Main Program\VisionSystemOperation\bin\System.Buffers.dll
+D:\Program\Main Program\VisionSystemOperation\bin\System.Memory.dll
+D:\Program\Main Program\VisionSystemOperation\bin\System.Numerics.Vectors.dll
+D:\Program\Main Program\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\Program\Main Program\VisionSystemOperation\bin\System.Collections.Immutable.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Interop.Core.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.dll
+D:\Program\Main Program\VisionSystemOperation\bin\stdole.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Database.dll
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Core.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.xml
+D:\Program\Main Program\VisionSystemOperation\bin\OpenCvSharp.xml
+D:\Program\Main Program\VisionSystemOperation\bin\OpenCvSharp.Extensions.xml
+D:\Program\Main Program\VisionSystemOperation\bin\System.Buffers.xml
+D:\Program\Main Program\VisionSystemOperation\bin\System.Memory.xml
+D:\Program\Main Program\VisionSystemOperation\bin\System.Numerics.Vectors.xml
+D:\Program\Main Program\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro3D.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.xml
+D:\Program\Main Program\VisionSystemOperation\bin\Cognex.VisionPro.Database.xml
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csprojAssemblyReference.cache
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\Interop.XGCommLib.dll
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.ResolveComReference.cache
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlButton.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraPlc.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraView.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHeader.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryCountDetail.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryData.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlInspectionStatus.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlLogDisplay.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlMenu.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCarTypeVin.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlTest.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.StatusButtonControl.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.FormMdi.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormCamera.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormDB.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormErrorInfomation.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormInterface.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormLog.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormMain.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormPLCInterface.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormSetting.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormShift.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.Model.FormCarRecipe.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.FormModelSetting.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.frmToolPMAlign.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.FormToolPMMultiAlign.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.UserForm.frmMeasureNG.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.ObjectNameDlg.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Properties.Resources.resources
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.GenerateResource.cache
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CoreCompileInputs.cache
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CopyComplete
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.exe
+D:\Program\Main Program\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.pdb
+D:\Program\Main Program\VisionSystemOperation\bin\MvCameraControl.Net.dll
+D:\Program\Main Program\VisionSystemOperation\bin\MvCameraControl.Net.xml
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\MvCameraControl.Net.dll
+C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\MvCameraControl.Net.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\dll\x86\OpenCvSharpExtern.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\dll\x86\opencv_videoio_ffmpeg4100.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\dll\x64\OpenCvSharpExtern.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\dll\x64\opencv_videoio_ffmpeg4100_64.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\VisionSystemOperation.exe.config
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\VisionSystemOperation.exe
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\VisionSystemOperation.pdb
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Controls.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Core.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.Controls.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.Controls.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\MvCameraControl.Net.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\OpenCvSharp.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\OpenCvSharp.Extensions.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\System.Buffers.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\System.Memory.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\System.Numerics.Vectors.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Interop.Core.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro3D.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\stdole.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Database.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.CalibFix.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Core.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Display.Controls.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ImageFile.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ImageProcessing.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Inspection.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.PatInspect.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.PMAlign.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\MvCameraControl.Net.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\OpenCvSharp.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\OpenCvSharp.Extensions.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\System.Buffers.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\System.Memory.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\System.Numerics.Vectors.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\System.Runtime.CompilerServices.Unsafe.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.CorePlus.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro3D.Display.Controls.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro3D.Graphic.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro3D.Core.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro3D.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.FGGigE.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ImagingDevice.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.ToolGroup.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\bin\Cognex.VisionPro.Database.xml
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\Interop.XGCommLib.dll
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.ResolveComReference.cache
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlButton.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraPlc.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCameraView.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHeader.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryCountDetail.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlHistoryData.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlInspectionStatus.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlLogDisplay.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlMenu.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlCarTypeVin.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.CtrlTest.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Controls.StatusButtonControl.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.FormMdi.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormCamera.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormDB.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormErrorInfomation.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormInterface.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormLog.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormMain.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormPLCInterface.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormSetting.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Forms.FormShift.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.Model.FormCarRecipe.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Inspection.MotorCar.FormModelSetting.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.frmToolPMAlign.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.MasterImage.UIForm.FormToolPMMultiAlign.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.UserForm.frmMeasureNG.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\AlignCheck.MasterImage.Utility.ObjectNameDlg.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.Properties.Resources.resources
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.GenerateResource.cache
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CoreCompileInputs.cache
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.CopyComplete
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.exe
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.pdb
+D:\HMC\대명TS\20250610_new\VisionSystemOperation\obj\x64\Debug\VisionSystemOperation.csproj.AssemblyReference.cache

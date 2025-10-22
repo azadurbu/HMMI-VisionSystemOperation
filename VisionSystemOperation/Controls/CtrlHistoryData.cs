@@ -1,0 +1,87 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using VisionSystemOperation.Class;
+using VisionSystemOperation.Device;
+using VisionSystemOperation.Forms;
+
+namespace VisionSystemOperation.Controls
+{
+    public partial class CtrlHistoryData : UserControl
+    {
+        private string[] updatedData;
+        private FormDB parentForm;
+        public CtrlHistoryData(FormDB mainForm)
+        {
+            InitializeComponent();
+            parentForm = mainForm;
+            loadData();
+        }
+
+        public void loadData()
+        {
+
+            //var dBHelper = new HanMechDBHelper();
+            var datas = Machine.HanMechDBHelper.GetInspectionResults();
+            if(datas != null)
+            {
+                ShowData(datas);
+            }
+        }
+
+        private void ShowData(List<InspectionResultDB> datas)
+        {
+            dataGridHistoryDataList.DataSource = datas;
+            dataGridHistoryDataList.Columns["CameraNum"].HeaderText = "Camera Number";
+            dataGridHistoryDataList.Columns["CarName"].HeaderText = "Car Name";
+            dataGridHistoryDataList.Columns["TactTime"].HeaderText = "DateTime";
+            dataGridHistoryDataList.Columns["VinID"].HeaderText = "Vin ID";
+
+            dataGridHistoryDataList.Columns["InspectionResultID"].Visible = false;
+            dataGridHistoryDataList.Columns["CreateDate"].Visible = false;
+            dataGridHistoryDataList.Columns["LastModifyDate"].Visible = false;
+
+            parentForm.Counter(datas.Count);
+        }
+
+        private void dataGridHistoryDataList_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+            if (e.RowIndex >= 0)
+            {
+                var selectedRow = dataGridHistoryDataList.Rows[e.RowIndex];
+
+                // Create an array to send
+                updatedData = new string[]
+                {
+                selectedRow.Cells[0].Value.ToString(),
+                selectedRow.Cells[1].Value.ToString(),
+                selectedRow.Cells[2].Value.ToString(),
+                selectedRow.Cells[3].Value.ToString(),
+                selectedRow.Cells[4].Value.ToString(),
+                selectedRow.Cells[5].Value.ToString(),
+                selectedRow.Cells[6].Value.ToString(),
+                selectedRow.Cells[7].Value.ToString(),
+                selectedRow.Cells[8].Value.ToString()
+                };
+            }
+
+            parentForm.ShowDataDetails(updatedData, ((InspectionResultDB)dataGridHistoryDataList.Rows[e.RowIndex].DataBoundItem).InspectionResultID);
+        }
+
+        internal void loadData(DateTime from, DateTime to, string vin, string okng, string[] carInfo, string shift)
+        {
+            var datas = Machine.HanMechDBHelper.GetInspectionResults(from, to, vin, okng, carInfo, shift);
+            if (datas != null)
+            {
+                ShowData(datas);
+            }
+        }
+    }
+}

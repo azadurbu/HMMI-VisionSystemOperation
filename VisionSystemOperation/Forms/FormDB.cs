@@ -1,0 +1,276 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.IO;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
+using VisionSystemOperation.Class;
+using VisionSystemOperation.Controls;
+using VisionSystemOperation.Device;
+using VisionSystemOperation.Inspection.MotorCar;
+using VisionSystemOperation.Inspection.MotorCar.Model;
+
+namespace VisionSystemOperation.Forms
+{
+    public partial class FormDB : Form
+    {
+        private CtrlHistoryCountDetail ctrlHistoryCountDetail = null;
+        private CtrlHistoryData ctrlHistoryData = null;
+        private CtrlCameraView ctrlCameraView;
+        CarManager Manager = new CarManager();
+
+        public FormDB()
+        {
+            InitializeComponent();
+            AddControls();
+
+            cbxResultFilter.SelectedIndex = 0;
+
+            Manager.LoadDB();
+
+            cbxMod.DataSource  = GetCarModelNameList();
+            cbxEng.DataSource  = GetCarEnginList();
+            cbxOpt.DataSource  = GetCarOptionList();
+
+            ShowPieChartDayToDay();
+
+            DateTime fromDate = Machine.startDate;
+            DateTime toDate = DateTime.Now;
+
+            try
+            {
+                var ok = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, "", "OK").Count();
+                var ng = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, "", "NG").Count();
+                var fail = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, "", "ERR").Count();
+
+                ShowPieChartSearch(ok, ng, fail);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("ShowPieChartSearch Error.");
+            }
+
+            cbxShift.SelectedIndex = 0;
+        }
+
+
+        private List<string> GetCarModelNameList()
+        {
+            List<string> carModel = new List<string>();
+            carModel.Add("ALL");
+
+            string[] modelNames = Manager.GetCarModelNameList();
+            for (int i = 0; i < modelNames.Count(); i++)
+                carModel.Add(modelNames[i]);
+            return carModel;
+        }
+
+        private List<string> GetCarEnginList()
+        {
+            List<string> carEngine = new List<string>();
+            carEngine.Add("ALL");
+
+            string[] engineNames = Manager.GetCarEngineNameList();
+            for (int i = 0; i < engineNames.Count(); i++)
+                carEngine.Add(engineNames[i]);
+            return carEngine;
+        }
+
+        private List<string> GetCarOptionList()
+        {
+            List<string> carOption = new List<string>();
+            carOption.Add("ALL");
+
+            string[] optNames = Manager.GetCarOptionNameList();
+            for (int i = 0; i < optNames.Count(); i++)
+                carOption.Add(optNames[i]);
+            return carOption;
+        }
+
+        private void AddControls()
+        {
+            ctrlHistoryCountDetail = new CtrlHistoryCountDetail();
+            pnlHistoryCountDetails.Controls.Add(ctrlHistoryCountDetail);
+            ctrlHistoryCountDetail.Dock = DockStyle.Fill;
+
+            ctrlHistoryData = new CtrlHistoryData(this);
+            pnlHistoryList.Controls.Add(ctrlHistoryData);
+            ctrlHistoryData.Dock = DockStyle.Fill;
+
+            ctrlCameraView = new CtrlCameraView();
+            pnlImgConf.Controls.Add(ctrlCameraView);
+            ctrlCameraView.Dock = DockStyle.Fill;
+        }
+
+        public void Counter(int val)
+        {
+            ctrlHistoryCountDetail.Counter(val);
+        }
+        
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            DateTime fromDate = dateTimeSearchFrom.Value;
+            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0);
+            DateTime toDate = dateTimeSearchTo.Value;
+            toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59);
+            string[] carInfo = new string[3];
+
+            if(cbxMod.SelectedValue.ToString() == "ALL")
+                carInfo[0]= "";
+            else
+                carInfo[0] = cbxMod.SelectedValue.ToString();
+
+            if (cbxEng.SelectedValue.ToString() == "ALL")
+                carInfo[1] = "";
+            else
+                carInfo[1] = cbxEng.SelectedValue.ToString();
+
+            if (cbxOpt.SelectedValue.ToString() == "ALL")
+                carInfo[2] = "";
+            else
+                carInfo[2] = cbxOpt.SelectedValue.ToString();
+
+            string shift = (cbxShift.SelectedItem.ToString() == "ALL") ? "" : cbxShift.SelectedItem.ToString();
+            ctrlHistoryData.loadData(fromDate, toDate, tbxVinId.Text, cbxResultFilter.SelectedItem.ToString(), carInfo, shift);
+
+            var ok = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, tbxVinId.Text, "OK", carInfo, shift).Count();
+            var ng = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, tbxVinId.Text, "NG", carInfo, shift).Count();
+            var fail = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, tbxVinId.Text, "ERR", carInfo, shift).Count();
+            ShowPieChartSearch(ok, ng, fail);
+        }
+
+        public void ShowPieChartSearch(int ok, int ng, int fail)
+        {
+            crtSearchResult.Series.Clear();
+
+            Series SearchPie = new Series();
+            SearchPie.ChartType = SeriesChartType.Pie;
+            SearchPie["PieLabelStyle"] = "Outside";
+            SearchPie["PieLineColor"] = "Black";
+
+            SearchPie.Points.AddXY("OK" + "(" + ok + ")", ok);
+            SearchPie.Points.AddXY("NG" + "(" + ng + ")", ng);
+            SearchPie.Points.AddXY("Fail" + "(" + fail + ")", fail);
+            crtSearchResult.Series.Add(SearchPie);
+        }
+
+        public void ShowPieChartDayToDay()
+        {
+            var shift = ShiftManager.CurrentShift();
+            DateTime fromDate = DateTime.Today;
+            DateTime toDate = DateTime.Now;
+            if (shift == "D")
+            {
+                fromDate = DateTime.Today.Add(System.TimeSpan.Parse(Machine.config.setup.shiftProperty.DayShiftStart));
+                toDate = DateTime.Today.Add(System.TimeSpan.Parse(Machine.config.setup.shiftProperty.DayShiftEnd));
+            }
+            else if (shift == "N")
+            {
+                TimeSpan now = DateTime.Now.TimeOfDay;
+
+                var s = System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftStart);
+                var e = System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftEnd);
+
+                fromDate = DateTime.Today.Add(System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftStart));
+                toDate = DateTime.Today.Add(System.TimeSpan.Parse(Machine.config.setup.shiftProperty.NightShiftEnd));
+
+                if (now.Hours >= s.Hours && now.Hours <= 23)
+                {
+                    toDate = toDate.AddDays(1);
+                }
+                else if (now.Hours >= 0 && now.Hours <= e.Hours)
+                {
+                    fromDate = fromDate.AddDays(-1);
+                }
+            }
+
+            try
+            {
+                var ok = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, "", "OK",null, shift).Count();
+	            var ng = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, "", "NG",null, shift).Count();
+	            var fail = Machine.HanMechDBHelper.GetInspectionResults(fromDate, toDate, "", "ERR",null, shift).Count();
+	
+	            Series DaytodayPie = new Series();
+	            DaytodayPie.ChartType = SeriesChartType.Pie;
+	            DaytodayPie["PieLabelStyle"] = "Outside";
+	            DaytodayPie["PieLineColor"] = "Black";
+	
+	            DaytodayPie.Points.AddXY("OK" + "(" + ok + ")", ok);
+	            DaytodayPie.Points.AddXY("NG" + "(" + ng + ")", ng);
+	            DaytodayPie.Points.AddXY("Fail" + "(" + fail + ")", fail);
+	            crtDayToDay.Series.Add(DaytodayPie);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed Show Day To Day Chart.");
+            }
+
+        }
+
+
+
+        public void ShowDataDetails(string[] updatedData,int id)
+        {
+            tbxDateTime.Text = updatedData[1];
+            tbxVin.Text = updatedData[5];
+            tbxCamNum.Text = (Int32.Parse(updatedData[2])-1).ToString(); 
+            tbxCarName.Text = updatedData[7];
+            tbxAverageValue.Text = updatedData[4]; 
+            tbxResult.Text = updatedData[8];
+            var imgLocation = $"{updatedData[3]}ResultImage_{(int.Parse(updatedData[2])-1)}_{updatedData[8]}.jpg";
+            if (File.Exists(imgLocation))
+            {
+                Bitmap bmp = new Bitmap(Image.FromFile(imgLocation));
+                ctrlCameraView.ShowImgDB(bmp);
+            }
+            cbxReEntryResult.Text = updatedData[8];
+            btnUpdate.Tag = id;
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            if (cbxReEntryResult.SelectedItem != null && tbxResult.Text != "")
+            {
+                var rowId = int.Parse(btnUpdate.Tag.ToString());
+                InspectionResultDB inspectionResult = Machine.HanMechDBHelper.GetInspectionResultById(rowId);
+                inspectionResult.Result = cbxReEntryResult.Text;
+                if (Machine.HanMechDBHelper.SaveInspectionResult(inspectionResult))
+                {
+                    MessageBox.Show("Update Successfully.");
+                    Machine.logger.WriteAsync(eLogType.INFORMATION, "Data Updated.");
+                    //ctrlHistoryData.loadData(rowId-1);
+                    tbxResult.Text = cbxReEntryResult.Text;
+                }
+
+            }
+        }
+
+        private void HookMouseMoveEvents(Control parent)
+        {
+            parent.MouseMove += ChildForm_MouseMove;
+            foreach (Control ctrl in parent.Controls)
+            {
+                HookMouseMoveEvents(ctrl); // recursive
+            }
+        }
+
+        private void FormDB_Load(object sender, EventArgs e)
+        {
+            HookMouseMoveEvents(this);
+        }
+
+        private void ChildForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (this.MdiParent is FormMdi mdiParent)
+            {
+                mdiParent.ResetInactivityTimer();
+            }
+        }
+    }
+}

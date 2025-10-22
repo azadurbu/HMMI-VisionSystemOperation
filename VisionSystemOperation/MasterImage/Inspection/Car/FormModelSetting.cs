@@ -1,0 +1,394 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+using Microsoft.VisualBasic;
+
+using System.Text.RegularExpressions;
+
+using VisionSystemOperation.Inspection.MotorCar.Model;
+
+namespace VisionSystemOperation.Inspection.MotorCar
+{
+    public partial class FormModelSetting : Form
+    {
+        private Car _selectedModel = null;
+        public Car SelectedModel { get { return _selectedModel; } }
+        private CarManager manager = new CarManager();
+
+        public FormModelSetting()
+        {
+            InitializeComponent();
+            Init();
+        }
+
+        public void Init()
+        {
+            //InitializeComponent();
+
+            InitRecipeDataGridView();
+
+        }
+
+        private void InitRecipeDataGridView()
+        {
+            try
+            {
+                dgvModel.Rows.Clear();
+
+                manager = new CarManager();
+                manager.LoadDB();
+
+                foreach (Car car in manager.CarDB)
+                {
+                    List<string> names = car.GetCarFullNames();
+                    foreach (string item in names)
+                    {
+                        string[] dataRows = new string[1];
+                        dataRows[0] = item;
+                        dgvModel.Rows.Add(dataRows);
+                    }
+                }
+                if (dgvModel.Rows.Count > 1)
+                {
+                    dgvModel.Rows[0].Selected = true;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("레시피 리스트 Error1. " + ex.Message);
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            _selectedModel = null;
+
+            this.Close();
+        }
+
+        private void btnOK_Click(object sender, EventArgs e)
+        {
+            int iRow = dgvModel.SelectedRows[0].Index;
+            if (iRow == -1)
+                return;
+
+            string curModelString = GetSelectedRecipeName(ref dgvModel);
+            if(curModelString == "")
+            {
+                MessageBox.Show("Again select model");
+                return;
+            }
+
+            string[] carInforms = curModelString.Split('_');
+
+            int informIdx = 0;
+            string modelName = carInforms[informIdx++];
+            string enginName = carInforms[informIdx++];
+            string optName = "";
+
+            List<string> selectedOptions = new List<string>();
+            for (int i = informIdx; i < carInforms.Length; i++)
+            {
+                optName += carInforms[i];
+                if (i != carInforms.Length - 1)
+                    optName += "_";
+            }
+
+            Car newCar = manager.GetCarByName(modelName, enginName, optName);
+            _selectedModel = newCar;
+
+            this.Close();
+        }
+
+        private bool IsExistRecipeNum(int recipeNum)
+        {
+            bool isExist = false;
+
+            for (int curRow = 0; curRow < dgvModel.Rows.Count; curRow++)
+            {
+                if (dgvModel.Rows[curRow].Cells[0].Value != null)
+                {
+                    int num = int.Parse(dgvModel.Rows[curRow].Cells[0].Value.ToString());
+                    if (recipeNum == num)
+                    {
+                        isExist = true;
+                        break;
+                    }
+                }
+            }
+
+            return isExist;
+        }
+
+        private void btnAddRecipe_Click(object sender, EventArgs e)
+        {
+            //try
+            //{
+            //    int recipeNum = (int)nudInsertModelNo.Value;
+            //    string recipeName = txtModelName.Text;
+            //    if (recipeName.Trim() == "")
+            //    {
+            //        MessageBox.Show("Empty Model Name.");
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        Boolean ismatch = recipeName.All(char.IsLetterOrDigit);
+            //        if(!ismatch)
+            //        {
+            //            MessageBox.Show("Please enter alphabets or numbers.");
+            //            return;
+            //        }
+            //    }
+
+
+            //    if (IsExistRecipeNum(recipeNum))
+            //        MessageBox.Show("Model Number already exists..");
+            //    else
+            //    {
+            //        string curModelName = txtModelName.Text;
+            //        int curModelIdx = recipeNum;
+
+            //        _selectedModel = new AlignModel(curModelIdx, curModelName);
+            //    }
+
+            //    InitRecipeDataGridView();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+        }
+
+        public string GetSelectedRecipeName(ref DataGridView grid)
+        {
+            string name = "1";
+            if (grid.SelectedRows == null)
+                return "";
+            if (grid.SelectedRows.Count < 1)
+                return "";
+            if (grid.SelectedRows[0].Index == -1)
+                return "";
+            try
+            {
+                int iModelRow = grid.SelectedRows[0].Index;
+                name = grid[0, iModelRow].Value.ToString();
+            }
+            catch { return ""; }
+
+            return name;
+        }
+
+        public int GetSelectedRecipeNumber(ref DataGridView grid)
+        {
+            int iSelectedRow = 1;
+            try
+            {
+                iSelectedRow = int.Parse(grid.SelectedRows[0].Cells[0].Value.ToString());
+            }
+            catch (Exception ex) { string x = ex.ToString(); }
+            return iSelectedRow;
+
+        }
+
+        private void btnDelRecipe_Click(object sender, EventArgs e)
+        {
+            //try
+            //{
+            //    string delRecipeName = GetSelectedRecipeName(ref dgvModel);
+            //    if (delRecipeName == "") return;
+
+            //    if (MessageBox.Show("Delete Model? " + delRecipeName, "", MessageBoxButtons.OKCancel) != DialogResult.OK)
+            //        return;
+
+            //    int delModelNum = GetSelectedRecipeNumber(ref dgvModel);
+            //    AlignModel delModel = new AlignModel(delModelNum, delRecipeName);
+            //    delModel.DeleteModel();
+            //    nudInsertModelNo.Value = 1;
+
+            //    InitRecipeDataGridView();
+            //    txtModelName.Text = "";
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
+        }
+
+        private void dgvRecipe_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int iRow = e.RowIndex;
+            if (iRow == -1)
+                return;
+
+            //nudInsertModelNo.Value = GetSelectedRecipeNumber(ref dgvModel);
+            //txtModelName.Text = GetSelectedRecipeName(ref dgvModel);
+        }
+
+        private void dgvRecipe_DragDrop(object sender, DragEventArgs e)
+        {
+            string cellvalue = e.Data.GetData(typeof(string)) as string;
+            Point cursorLocation = this.PointToClient(new Point(e.X, e.Y));
+
+            System.Windows.Forms.DataGridView.HitTestInfo hittest = dgvModel.HitTest(cursorLocation.X, cursorLocation.Y);
+            if (hittest.ColumnIndex != -1
+                && hittest.RowIndex != -1)
+                dgvModel[hittest.ColumnIndex, hittest.RowIndex].Value = cellvalue;
+        }
+
+        private void btnModifyRecipe_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void btnModifyRecipe_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Copy;
+        }
+
+        #region Drag&Drop
+        private Rectangle dragBoxFromMouseDown;
+        private int rowIndexFromMouseDown;
+        private int rowIndexOfItemUnderMouseToDrop;
+
+
+        private void dgvRecipe_MouseDown_1(object sender, MouseEventArgs e)
+        {
+            rowIndexFromMouseDown = dgvModel.HitTest(e.X, e.Y).RowIndex;
+            if (rowIndexFromMouseDown != -1)
+            {
+                Size dragSize = SystemInformation.DragSize;
+
+                dragBoxFromMouseDown = new Rectangle(new Point(e.X - (dragSize.Width / 2), e.Y - (dragSize.Height / 2)), dragSize);
+            }
+            else
+                dragBoxFromMouseDown = Rectangle.Empty;
+        }
+
+        private void dgvRecipe_MouseMove(object sender, MouseEventArgs e)
+        {
+            if ((e.Button & MouseButtons.Left) == MouseButtons.Left)
+            {
+                if (dragBoxFromMouseDown != Rectangle.Empty &&
+                    !dragBoxFromMouseDown.Contains(e.X, e.Y))
+                {
+                    DragDropEffects dropEffect = dgvModel.DoDragDrop(dgvModel.Rows[rowIndexFromMouseDown], DragDropEffects.Move);
+                }
+            }
+        }
+
+        private void dgvRecipe_DragOver(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.Move;
+        }
+
+        #endregion
+
+        private void btnCopy_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //string SourceRecipeName = GetSelectedRecipeName(ref dgvModel);
+                //int SourceRecipeNum = GetSelectedRecipeNumber(ref dgvModel);
+                //if (SourceRecipeName == "") return;
+
+                //int LastNum = int.Parse(dgvModel.Rows[dgvModel.Rows.Count - 2].Cells[0].Value.ToString());
+
+                //string newName = SourceRecipeName + "copy";
+
+                //string curModelName = newName;
+                //int curModelIdx = LastNum + 1;
+                //AlignModel model = new AlignModel(SourceRecipeNum, SourceRecipeName);
+                //_selectedModel = new AlignModel(curModelIdx, curModelName);
+                //CopyDirectory(model.GetModelPath(), _selectedModel.GetModelPath());
+                //InitRecipeDataGridView();
+            }
+            catch { }
+        }
+        static void CopyDirectory(string sourceFolder, string destFolder)
+        {
+            if (!Directory.Exists(destFolder))
+                Directory.CreateDirectory(destFolder);
+
+            string[] files = Directory.GetFiles(sourceFolder);
+            string[] folders = Directory.GetDirectories(sourceFolder);
+
+            foreach (string file in files)
+            {
+                string name = Path.GetFileName(file);
+                string dest = Path.Combine(destFolder, name);
+                try
+                {
+                    File.Copy(file, dest,true);
+                }
+                catch(Exception ex)
+                { /*Machine._Logger.log(ex.ToString(), LogType.ERROR); */}
+            }
+
+            foreach (string folder in folders)
+            {
+                string name = Path.GetFileName(folder);
+                string dest = Path.Combine(destFolder, name);
+                CopyDirectory(folder, dest);
+            }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            //try
+            //{
+            //    string SourceRecipeName = GetSelectedRecipeName(ref dgvModel);
+            //    if (SourceRecipeName == "") return;
+            //    int recipeNum = (int)nudInsertModelNo.Value;
+            //    string recipeName = txtModelName.Text;
+            //    if (recipeName.Trim() == "")
+            //    {
+            //        MessageBox.Show("Empty Model Name.");
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        Boolean ismatch = recipeName.All(char.IsLetterOrDigit);
+            //        if (!ismatch)
+            //        {
+            //            MessageBox.Show("Please enter alphabets or numbers.");
+            //            return;
+            //        }
+            //    }
+            //    string curModelName = recipeName;
+            //    int curModelIdx = recipeNum;
+
+            //    _selectedModel = new AlignModel(curModelIdx, SourceRecipeName);
+            //    string SourcePath = _selectedModel.GetModelPath();
+            //    string DestPath = SourcePath.Substring(0,  SourcePath.LastIndexOf('_')+1)+recipeName;
+            //    Directory.Move(SourcePath, DestPath);
+            //    _selectedModel = new AlignModel(curModelIdx, recipeName);
+
+            //    InitRecipeDataGridView();
+            //}
+            //catch { }
+
+        }
+
+        private void btnCarDBSet_Click(object sender, EventArgs e)
+        {
+            FormCarRecipe formCarRecipe = new FormCarRecipe();
+            formCarRecipe.FormClosing += new FormClosingEventHandler(FormCarRecipe_Closing);
+            formCarRecipe.Show();
+
+        }
+        private void FormCarRecipe_Closing(object sender, FormClosingEventArgs e)
+        {
+            InitRecipeDataGridView();
+            manager.LoadDB();
+        }
+    }
+}

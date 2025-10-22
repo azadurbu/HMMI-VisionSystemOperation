@@ -1,0 +1,348 @@
+﻿using OpenCvSharp;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using VisionSystemOperation.Controls;
+using VisionSystemOperation.Device;
+using VisionSystemOperation.Device.Camera;
+using VisionSystemOperation.Device.Light;
+
+namespace VisionSystemOperation.Forms
+{
+    public partial class FormCamera : Form
+    {
+        string preName = Machine.config.setup.ImagePath + "\\";
+        private Setup setup = Machine.config.setup;
+        private Config config = Machine.config;
+        CameraProperty currentCameraProperty;
+        List<CameraProperty> CamPropsTemp;
+        CtrlCameraView ctrlCameraView;
+
+        string[] LightChanelLocalValue = new string[4];
+        public FormCamera()
+        {
+            InitializeComponent();
+            ctrlCameraView = new CtrlCameraView();
+            pnlImgSetting.Controls.Add(ctrlCameraView);
+            ctrlCameraView.Dock = DockStyle.Fill;
+
+            CamPropsTemp = new List<CameraProperty>();
+            for (var i = 0; i < setup.cameraProp.Count; i++)
+            {
+                cbxCamList.Items.Add("Cam "+ (i+1));
+                CamPropsTemp.Add(setup.cameraProp.ElementAt(i));
+            }
+            if(setup.cameraProp.Count > 0)
+                cbxCamList.SelectedIndex = 0;
+
+            cbxLightGroup.DataSource = Enum.GetValues(typeof(LightGroup));
+
+            //channel 5 ~ 8 Top group same value like 5
+            LightChanelLocalValue[0] = Machine.config.setup.lightProperty.Channel5.ToString();
+            //channel 1 ~ 4 Bottom group same value like 1
+            LightChanelLocalValue[1] = Machine.config.setup.lightProperty.Channel1.ToString();
+            //channel 9 Left group 
+            LightChanelLocalValue[2] = Machine.config.setup.lightProperty.Channel9.ToString();
+            //channel 10 Right group 
+            LightChanelLocalValue[3] = Machine.config.setup.lightProperty.Channel10.ToString();
+
+            //tbxLightValue.Text = LightChanelLocalValue[0];
+        }
+
+        private void btnLightOn_ClickAsync(object sender, EventArgs e)
+        {
+            LightOnOffDimmGroup(1);
+        }
+
+        private void btnLightOff_ClickAsync(object sender, EventArgs e)
+        {
+            LightOnOffDimmGroup(0);
+        }
+
+        private void LightOnOffDimmGroup(int onOff)
+        {
+            if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Top.ToString())
+            {
+                Machine.lightmodule.LightOnOffByChannel(5, onOff);
+                Machine.lightmodule.LightOnOffByChannel(6, onOff);
+                Machine.lightmodule.LightOnOffByChannel(7, onOff);
+                Machine.lightmodule.LightOnOffByChannel(8, onOff);
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Bottom.ToString())
+            {
+                Machine.lightmodule.LightOnOffByChannel(1, onOff);
+                Machine.lightmodule.LightOnOffByChannel(2, onOff);
+                Machine.lightmodule.LightOnOffByChannel(3, onOff);
+                Machine.lightmodule.LightOnOffByChannel(4, onOff);
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Left.ToString())
+            {
+                Machine.lightmodule.LightOnOffByChannel(9, onOff);
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Right.ToString())
+            {
+                Machine.lightmodule.LightOnOffByChannel(10, onOff);
+            }
+            else
+            {
+                Machine.lightmodule.LightOnOffByChannel(5, onOff);
+                Machine.lightmodule.LightOnOffByChannel(6, onOff);
+                Machine.lightmodule.LightOnOffByChannel(7, onOff);
+                Machine.lightmodule.LightOnOffByChannel(8, onOff);
+                Machine.lightmodule.LightOnOffByChannel(1, onOff);
+                Machine.lightmodule.LightOnOffByChannel(2, onOff);
+                Machine.lightmodule.LightOnOffByChannel(3, onOff);
+                Machine.lightmodule.LightOnOffByChannel(4, onOff);
+                Machine.lightmodule.LightOnOffByChannel(9, onOff);
+                Machine.lightmodule.LightOnOffByChannel(10, onOff);
+            }
+        }
+        Mat Image;
+        private async void btnManualShoot_Click(object sender, EventArgs e)
+        {
+            //if (cbxCamList.SelectedIndex == -1) return;
+
+            Machine.camManager.SetProperty(cbxCamList.SelectedIndex, GetCamData());
+
+            Machine.camManager.StartGrab();
+            while (Machine.camManager.IsGrabbing() == true)
+            {
+                //System.Threading.Thread.Sleep(5000);
+                await Task.Delay(50);
+
+            }
+            Machine.camManager.StopGrab();
+            Image = new Mat();
+            Image = Machine.camManager.GetGrabImage(cbxCamList.SelectedIndex);
+            var imgPath = preName + DateTime.Now.ToString("yyMMddHHmmssfff") + ".bmp";
+            //Cv2.ImWrite(imgPath, Images[0].Clone());
+
+            //Images[0].Dispose();
+            //Images[0] = null;
+
+            //Image img = Image.FromFile(imgPath);
+            if (Image != null)
+            {
+                var bmp = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(Image);
+
+                ctrlCameraView.ShowImg(bmp);
+            }
+                
+                //pbxImgSetting.Image = OpenCvSharp.Extensions.BitmapConverter.ToBitmap(Images);
+        }
+
+        private void btnLoadImg_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Title = "Select an Image",
+                Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp|All Files|*.*"
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap bmp = new Bitmap(System.Drawing.Image.FromFile(openFileDialog.FileName));
+                ctrlCameraView.ShowImg(bmp);
+            }
+        }
+
+        private void btnImgSave_Click(object sender, EventArgs e)
+        {
+            
+            ctrlCameraView.SaveImg();
+        }
+
+        private void btnSaveSettings_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                setup.cameraProp = CamPropsTemp;
+
+                LightProperty lightProp = new LightProperty();
+                //top group
+                lightProp.Channel5 = int.Parse(LightChanelLocalValue[0]);
+                lightProp.Channel6 = int.Parse(LightChanelLocalValue[0]);
+                lightProp.Channel7 = int.Parse(LightChanelLocalValue[0]);
+                lightProp.Channel8 = int.Parse(LightChanelLocalValue[0]);
+                // bottom group
+                lightProp.Channel1 = int.Parse(LightChanelLocalValue[1]);
+                lightProp.Channel2 = int.Parse(LightChanelLocalValue[1]);
+                lightProp.Channel3 = int.Parse(LightChanelLocalValue[1]);
+                lightProp.Channel4 = int.Parse(LightChanelLocalValue[1]);
+                // left group
+                lightProp.Channel9 = int.Parse(LightChanelLocalValue[2]);
+                // right group
+                lightProp.Channel10 = int.Parse(LightChanelLocalValue[3]);
+                lightProp.Channel = 5;
+                setup.lightProperty.SetProperty(lightProp);
+
+                Machine.config.SaveConfig();
+                Machine.config.LoadConfig();
+                MessageBox.Show("Sucess Save config");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed Save config  : " + ex.Message);
+
+                Machine.logger.WriteException(eLogType.ERROR, ex);
+            }
+        }
+
+        private CameraProperty GetCamData()
+        {
+            CameraProperty camProp = new CameraProperty();
+
+            camProp.CamName = tbxCamName.Text;
+            camProp.Exposure = int.Parse(tbxExposure.Text);
+            camProp.Width = int.Parse(tbxWidth.Text);
+            camProp.Height = int.Parse(tbxHeight.Text);
+            camProp.frameRate = int.Parse(tbxFrameRate.Text);
+            camProp.gain = int.Parse(tbxGain.Text);
+            camProp.Using = cbxIsUsing.Text;
+            return camProp;
+        }
+
+        private void btnLoadSettings_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Machine.config.LoadConfig();
+                LoadCamData(setup.cameraProp.ElementAt(cbxCamList.SelectedIndex));
+                MessageBox.Show("Sucess Load config");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed Save config  : " + ex.Message);
+            }
+        }
+
+        private void cbxCamList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadCamData(setup.cameraProp.ElementAt(cbxCamList.SelectedIndex));
+        }
+
+        private void LoadCamData(CameraProperty camProp)
+        {
+            tbxCamName.Text = camProp.CamName.ToString();
+            tbxExposure.Text = camProp.Exposure.ToString();
+            tbxWidth.Text = camProp.Width.ToString();
+            tbxHeight.Text = camProp.Height.ToString();
+            tbxFrameRate.Text = camProp.frameRate.ToString();
+            tbxGain.Text = camProp.gain.ToString();
+            cbxIsUsing.Text = camProp.Using;
+        }
+
+        //set the value from config
+        private void cbxLightGroup_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string val = "";
+            tbxLightValue.Enabled = true;
+            btnSetValue.Enabled = true;
+            if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Top.ToString())
+            {
+                val = LightChanelLocalValue[0];
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Bottom.ToString())
+            {
+                val = LightChanelLocalValue[1];
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Left.ToString())
+            {
+                val = LightChanelLocalValue[2];
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Right.ToString())
+            {
+                val = LightChanelLocalValue[3];
+            }
+            else
+            {
+                tbxLightValue.Enabled = false;
+                btnSetValue.Enabled = false;
+            }
+
+            tbxLightValue.Text = val;
+        }
+
+        private void btnSetValue_Click(object sender, EventArgs e)
+        {
+            var Dimming = int.Parse(tbxLightValue.Text);
+            if (Dimming > 4000) Dimming = 4000;
+            if (Dimming < 0) Dimming = 0;
+            tbxLightValue.Text = Dimming.ToString();
+
+            if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Top.ToString())
+            {
+                LightChanelLocalValue[0] = Dimming.ToString();
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Bottom.ToString())
+            {
+                LightChanelLocalValue[1] = Dimming.ToString();
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Left.ToString())
+            {
+                LightChanelLocalValue[2] = Dimming.ToString();
+            }
+            else if (cbxLightGroup.SelectedItem.ToString() == LightGroup.Right.ToString())
+            {
+                LightChanelLocalValue[3] = Dimming.ToString();
+            }
+
+            SetChannelValues();
+        }
+
+        private void SetChannelValues()
+        {
+            Machine.lightmodule.SetChannelDimmingGroup(5, int.Parse(LightChanelLocalValue[0]));
+            Machine.lightmodule.SetChannelDimmingGroup(6, int.Parse(LightChanelLocalValue[0]));
+            Machine.lightmodule.SetChannelDimmingGroup(7, int.Parse(LightChanelLocalValue[0]));
+            Machine.lightmodule.SetChannelDimmingGroup(8, int.Parse(LightChanelLocalValue[0]));
+
+            Machine.lightmodule.SetChannelDimmingGroup(1, int.Parse(LightChanelLocalValue[1]));
+            Machine.lightmodule.SetChannelDimmingGroup(2, int.Parse(LightChanelLocalValue[1]));
+            Machine.lightmodule.SetChannelDimmingGroup(3, int.Parse(LightChanelLocalValue[1]));
+            Machine.lightmodule.SetChannelDimmingGroup(4, int.Parse(LightChanelLocalValue[1]));
+
+            Machine.lightmodule.SetChannelDimmingGroup(9, int.Parse(LightChanelLocalValue[2]));
+            Machine.lightmodule.SetChannelDimmingGroup(10, int.Parse(LightChanelLocalValue[3]));
+        }
+
+        private void HookMouseMoveEvents(Control parent)
+        {
+            parent.MouseMove += ChildForm_MouseMove;
+            foreach (Control ctrl in parent.Controls)
+            {
+                HookMouseMoveEvents(ctrl); // recursive
+            }
+        }
+
+        private void ChildForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (this.MdiParent is FormMdi mdiParent)
+            {
+                mdiParent.ResetInactivityTimer();
+            }
+        }
+
+        private void FormCamera_Load(object sender, EventArgs e)
+        {
+            HookMouseMoveEvents(this);
+        }
+
+        private void btnSetLightVal_Click(object sender, EventArgs e)
+        {
+            CamPropsTemp[cbxCamList.SelectedIndex].CamName = tbxCamName.Text;
+            CamPropsTemp[cbxCamList.SelectedIndex].Exposure = int.Parse(tbxExposure.Text);
+            CamPropsTemp[cbxCamList.SelectedIndex].Width = int.Parse(tbxWidth.Text);
+            CamPropsTemp[cbxCamList.SelectedIndex].Height = int.Parse(tbxHeight.Text);
+            CamPropsTemp[cbxCamList.SelectedIndex].frameRate = int.Parse(tbxFrameRate.Text);
+            CamPropsTemp[cbxCamList.SelectedIndex].gain = int.Parse(tbxGain.Text);
+            CamPropsTemp[cbxCamList.SelectedIndex].Using = cbxIsUsing.Text;
+        }
+    }
+}

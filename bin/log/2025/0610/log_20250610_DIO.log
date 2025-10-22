@@ -1,0 +1,9 @@
+[0610 13:41:53.434ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0610 13:41:53.442ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0610 13:41:53.443ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0610 13:41:53.445ms] PLC Inform: Failed Write Vision to PLC Data:
+[0610 13:41:53.445ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0610 13:42:15.628ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0610 13:42:15.638ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0610 13:42:15.638ms] PLC Inform: Failed Write Vision to PLC Data:

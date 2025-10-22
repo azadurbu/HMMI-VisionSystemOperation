@@ -1,0 +1,7 @@
+ModelName,PLCIdx,EngineName,PLCIdx,OptionName,PLCIdx
+KS,1,GM2,10,None,-1
+KS,1,GM2,10,FL,15
+SU2id,0,GM2,10,FL,15
+SU2id,0,KPA,11,FL,15
+SU2id,0,GM2,10,None,-1
+SU2id,0,KPA,11,None,-1

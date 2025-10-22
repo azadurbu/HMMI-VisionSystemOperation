@@ -1,0 +1,630 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+using VisionSystemOperation.Inspection.MotorCar.Model;
+
+namespace VisionSystemOperation.Inspection.MotorCar
+{
+    public enum eCarOptEngType
+    {
+        Option,
+        Engine
+    }
+
+    public class CarManager
+    {
+        public static string PARAM_PATH = System.Environment.CurrentDirectory + @"\Config\Recipe\";
+
+        public string VinID { get; set; } = "";
+        public Car CurCar { get; set; } = new Car();
+
+        private object mFfileLoadLock = new object();
+        private List<Car> mCars = new List<Car>();
+        public List<Car> CarDB { get { return mCars; } }
+
+        public CarManager()
+        {
+            if (Directory.Exists(PARAM_PATH) == false)
+                Directory.CreateDirectory(PARAM_PATH);
+        }
+
+        public void CreateCarRecipeFolder()
+        {
+            for (int i = 0; i < mCars.Count; i++)
+            {
+                Car curCar = mCars[i];
+
+                string path = PARAM_PATH + curCar.GetCarFullName();
+                if (Directory.Exists(path) == false)
+                    Directory.CreateDirectory(path);
+            }
+        }
+
+        public void SaveDB()
+        {
+            string path = System.Environment.CurrentDirectory + @"\Config\";
+            string fileName = "CarDataSheet.csv";
+
+            using (StreamWriter sw = new StreamWriter(path + fileName, false, Encoding.Default))
+            {
+                string header = "ModelName,PLCIdx,EngineName,PLCIdx,OptionName,PLCIdx";
+                sw.WriteLine(header);
+
+                for (int i = 0; i < mCars.Count; i++)
+                {
+                    Car curCar = mCars[i];
+                    string content = string.Format($"{curCar.ModelName},{curCar.Index},{curCar.EngineType.Name},{curCar.EngineType.index},{curCar.OptionType.Name},{curCar.OptionType.index}");
+                    sw.WriteLine(content);
+                }
+            }
+
+            CreateCarRecipeFolder();
+        }
+
+        public void LoadDB()
+        {
+            string path = System.Environment.CurrentDirectory + @"\Config\";
+            string fileName = "CarDataSheet.csv";
+            lock (mFfileLoadLock)
+            {
+                CarDB.Clear();
+                try
+                {
+                    using (StreamReader sr = new StreamReader(path + fileName, Encoding.Default))
+                    {
+                        string data = "";
+                        while (!sr.EndOfStream)
+                        {
+                            data = sr.ReadLine();
+
+                            string[] carInforms = data.Split(',');
+                            if (carInforms[0] == "ModelName") continue;
+
+                            int informIdx = 0;
+
+                            Car newCar = new Car();
+                            newCar.ModelName = carInforms[informIdx++];
+                            newCar.Index = Int32.Parse(carInforms[informIdx++]);
+
+                            newCar.EngineType = new sEngineType(carInforms[informIdx++], Int32.Parse(carInforms[informIdx++]));
+                            newCar.OptionType = new sOptionType(carInforms[informIdx++], Int32.Parse(carInforms[informIdx++]));
+
+                            CarDB.Add(newCar);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+            }
+        }
+
+        public bool IsExistCar(string name)
+        {
+            bool r = false;
+
+            for (int i = 0; i < mCars.Count; i++)
+            {
+                if (mCars[i].ModelName == name)
+                {
+                    r = true;
+                    break;
+                }
+            }
+
+            return r;
+        }
+        private bool IsExistCar(string modelName, string name, eCarOptEngType type)
+        {
+            bool r = false;
+
+            for (int i = 0; i < mCars.Count; i++)
+            {
+                if (mCars[i].ModelName == modelName)
+                {
+                    if (type == eCarOptEngType.Option)
+                    {
+                        if (mCars[i].OptionType.Name == name)
+                        {
+                            r = true;
+                            break;
+                        }
+                    }
+                    else if (type == eCarOptEngType.Engine)
+                    {
+                        if (mCars[i].EngineType.Name == name)
+                        {
+                            r = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return r;
+        }
+
+        public List<Car> GetCarListByModel(string modelName)
+        {
+            List<Car> cars = new List<Car>();
+
+            if (CarDB.Count == 0) return cars;
+
+            if (modelName == "")
+            {
+                modelName = CarDB[0].ModelName;
+            }
+
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                if (modelName == CarDB[i].ModelName)
+                {
+                    cars.Add(CarDB[i].CopyTo());
+                }
+            }
+
+            return cars;
+        }
+        public string GetCarModelNameByIndex(int idx)
+        {
+            string name = "";
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                if (CarDB[i].Index == idx)
+                {
+                    name = CarDB[i].ModelName;
+                    break;
+                }
+            }
+
+            return name;
+        }
+        public string GetCarOptionNameByIndex(int idx)
+        {
+            string name = "";
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                if (CarDB[i].OptionType.index == idx)
+                {
+                    name = CarDB[i].OptionType.Name;
+                    break;
+                }
+            }
+
+            return name;
+        }
+
+        public string GetCarEngineNameByIndex(int idx)
+        {
+            string name = "";
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                if (CarDB[i].EngineType.index == idx)
+                {
+                    name = CarDB[i].EngineType.Name;
+                    break;
+                }
+            }
+
+            return name;
+        }
+        public string[] GetCarModelNameList()
+        {
+            List<string> modelNameList = new List<string>();
+
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                if (!modelNameList.Contains(CarDB[i].ModelName))
+                {
+                    modelNameList.Add(CarDB[i].ModelName);
+                }
+            }
+
+            return modelNameList.ToArray();
+        }
+
+        public int[] GetCarModelIndexList()
+        {
+            List<int> carIndexs = new List<int>();
+
+            if (CarDB.Count == 0) return null;
+
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                if (!carIndexs.Contains(CarDB[i].Index))
+                {
+                    carIndexs.Add(CarDB[i].Index);
+                }
+            }
+
+            return carIndexs.ToArray();
+        }
+
+        public Car GetCarByIdx(int carModelIdx, int carEngineIdx, int carOptionIdx)
+        {
+            CurCar = null;
+
+            LoadDB();
+
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                if (CarDB[i].Index == carModelIdx)
+                {
+                    if (CarDB[i].OptionType.index == carOptionIdx)
+                    {
+                        if (CarDB[i].EngineType.index == carEngineIdx)
+                        {
+                            CurCar = CarDB[i];
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return CurCar;
+        }
+
+        public Car GetCarByName(string carModeName, string carEngineName, string carOptionName)
+        {
+            CurCar = null;
+
+            LoadDB();
+
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                if (CarDB[i].ModelName == carModeName)
+                {
+                    if (CarDB[i].OptionType.Name == carOptionName)
+                    {
+                        if (CarDB[i].EngineType.Name == carEngineName)
+                        {
+                            CurCar = CarDB[i];
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return CurCar;
+        }
+
+        public bool AddCar(string name, int idx)
+        {
+            bool result = true;
+            if (!IsExistCar(name))
+            {
+                Car car = new Car();
+                car.ModelName = name;
+                car.Index = idx;
+
+                sEngineType nEngType = new sEngineType("None", -1);
+                sOptionType nOptType = new sOptionType("None", -1);
+
+                mCars.Add(car);
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        public string[] GetCarEngineNameList()
+        {
+            List<string> engineNameList = new List<string>();
+
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                Car curCar = CarDB[i];
+                if (!engineNameList.Contains(curCar.EngineType.Name))
+                {
+                    engineNameList.Add(curCar.EngineType.Name);
+                }
+            }
+
+            return engineNameList.ToArray();
+        }
+
+        public string[] GetCarOptionNameList()
+        {
+            List<string> optionNameList = new List<string>();
+
+            for (int i = 0; i < CarDB.Count; i++)
+            {
+                Car curCar = CarDB[i];
+                if (!optionNameList.Contains(curCar.OptionType.Name))
+                {
+                    optionNameList.Add(curCar.OptionType.Name);
+                }
+            }
+
+            return optionNameList.ToArray();
+        }
+
+        public Dictionary<string, int> GetCarOptEngList(string modelName, eCarOptEngType type)
+        {
+            Dictionary<string, int> results = new Dictionary<string, int>();
+
+            for (int i = 0; i < mCars.Count; i++)
+            {
+                Car curCar = mCars[i];
+                if (mCars[i].ModelName == modelName)
+                {
+                    if (type == eCarOptEngType.Option)
+                    {
+                        if (!results.ContainsKey(curCar.OptionType.Name))
+                            results.Add(curCar.OptionType.Name, curCar.OptionType.index);
+                    }
+                    if (type == eCarOptEngType.Engine)
+                    {
+                        if (!results.ContainsKey(curCar.EngineType.Name))
+                            results.Add(curCar.EngineType.Name, curCar.EngineType.index);
+                    }
+                }
+            }
+
+            return results;
+        }
+
+        public int[] GetCarOptEngIndexList(eCarOptEngType type)
+        {
+            List<int> results = new List<int>();
+
+            for (int i = 0; i < mCars.Count; i++)
+            {
+                Car curCar = mCars[i];
+                {
+                    if (type == eCarOptEngType.Option)
+                    {
+                        if (curCar.OptionType.index == -1) continue;
+
+                        if (!results.Contains(curCar.OptionType.index))
+                            results.Add(curCar.OptionType.index);
+                    }
+                    if (type == eCarOptEngType.Engine)
+                    {
+                        if (curCar.EngineType.index == -1) continue;
+
+                        if (!results.Contains(curCar.EngineType.index))
+                            results.Add(curCar.EngineType.index);
+                    }
+                }
+            }
+
+            return results.ToArray();
+        }
+
+        public bool AddCar(string modelName, string optEngName, int plcIndex, eCarOptEngType type)
+        {
+            bool result = true;
+            if (!IsExistCar(modelName, optEngName, type))
+            {
+                Car curCarModel = null;
+                for (int i = 0; i < mCars.Count; i++)
+                {
+                    if (mCars[i].ModelName == modelName)
+                    {
+                        curCarModel = mCars[i];
+                        break;
+                    }
+                }
+                if (curCarModel == null)
+                    result = false;
+                else
+                {
+                    Car newModel = curCarModel.CopyTo();
+
+                    Dictionary<string, int> optEngList = new Dictionary<string, int>();
+
+                    if (type == eCarOptEngType.Option)
+                    {
+                        optEngList = GetCarOptEngList(modelName, eCarOptEngType.Engine);
+
+                        for (int i = 0; i < optEngList.Count; i++)
+                        {
+                            newModel.EngineType = new sEngineType(optEngList.ElementAt(i).Key, optEngList.ElementAt(i).Value);
+                            newModel.OptionType = new sOptionType(optEngName, plcIndex);
+
+                            mCars.Add(newModel.CopyTo());
+                        }
+                    }
+                    else if (type == eCarOptEngType.Engine)
+                    {
+                        optEngList = GetCarOptEngList(modelName, eCarOptEngType.Option);
+
+                        for (int i = 0; i < optEngList.Count; i++)
+                        {
+                            newModel.EngineType = new sEngineType(optEngName, plcIndex);
+                            newModel.OptionType = new sOptionType(optEngList.ElementAt(i).Key, optEngList.ElementAt(i).Value);
+
+                            mCars.Add(newModel.CopyTo());
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        public bool DelCar(string name, int index, bool isBackup)
+        {
+            bool r = true;
+
+            try
+            {
+                for (int i = mCars.Count - 1; i >= 0; i--)
+                {
+                    if (mCars[i].ModelName == name)
+                    {
+                        mCars.RemoveAt(i);
+
+                        string path = PARAM_PATH + mCars[i].GetCarFullName();
+                        if (Directory.Exists(path))
+                        {
+                            if (isBackup)
+                                Directory.Move(path, path + "_bak_" + $"{DateTime.Now.Hour.ToString()}{DateTime.Now.Minute.ToString()}{DateTime.Now.Second.ToString()}");
+                            else
+                                Directory.Delete(path);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = ex.ToString();
+                r = false;
+            }
+
+            return r;
+        }
+        public bool DelCar(string modelName, string optEngName, eCarOptEngType type, bool isBackup)
+        {
+            bool r = true;
+
+            try
+            {
+                for (int i = mCars.Count - 1; i >= 0; i--)
+                {
+                    if (mCars[i].ModelName == modelName)
+                    {
+                        if (type == eCarOptEngType.Option)
+                        {
+                            if (mCars[i].OptionType.Name == optEngName)
+                            {
+                                string path = PARAM_PATH + mCars[i].GetCarFullName();
+                                if (Directory.Exists(path))
+                                {
+                                    if (isBackup)
+                                        Directory.Move(path, path + "_bak_" + $"{DateTime.Now.Hour.ToString()}{DateTime.Now.Minute.ToString()}{DateTime.Now.Second.ToString()}");
+                                    else
+                                        Directory.Delete(path);
+                                }
+
+                                mCars.RemoveAt(i);
+                            }
+                        }
+                        else if (type == eCarOptEngType.Engine)
+                        {
+                            if (mCars[i].EngineType.Name == optEngName)
+                            {
+                                string path = PARAM_PATH + mCars[i].GetCarFullName();
+                                if (Directory.Exists(path))
+                                {
+                                    if (isBackup)
+                                        Directory.Move(path, path + "_bak_" + $"{DateTime.Now.Hour.ToString()}{DateTime.Now.Minute.ToString()}{DateTime.Now.Second.ToString()}");
+                                    else
+                                        Directory.Delete(path, true);
+                                }
+
+                                mCars.RemoveAt(i);
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = ex.ToString();
+                r = false;
+            }
+
+            return r;
+        }
+
+        public bool ModifyCar(string oldName, string newName, int newIdx)
+        {
+            bool r = true;
+
+            try
+            {
+                for (int i = mCars.Count - 1; i >= 0; i--)
+                {
+                    if (mCars[i].ModelName == oldName)
+                    {
+                        string oldPath = PARAM_PATH + mCars[i].GetCarFullName();
+
+                        mCars[i].ModelName = newName;
+                        mCars[i].Index = newIdx;
+
+                        string modPath = PARAM_PATH + mCars[i].GetCarFullName();
+
+                        if (Directory.Exists(oldPath))
+                        {
+                            Directory.Move(oldPath, modPath);
+                        }
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = ex.ToString();
+                r = false;
+            }
+
+            return r;
+        }
+
+        public bool ModifyCar(string modelName, string oldOptEngName, string newOptEngName, int newOptEngIdx, eCarOptEngType type)
+        {
+            bool r = true;
+
+            try
+            {
+                for (int i = mCars.Count - 1; i >= 0; i--)
+                {
+                    if (mCars[i].ModelName == modelName)
+                    {
+                        string oldPath = PARAM_PATH + mCars[i].GetCarFullName();
+
+                        if (type == eCarOptEngType.Option)
+                        {
+                            if (mCars[i].OptionType.Name == oldOptEngName)
+                            {
+                                mCars[i].OptionType = new sOptionType(newOptEngName, newOptEngIdx);
+
+                                string modPath = PARAM_PATH + mCars[i].GetCarFullName();
+                                if (Directory.Exists(oldPath))
+                                {
+                                    Directory.Move(oldPath, modPath);
+                                }
+                            }
+                        }
+                        else if (type == eCarOptEngType.Engine)
+                        {
+                            if (mCars[i].EngineType.Name == oldOptEngName)
+                            {
+                                mCars[i].EngineType = new sEngineType(newOptEngName, newOptEngIdx);
+
+                                string modPath = PARAM_PATH + mCars[i].GetCarFullName();
+                                if (Directory.Exists(oldPath))
+                                {
+                                    Directory.Move(oldPath, modPath);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string str = ex.ToString();
+                r = false;
+            }
+
+            return r;
+        }
+
+    }
+}

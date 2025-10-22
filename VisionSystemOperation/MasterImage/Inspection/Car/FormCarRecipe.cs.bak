@@ -1,0 +1,602 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using System.Text.RegularExpressions;
+
+namespace VisionSystemOperation.Inspection.MotorCar.Model
+{
+    public partial class FormCarRecipe : Form
+    {
+        CarManager Manager = new CarManager();
+
+        private int CurModelSelRowIdx { get; set; } = 0;
+        private int CurEngSelRowIdx { get; set; } = 0;
+        private int CurOptSelRowIdx { get; set; } = 0;
+
+        public FormCarRecipe()
+        {
+            InitializeComponent();
+
+            //Car sCar = new Car();
+            //sCar.ModelName = "SU2id";
+            //sCar.Index = 0;
+
+            //Car kCar = new Car();
+            //kCar.ModelName = "KS";
+            //kCar.Index = 1;
+
+            //sEngineType gEngType = new sEngineType("GM2", 10);
+            //sEngineType kEngType = new sEngineType("KPA", 11);
+            //sEngineType nEngType = new sEngineType("None", -1);
+
+            //sOptionType fOptType = new sOptionType("F/L", 15);
+            //sOptionType nOptType = new sOptionType("None", -1);
+
+
+            ////SU2id Gammma F/L
+            //sCar.EngineType = gEngType.CopyTo();
+            //sCar.OptionType = fOptType.CopyTo();
+
+            //Manager.CarDB.Add(sCar.CopyTo());
+
+            ////SU2id KAPPA F/L
+            //sCar.EngineType = kEngType.CopyTo();
+            //sCar.OptionType = fOptType.CopyTo();
+            //Manager.CarDB.Add(sCar.CopyTo());
+
+            ////SU2id Gammma None
+            //sCar.EngineType = gEngType.CopyTo();
+            //sCar.OptionType = nOptType.CopyTo();
+
+            //Manager.CarDB.Add(sCar.CopyTo());
+
+            ////SU2id KAPPA None
+            //sCar.EngineType = kEngType.CopyTo();
+            //sCar.OptionType = nOptType.CopyTo();
+            //Manager.CarDB.Add(sCar.CopyTo());
+
+            ////KS None
+            //kCar.EngineType = nEngType.CopyTo();
+            //kCar.OptionType = nOptType.CopyTo();
+            //Manager.CarDB.Add(kCar.CopyTo());
+
+            ////KS F/L
+            //kCar.EngineType = nEngType.CopyTo();
+            //kCar.OptionType = fOptType.CopyTo();
+            //Manager.CarDB.Add(kCar.CopyTo());
+        }
+
+        private void AddNewGird(ref DataGridView dataGridView, string name, int idx)
+        {
+            dataGridView.Rows.Add(new object[] {
+                        name,
+                        idx
+            });
+        }
+
+        public bool CheckSameValue(ref DataGridView dataGridView, int cols, string value)
+        {
+            bool r = false;
+
+            for (int i = 0; i < dataGridView.RowCount; i++)
+            {
+                if(dataGridView[cols, i].Value.ToString() == value)
+                {
+                    r = true;
+                    break;
+                }
+            }
+
+            return r;
+        }
+
+        public void InitCarEngineData(List<Car> curCarModel)
+        {
+            dgvCarEngineType.Rows.Clear();
+
+            for (int i = 0; i < curCarModel.Count; i++)
+            {
+                Car curCar = curCarModel[i];
+                string[] dataRows = new string[2];
+
+                if (dgvCarEngineType.Rows.Count == 0)
+                {
+                    dataRows[0] = curCar.EngineType.Name;
+                    dataRows[1] = curCar.EngineType.index.ToString();
+                    dgvCarEngineType.Rows.Add(dataRows);
+                }
+                else
+                {
+                    if(!CheckSameValue(ref dgvCarEngineType, 0, curCar.EngineType.Name))
+                    {
+                        dataRows[0] = curCar.EngineType.Name;
+                        dataRows[1] = curCar.EngineType.index.ToString();
+                        dgvCarEngineType.Rows.Add(dataRows);
+                    }
+                }
+            }
+
+            if (dgvCarEngineType.Rows.Count <= CurEngSelRowIdx)
+                CurEngSelRowIdx = dgvCarEngineType.Rows.Count - 1;
+            dgvCarEngineType.Rows[CurEngSelRowIdx].Selected = true;
+
+        }
+        public void InitCarOptData(List<Car> curCarModel)
+        {
+            dgvCarOptType.Rows.Clear();
+
+            for (int i = 0; i < curCarModel.Count; i++)
+            {
+                Car curCar = curCarModel[i];
+                string[] dataRows = new string[2];
+
+                if (dgvCarOptType.Rows.Count == 0)
+                {
+                    dataRows[0] = curCar.OptionType.Name;
+                    dataRows[1] = curCar.OptionType.index.ToString();
+                    dgvCarOptType.Rows.Add(dataRows);
+                }
+                else
+                {
+                    if (!CheckSameValue(ref dgvCarOptType, 0, curCar.OptionType.Name))
+                    {
+                        dataRows[0] = curCar.OptionType.Name;
+                        dataRows[1] = curCar.OptionType.index.ToString();
+                        dgvCarOptType.Rows.Add(dataRows);
+                    }
+                }
+            }
+            if (dgvCarOptType.Rows.Count <= CurEngSelRowIdx)
+                CurOptSelRowIdx = dgvCarOptType.Rows.Count - 1;
+
+            dgvCarOptType.Rows[CurOptSelRowIdx].Selected = true;
+        }
+
+        private void InitGridView(ref DataGridView dataGridView)
+        {
+            try
+            {
+                dataGridView.Columns.Add("Name", "Name");
+                dataGridView.Columns.Add("PLC_MAP_Index", "PLC_MAP_Index");
+
+                dataGridView.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dataGridView.RowHeadersVisible = false;
+
+                for (int i = 0; i < dataGridView.ColumnCount; i++)
+                {
+                    dataGridView.Columns[i].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    dataGridView.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+                    dataGridView.Columns[i].ReadOnly = true;
+                    dataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public void ShowModelNameList()
+        {
+            lbxModelNameList.Items.Clear();
+            for (int i = 0; i < Manager.CarDB.Count; i++)
+            {
+                Car curCar = Manager.CarDB[i];
+                lbxModelNameList.Items.Add(curCar.GetCarFullName());
+            }
+        }
+
+        private void InitCarModelData()
+        {
+            dgvCarModel.Rows.Clear();
+            for (int i = 0; i < Manager.CarDB.Count; i++)
+            {
+                Car curCar = Manager.CarDB[i];
+                string[] dataRows = new string[2];
+
+                if (dgvCarModel.Rows.Count == 0)
+                {
+                    dataRows[0] = curCar.ModelName;
+                    dataRows[1] = curCar.Index.ToString();
+                    dgvCarModel.Rows.Add(dataRows);
+                }
+                else
+                {
+                    if (!CheckSameValue(ref dgvCarModel, 0, curCar.ModelName))
+                    {
+                        dataRows[0] = curCar.ModelName;
+                        dataRows[1] = curCar.Index.ToString();
+                        dgvCarModel.Rows.Add(dataRows);
+                    }
+                }
+            }
+            if (dgvCarModel.Rows.Count <= CurModelSelRowIdx)
+                CurModelSelRowIdx = dgvCarModel.Rows.Count - 1;
+
+            dgvCarModel.Rows[CurModelSelRowIdx].Selected = true;
+
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow != -1)
+            {
+                string carModel = dgvCarModel[0, iModelRow].Value.ToString();
+
+                List<Car> carModels = Manager.GetCarListByModel(carModel);
+
+                InitCarEngineData(carModels);
+                InitCarOptData(carModels);
+            }
+
+            dgvCarModel_CellClick(null, null);
+        }
+
+        private void FormCarRecipe_Load(object sender, EventArgs e)
+        {
+            Manager.LoadDB();
+
+            InitGridView(ref dgvCarModel);
+            InitGridView(ref dgvCarEngineType);
+            InitGridView(ref dgvCarOptType);
+
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void btnAddCarModel_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "") return;
+           // if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            if (!Manager.AddCar(txbName.Text, Int32.Parse(txbPLCIdx.Text)))
+            {
+                string str = "Added Failed.";
+            }
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void btnDelCarModel_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "" || txbPLCIdx.Text == "") return;
+            //if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            if (MessageBox.Show("Delete this model? -> " + txbName.Text, "Check", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                bool isBackup = false;
+                if (MessageBox.Show("Backup this model? -> " + txbName.Text, "Check", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    isBackup = true;
+                }
+
+                if (!Manager.DelCar(txbName.Text, Int32.Parse(txbPLCIdx.Text), isBackup))
+                {
+                    string str = "Del Failed.";
+                }
+                InitCarModelData();
+                ShowModelNameList();
+            }
+        }
+
+        private void btnModCarModel_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "" || txbPLCIdx.Text == "") return;
+            //if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            int iRow = dgvCarModel.SelectedRows[0].Index;
+            if (iRow == -1)
+                return;
+
+            string oldName = dgvCarModel[0, iRow].Value.ToString();
+            string oldIndex = dgvCarModel[1, iRow].Value.ToString();
+
+            if (!Manager.ModifyCar(oldName, txbName.Text, Int32.Parse(txbPLCIdx.Text)))
+            {
+                string str = "MOdify Failed.";
+            }
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void btnAddCarOpt_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "" || txbPLCIdx.Text == "") return;
+            //if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+            string modelName = dgvCarModel[0, iModelRow].Value.ToString();
+
+            if (txbName.Text == "") return;
+
+            if (!Manager.AddCar(modelName, txbName.Text, Int32.Parse(txbPLCIdx.Text), eCarOptEngType.Option))
+            {
+                string str = "Added Failed.";
+            }
+
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void btnDelCarOpt_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "" || txbPLCIdx.Text == "") return;
+            //if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+            string modelName = dgvCarModel[0, iModelRow].Value.ToString();
+
+            if (txbName.Text == "") return;
+            if (MessageBox.Show("Delete this option? -> " + txbName.Text, "Check", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                bool isBackup = false;
+                if (MessageBox.Show("Backup this model? -> " + txbName.Text, "Check", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    isBackup = true;
+                }
+
+                if (!Manager.DelCar(modelName, txbName.Text, eCarOptEngType.Option, isBackup))
+                {
+                    string str = "Del Failed.";
+                }
+            }
+
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void btnModCarOpt_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "" || txbPLCIdx.Text == "") return;
+            //if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+
+            int iOptRow = dgvCarOptType.SelectedRows[0].Index;
+            if (iOptRow == -1)
+                return;
+
+            if (txbName.Text == "") return;
+
+            string modelName = dgvCarModel[0, iModelRow].Value.ToString();
+            string optName = dgvCarOptType[0, iOptRow].Value.ToString();
+
+            if (txbName.Text == "") return;
+
+            if (!Manager.ModifyCar(modelName, optName, txbName.Text, Int32.Parse(txbPLCIdx.Text), eCarOptEngType.Option))
+            {
+                string str = "modify Failed.";
+            }
+
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void btnAddCarEngineType_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "" || txbPLCIdx.Text == "") return;
+            //if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+            string modelName = dgvCarModel[0, iModelRow].Value.ToString();
+
+            if (txbName.Text == "") return;
+
+            if (!Manager.AddCar(modelName, txbName.Text, Int32.Parse(txbPLCIdx.Text), eCarOptEngType.Engine))
+            {
+                string str = "Added Failed.";
+            }
+
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void btnDelCarEngineType_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "" || txbPLCIdx.Text == "") return;
+            //if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+            string modelName = dgvCarModel[0, iModelRow].Value.ToString();
+
+            if (txbName.Text == "") return;
+            if (MessageBox.Show("Delete this engine? -> " + txbName.Text, "Check", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                bool isBackup = false;
+                if (MessageBox.Show("Backup this model? -> " + txbName.Text, "Check", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    isBackup = true;
+                }
+                if (!Manager.DelCar(modelName, txbName.Text, eCarOptEngType.Engine, isBackup))
+                {
+                    string str = "Del Failed.";
+                }
+            }
+
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void btnModCarEngineType_Click(object sender, EventArgs e)
+        {
+            if (txbName.Text == "" || txbPLCIdx.Text == "") return;
+            //if (CheckSpecialChar(txbName.Text))
+            //{
+            //    MessageBox.Show("No Write Special Characters: " + expStr);
+            //    return;
+            //}
+
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+
+            int iOptRow = dgvCarEngineType.SelectedRows[0].Index;
+            if (iOptRow == -1)
+                return;
+
+            if (txbName.Text == "") return;
+
+            string modelName = dgvCarModel[0, iModelRow].Value.ToString();
+            string optName = dgvCarEngineType[0, iOptRow].Value.ToString();
+
+            if (txbName.Text == "") return;
+
+            if (!Manager.ModifyCar(modelName, optName, txbName.Text, Int32.Parse(txbPLCIdx.Text), eCarOptEngType.Engine))
+            {
+                string str = "modify Failed.";
+            }
+
+            InitCarModelData();
+            ShowModelNameList();
+        }
+
+        private void UpdateCurRowIdx()
+        {
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow != -1)
+                CurModelSelRowIdx = iModelRow;
+
+            int iOptRow = dgvCarOptType.SelectedRows[0].Index;
+            if (iOptRow != -1)
+                CurOptSelRowIdx = iOptRow;
+
+            int iEngRow = dgvCarEngineType.SelectedRows[0].Index;
+            if (iEngRow != -1)
+                CurEngSelRowIdx = iEngRow;
+        }
+
+        private void dgvCarModel_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //int iRow = e.RowIndex;
+            //if (iRow == -1)
+            //    return;
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+
+            UpdateCurRowIdx();
+
+            string carModel = dgvCarModel[0, iModelRow].Value.ToString();
+            List<Car> cars = Manager.GetCarListByModel(carModel);
+
+            InitCarEngineData(cars);
+            InitCarOptData(cars);
+
+            txbName.Text = dgvCarModel[0, iModelRow].Value.ToString();
+            txbPLCIdx.Text = dgvCarModel[1, iModelRow].Value.ToString();
+
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            Manager.SaveDB();
+            Manager.LoadDB();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+
+        }
+        string expStr = @"[~!@\#$%^&*\()\=+|\\/:;?""<>']";
+        private bool CheckSpecialChar(string str)
+        {
+            Regex rex = new System.Text.RegularExpressions.Regex(str);
+
+            return rex.IsMatch(str);
+        }
+
+        private void dgvCarOptType_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+
+            int iOptRow = dgvCarOptType.SelectedRows[0].Index;
+            if (iOptRow == -1)
+                return;
+
+            UpdateCurRowIdx();
+
+            //string carModel = dgvCarModel[0, iRow].Value.ToString();
+            //List<Car> cars = Manager.GetCarModelList(carModel);
+
+            //InitCarEngineData(cars);
+            //InitCarOptData(cars);
+
+            txbName.Text = dgvCarOptType[0, iOptRow].Value.ToString();
+            txbPLCIdx.Text = dgvCarOptType[1, iOptRow].Value.ToString();
+        }
+
+        private void dgvCarEngineType_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int iModelRow = dgvCarModel.SelectedRows[0].Index;
+            if (iModelRow == -1)
+                return;
+
+            int iEngRow = dgvCarEngineType.SelectedRows[0].Index;
+            if (iEngRow == -1)
+                return;
+
+            UpdateCurRowIdx();
+
+            //string carModel = dgvCarModel[0, iRow].Value.ToString();
+            //List<Car> cars = Manager.GetCarModelList(carModel);
+
+            //InitCarEngineData(cars);
+            //InitCarOptData(cars);
+
+            txbName.Text = dgvCarEngineType[0, iEngRow].Value.ToString();
+            txbPLCIdx.Text = dgvCarEngineType[1, iEngRow].Value.ToString();
+        }
+
+        private void btnOpenRecipeFolder_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(CarManager.PARAM_PATH);
+        }
+    }
+}

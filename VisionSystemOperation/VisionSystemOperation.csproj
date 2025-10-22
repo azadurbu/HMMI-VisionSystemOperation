@@ -1,0 +1,574 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\netstandard\OpenCvSharp4.runtime.win.props" Condition="Exists('..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\netstandard\OpenCvSharp4.runtime.win.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{22D8140E-5A8E-4096-802D-CA16A3ABB36A}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>VisionSystemOperation</RootNamespace>
+    <AssemblyName>VisionSystemOperation</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Cognex.Rbbt.Net">
+      <HintPath>bin\Cognex.Rbbt.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.Vision.Core.Net, Version=9.21.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Cognex.Vision.Core.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.CalibFix, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.CalibFix.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.Controls, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.Core, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.Display.Controls, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.Display.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.ImageFile, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.ImageFile.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.ImageProcessing, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.ImageProcessing.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.ImageProcessing.Controls, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.ImageProcessing.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.Inspection, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.Inspection.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.PatInspect, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.PatInspect.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.PMAlign, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.PMAlign.dll</HintPath>
+    </Reference>
+    <Reference Include="Cognex.VisionPro.PMAlign.Controls, Version=83.0.0.0, Culture=neutral, PublicKeyToken=ef0f902af9dee505, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\Cognex\VisionPro\ReferencedAssemblies\Cognex.VisionPro.PMAlign.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="MvCameraControl.Net">
+      <HintPath>C:\Program Files (x86)\MVS\Development\DotNet\AnyCpu\MvCameraControl.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenCvSharp4.4.10.0.20241108\lib\net48\OpenCvSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenCvSharp.Extensions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=6adad1e807fea099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\OpenCvSharp4.Extensions.4.10.0.20241108\lib\net48\OpenCvSharp.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class\HanMechDBHelper.cs" />
+    <Compile Include="Class\HanMechDBModels.cs" />
+    <Compile Include="Class\ImageFileManager.cs" />
+    <Compile Include="Class\Sequence.cs" />
+    <Compile Include="Class\ShiftManager.cs" />
+    <Compile Include="Controls\CtrlButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlButton.designer.cs">
+      <DependentUpon>CtrlButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlCameraPlc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlCameraPlc.Designer.cs">
+      <DependentUpon>CtrlCameraPlc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlCameraView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlCameraView.Designer.cs">
+      <DependentUpon>CtrlCameraView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlHeader.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlHeader.Designer.cs">
+      <DependentUpon>CtrlHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlHistoryCountDetail.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlHistoryCountDetail.Designer.cs">
+      <DependentUpon>CtrlHistoryCountDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlHistoryData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlHistoryData.Designer.cs">
+      <DependentUpon>CtrlHistoryData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlInspectionStatus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlInspectionStatus.Designer.cs">
+      <DependentUpon>CtrlInspectionStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlLogDisplay.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlLogDisplay.Designer.cs">
+      <DependentUpon>CtrlLogDisplay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlMenu.Designer.cs">
+      <DependentUpon>CtrlMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlCarTypeVin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlCarTypeVin.Designer.cs">
+      <DependentUpon>CtrlCarTypeVin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CtrlTest.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\CtrlTest.Designer.cs">
+      <DependentUpon>CtrlTest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\StatusButtonControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\StatusButtonControl.Designer.cs">
+      <DependentUpon>StatusButtonControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Device\Camera\CameraVie.cs" />
+    <Compile Include="Device\Camera\CameraManager.cs" />
+    <Compile Include="Device\Camera\CameraParameter.cs" />
+    <Compile Include="Device\Config.cs" />
+    <Compile Include="Device\Light\LightControl.cs" />
+    <Compile Include="Device\Light\LightParameter.cs" />
+    <Compile Include="Device\Machine.cs" />
+    <Compile Include="Device\PLC_Library\eNumType.cs" />
+    <Compile Include="Device\PLC_Library\PacketDataUtility.cs" />
+    <Compile Include="Device\PLC_Library\XGCommLib.cs" />
+    <Compile Include="Device\PLC_Library\XGPLCManager.cs" />
+    <Compile Include="Device\TowerLampManager.cs" />
+    <Compile Include="FormMdi.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMdi.Designer.cs">
+      <DependentUpon>FormMdi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormCamera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormCamera.Designer.cs">
+      <DependentUpon>FormCamera.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormDB.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormDB.Designer.cs">
+      <DependentUpon>FormDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormErrorInfomation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormErrorInfomation.Designer.cs">
+      <DependentUpon>FormErrorInfomation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormInterface.Designer.cs">
+      <DependentUpon>FormInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormLog.Designer.cs">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormPLCInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormPLCInterface.Designer.cs">
+      <DependentUpon>FormPLCInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormSetting.Designer.cs">
+      <DependentUpon>FormSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\FormShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormShift.Designer.cs">
+      <DependentUpon>FormShift.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Log\Logger.cs" />
+    <Compile Include="MasterImage\Inspection\Car\Car.cs" />
+    <Compile Include="MasterImage\Inspection\Car\CarManager.cs" />
+    <Compile Include="MasterImage\Inspection\Car\FormCarRecipe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterImage\Inspection\Car\FormCarRecipe.Designer.cs">
+      <DependentUpon>FormCarRecipe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterImage\Inspection\Car\FormModelSetting.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterImage\Inspection\Car\FormModelSetting.Designer.cs">
+      <DependentUpon>FormModelSetting.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterImage\Inspection\InspectionManager.cs" />
+    <Compile Include="MasterImage\Inspection\InspModel.cs" />
+    <Compile Include="MasterImage\UIForm\frmToolPMAlign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterImage\UIForm\frmToolPMAlign.Designer.cs">
+      <DependentUpon>frmToolPMAlign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterImage\UIForm\frmToolPMMultiAlign.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterImage\UIForm\frmToolPMMultiAlign.Designer.cs">
+      <DependentUpon>frmToolPMMultiAlign.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterImage\Utility\eNumType.cs" />
+    <Compile Include="MasterImage\Utility\frmMeasureNG.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterImage\Utility\frmMeasureNG.designer.cs">
+      <DependentUpon>frmMeasureNG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MasterImage\Utility\HanMechImageHelper.cs" />
+    <Compile Include="MasterImage\Utility\HanMechMathHelper.cs" />
+    <Compile Include="MasterImage\Utility\HanMechXmlHelper.cs" />
+    <Compile Include="MasterImage\Utility\Kernel.cs" />
+    <Compile Include="MasterImage\Utility\ObjectNameDlg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MasterImage\Utility\ObjectNameDlg.designer.cs">
+      <DependentUpon>ObjectNameDlg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\CtrlButton.resx">
+      <DependentUpon>CtrlButton.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlCameraPlc.resx">
+      <DependentUpon>CtrlCameraPlc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlCameraView.resx">
+      <DependentUpon>CtrlCameraView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlHeader.resx">
+      <DependentUpon>CtrlHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlHistoryCountDetail.resx">
+      <DependentUpon>CtrlHistoryCountDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlHistoryData.resx">
+      <DependentUpon>CtrlHistoryData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlInspectionStatus.resx">
+      <DependentUpon>CtrlInspectionStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlLogDisplay.resx">
+      <DependentUpon>CtrlLogDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlMenu.resx">
+      <DependentUpon>CtrlMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlCarTypeVin.resx">
+      <DependentUpon>CtrlCarTypeVin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\CtrlTest.resx">
+      <DependentUpon>CtrlTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\StatusButtonControl.resx">
+      <DependentUpon>StatusButtonControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMdi.resx">
+      <DependentUpon>FormMdi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormCamera.resx">
+      <DependentUpon>FormCamera.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormDB.resx">
+      <DependentUpon>FormDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormErrorInfomation.resx">
+      <DependentUpon>FormErrorInfomation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormInterface.resx">
+      <DependentUpon>FormInterface.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormLog.resx">
+      <DependentUpon>FormLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormPLCInterface.resx">
+      <DependentUpon>FormPLCInterface.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormSetting.resx">
+      <DependentUpon>FormSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormShift.resx">
+      <DependentUpon>FormShift.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterImage\Inspection\Car\FormCarRecipe.resx">
+      <DependentUpon>FormCarRecipe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterImage\Inspection\Car\FormModelSetting.resx">
+      <DependentUpon>FormModelSetting.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterImage\UIForm\frmToolPMAlign.resx">
+      <DependentUpon>frmToolPMAlign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterImage\UIForm\frmToolPMMultiAlign.resx">
+      <DependentUpon>frmToolPMMultiAlign.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterImage\Utility\frmMeasureNG.resx">
+      <DependentUpon>frmMeasureNG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MasterImage\Utility\ObjectNameDlg.resx">
+      <DependentUpon>ObjectNameDlg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitor_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\camera_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icon-interface-28.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\database_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\log_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\setting_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HyundaiLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vin_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\dummy-image-square.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cycle_green_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\circle_grey_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\switch_icon_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\switch_icon_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check_icon_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="XGCommLib">
+      <Guid>{2CFF650C-6DF0-48AE-9B06-C8DD467E0CD3}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\netstandard\OpenCvSharp4.runtime.win.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenCvSharp4.runtime.win.4.10.0.20241108\build\netstandard\OpenCvSharp4.runtime.win.props'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

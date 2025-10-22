@@ -1,0 +1,541 @@
+﻿namespace VisionSystemOperation.Inspection.MotorCar.Model
+{
+    partial class FormCarRecipe
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.gbCarModel = new System.Windows.Forms.GroupBox();
+            this.dgvCarModel = new System.Windows.Forms.DataGridView();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnAddCarModel = new System.Windows.Forms.Button();
+            this.btnDelCarModel = new System.Windows.Forms.Button();
+            this.btnModCarModel = new System.Windows.Forms.Button();
+            this.gbOption = new System.Windows.Forms.GroupBox();
+            this.dgvCarOptType = new System.Windows.Forms.DataGridView();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnAddCarOpt = new System.Windows.Forms.Button();
+            this.btnDelCarOpt = new System.Windows.Forms.Button();
+            this.btnModCarOpt = new System.Windows.Forms.Button();
+            this.gbEngine = new System.Windows.Forms.GroupBox();
+            this.dgvCarEngineType = new System.Windows.Forms.DataGridView();
+            this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnAddCarEngineType = new System.Windows.Forms.Button();
+            this.btnDelCarEngineType = new System.Windows.Forms.Button();
+            this.btnModCarEngineType = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnOpenRecipeFolder = new System.Windows.Forms.Button();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txbName = new System.Windows.Forms.TextBox();
+            this.txbPLCIdx = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.lbxModelNameList = new System.Windows.Forms.ListBox();
+            this.gbCarModel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCarModel)).BeginInit();
+            this.flowLayoutPanel2.SuspendLayout();
+            this.gbOption.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCarOptType)).BeginInit();
+            this.flowLayoutPanel3.SuspendLayout();
+            this.gbEngine.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCarEngineType)).BeginInit();
+            this.flowLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel6.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // gbCarModel
+            // 
+            this.gbCarModel.Controls.Add(this.dgvCarModel);
+            this.gbCarModel.Controls.Add(this.flowLayoutPanel2);
+            this.gbCarModel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbCarModel.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.gbCarModel.Location = new System.Drawing.Point(4, 5);
+            this.gbCarModel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbCarModel.Name = "gbCarModel";
+            this.gbCarModel.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbCarModel.Size = new System.Drawing.Size(352, 480);
+            this.gbCarModel.TabIndex = 4;
+            this.gbCarModel.TabStop = false;
+            this.gbCarModel.Text = "Car Model";
+            // 
+            // dgvCarModel
+            // 
+            this.dgvCarModel.AllowUserToAddRows = false;
+            this.dgvCarModel.AllowUserToDeleteRows = false;
+            this.dgvCarModel.AllowUserToResizeRows = false;
+            this.dgvCarModel.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCarModel.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCarModel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCarModel.Location = new System.Drawing.Point(4, 25);
+            this.dgvCarModel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvCarModel.MultiSelect = false;
+            this.dgvCarModel.Name = "dgvCarModel";
+            this.dgvCarModel.ReadOnly = true;
+            this.dgvCarModel.RowHeadersVisible = false;
+            this.dgvCarModel.RowTemplate.Height = 23;
+            this.dgvCarModel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCarModel.Size = new System.Drawing.Size(344, 411);
+            this.dgvCarModel.TabIndex = 0;
+            this.dgvCarModel.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCarModel_CellClick);
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.btnAddCarModel);
+            this.flowLayoutPanel2.Controls.Add(this.btnDelCarModel);
+            this.flowLayoutPanel2.Controls.Add(this.btnModCarModel);
+            this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(4, 436);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(344, 39);
+            this.flowLayoutPanel2.TabIndex = 2;
+            // 
+            // btnAddCarModel
+            // 
+            this.btnAddCarModel.Location = new System.Drawing.Point(4, 5);
+            this.btnAddCarModel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddCarModel.Name = "btnAddCarModel";
+            this.btnAddCarModel.Size = new System.Drawing.Size(70, 30);
+            this.btnAddCarModel.TabIndex = 3;
+            this.btnAddCarModel.Text = "Add";
+            this.btnAddCarModel.UseVisualStyleBackColor = true;
+            this.btnAddCarModel.Click += new System.EventHandler(this.btnAddCarModel_Click);
+            // 
+            // btnDelCarModel
+            // 
+            this.btnDelCarModel.Location = new System.Drawing.Point(82, 5);
+            this.btnDelCarModel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDelCarModel.Name = "btnDelCarModel";
+            this.btnDelCarModel.Size = new System.Drawing.Size(70, 30);
+            this.btnDelCarModel.TabIndex = 4;
+            this.btnDelCarModel.Text = "Del";
+            this.btnDelCarModel.UseVisualStyleBackColor = true;
+            this.btnDelCarModel.Click += new System.EventHandler(this.btnDelCarModel_Click);
+            // 
+            // btnModCarModel
+            // 
+            this.btnModCarModel.Location = new System.Drawing.Point(160, 5);
+            this.btnModCarModel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnModCarModel.Name = "btnModCarModel";
+            this.btnModCarModel.Size = new System.Drawing.Size(70, 30);
+            this.btnModCarModel.TabIndex = 2;
+            this.btnModCarModel.Text = "Mod";
+            this.btnModCarModel.UseVisualStyleBackColor = true;
+            this.btnModCarModel.Click += new System.EventHandler(this.btnModCarModel_Click);
+            // 
+            // gbOption
+            // 
+            this.gbOption.Controls.Add(this.dgvCarOptType);
+            this.gbOption.Controls.Add(this.flowLayoutPanel3);
+            this.gbOption.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbOption.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.gbOption.Location = new System.Drawing.Point(724, 5);
+            this.gbOption.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbOption.Name = "gbOption";
+            this.gbOption.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbOption.Size = new System.Drawing.Size(353, 480);
+            this.gbOption.TabIndex = 5;
+            this.gbOption.TabStop = false;
+            this.gbOption.Text = "OPT";
+            // 
+            // dgvCarOptType
+            // 
+            this.dgvCarOptType.AllowUserToAddRows = false;
+            this.dgvCarOptType.AllowUserToDeleteRows = false;
+            this.dgvCarOptType.AllowUserToResizeRows = false;
+            this.dgvCarOptType.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCarOptType.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCarOptType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCarOptType.Location = new System.Drawing.Point(4, 25);
+            this.dgvCarOptType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvCarOptType.MultiSelect = false;
+            this.dgvCarOptType.Name = "dgvCarOptType";
+            this.dgvCarOptType.ReadOnly = true;
+            this.dgvCarOptType.RowHeadersVisible = false;
+            this.dgvCarOptType.RowTemplate.Height = 23;
+            this.dgvCarOptType.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCarOptType.Size = new System.Drawing.Size(345, 411);
+            this.dgvCarOptType.TabIndex = 0;
+            this.dgvCarOptType.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCarOptType_CellClick);
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.btnAddCarOpt);
+            this.flowLayoutPanel3.Controls.Add(this.btnDelCarOpt);
+            this.flowLayoutPanel3.Controls.Add(this.btnModCarOpt);
+            this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(4, 436);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(345, 39);
+            this.flowLayoutPanel3.TabIndex = 2;
+            // 
+            // btnAddCarOpt
+            // 
+            this.btnAddCarOpt.Location = new System.Drawing.Point(4, 5);
+            this.btnAddCarOpt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddCarOpt.Name = "btnAddCarOpt";
+            this.btnAddCarOpt.Size = new System.Drawing.Size(70, 30);
+            this.btnAddCarOpt.TabIndex = 3;
+            this.btnAddCarOpt.Text = "Add";
+            this.btnAddCarOpt.UseVisualStyleBackColor = true;
+            this.btnAddCarOpt.Click += new System.EventHandler(this.btnAddCarOpt_Click);
+            // 
+            // btnDelCarOpt
+            // 
+            this.btnDelCarOpt.Location = new System.Drawing.Point(82, 5);
+            this.btnDelCarOpt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDelCarOpt.Name = "btnDelCarOpt";
+            this.btnDelCarOpt.Size = new System.Drawing.Size(70, 30);
+            this.btnDelCarOpt.TabIndex = 4;
+            this.btnDelCarOpt.Text = "Del";
+            this.btnDelCarOpt.UseVisualStyleBackColor = true;
+            this.btnDelCarOpt.Click += new System.EventHandler(this.btnDelCarOpt_Click);
+            // 
+            // btnModCarOpt
+            // 
+            this.btnModCarOpt.Location = new System.Drawing.Point(160, 5);
+            this.btnModCarOpt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnModCarOpt.Name = "btnModCarOpt";
+            this.btnModCarOpt.Size = new System.Drawing.Size(70, 30);
+            this.btnModCarOpt.TabIndex = 2;
+            this.btnModCarOpt.Text = "Mod";
+            this.btnModCarOpt.UseVisualStyleBackColor = true;
+            this.btnModCarOpt.Click += new System.EventHandler(this.btnModCarOpt_Click);
+            // 
+            // gbEngine
+            // 
+            this.gbEngine.Controls.Add(this.dgvCarEngineType);
+            this.gbEngine.Controls.Add(this.flowLayoutPanel6);
+            this.gbEngine.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbEngine.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.gbEngine.Location = new System.Drawing.Point(364, 5);
+            this.gbEngine.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbEngine.Name = "gbEngine";
+            this.gbEngine.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.gbEngine.Size = new System.Drawing.Size(352, 480);
+            this.gbEngine.TabIndex = 8;
+            this.gbEngine.TabStop = false;
+            this.gbEngine.Text = "Engine";
+            // 
+            // dgvCarEngineType
+            // 
+            this.dgvCarEngineType.AllowUserToAddRows = false;
+            this.dgvCarEngineType.AllowUserToDeleteRows = false;
+            this.dgvCarEngineType.AllowUserToResizeRows = false;
+            this.dgvCarEngineType.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCarEngineType.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCarEngineType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvCarEngineType.Location = new System.Drawing.Point(4, 25);
+            this.dgvCarEngineType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dgvCarEngineType.MultiSelect = false;
+            this.dgvCarEngineType.Name = "dgvCarEngineType";
+            this.dgvCarEngineType.ReadOnly = true;
+            this.dgvCarEngineType.RowHeadersVisible = false;
+            this.dgvCarEngineType.RowTemplate.Height = 23;
+            this.dgvCarEngineType.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCarEngineType.Size = new System.Drawing.Size(344, 411);
+            this.dgvCarEngineType.TabIndex = 0;
+            this.dgvCarEngineType.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCarEngineType_CellClick);
+            // 
+            // flowLayoutPanel6
+            // 
+            this.flowLayoutPanel6.Controls.Add(this.btnAddCarEngineType);
+            this.flowLayoutPanel6.Controls.Add(this.btnDelCarEngineType);
+            this.flowLayoutPanel6.Controls.Add(this.btnModCarEngineType);
+            this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(4, 436);
+            this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.flowLayoutPanel6.Name = "flowLayoutPanel6";
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(344, 39);
+            this.flowLayoutPanel6.TabIndex = 2;
+            // 
+            // btnAddCarEngineType
+            // 
+            this.btnAddCarEngineType.Location = new System.Drawing.Point(4, 5);
+            this.btnAddCarEngineType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnAddCarEngineType.Name = "btnAddCarEngineType";
+            this.btnAddCarEngineType.Size = new System.Drawing.Size(70, 30);
+            this.btnAddCarEngineType.TabIndex = 3;
+            this.btnAddCarEngineType.Text = "Add";
+            this.btnAddCarEngineType.UseVisualStyleBackColor = true;
+            this.btnAddCarEngineType.Click += new System.EventHandler(this.btnAddCarEngineType_Click);
+            // 
+            // btnDelCarEngineType
+            // 
+            this.btnDelCarEngineType.Location = new System.Drawing.Point(82, 5);
+            this.btnDelCarEngineType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnDelCarEngineType.Name = "btnDelCarEngineType";
+            this.btnDelCarEngineType.Size = new System.Drawing.Size(70, 30);
+            this.btnDelCarEngineType.TabIndex = 4;
+            this.btnDelCarEngineType.Text = "Del";
+            this.btnDelCarEngineType.UseVisualStyleBackColor = true;
+            this.btnDelCarEngineType.Click += new System.EventHandler(this.btnDelCarEngineType_Click);
+            // 
+            // btnModCarEngineType
+            // 
+            this.btnModCarEngineType.Location = new System.Drawing.Point(160, 5);
+            this.btnModCarEngineType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnModCarEngineType.Name = "btnModCarEngineType";
+            this.btnModCarEngineType.Size = new System.Drawing.Size(70, 30);
+            this.btnModCarEngineType.TabIndex = 2;
+            this.btnModCarEngineType.Text = "Mod";
+            this.btnModCarEngineType.UseVisualStyleBackColor = true;
+            this.btnModCarEngineType.Click += new System.EventHandler(this.btnModCarEngineType_Click);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 3;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.44444F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.88889F));
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel6, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel3, 1, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 499);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1081, 44);
+            this.tableLayoutPanel2.TabIndex = 9;
+            // 
+            // tableLayoutPanel6
+            // 
+            this.tableLayoutPanel6.ColumnCount = 1;
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel6.Controls.Add(this.btnOpenRecipeFolder, 0, 0);
+            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel6.Location = new System.Drawing.Point(933, 3);
+            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
+            this.tableLayoutPanel6.RowCount = 1;
+            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel6.Size = new System.Drawing.Size(145, 38);
+            this.tableLayoutPanel6.TabIndex = 11;
+            // 
+            // btnOpenRecipeFolder
+            // 
+            this.btnOpenRecipeFolder.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnOpenRecipeFolder.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.btnOpenRecipeFolder.Location = new System.Drawing.Point(3, 3);
+            this.btnOpenRecipeFolder.Name = "btnOpenRecipeFolder";
+            this.btnOpenRecipeFolder.Size = new System.Drawing.Size(139, 32);
+            this.btnOpenRecipeFolder.TabIndex = 11;
+            this.btnOpenRecipeFolder.Text = "Open Folder";
+            this.btnOpenRecipeFolder.UseVisualStyleBackColor = true;
+            this.btnOpenRecipeFolder.Click += new System.EventHandler(this.btnOpenRecipeFolder_Click);
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.46746F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.53254F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.46746F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.53254F));
+            this.tableLayoutPanel3.Controls.Add(this.label2, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.txbName, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.txbPLCIdx, 3, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(183, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(744, 38);
+            this.tableLayoutPanel3.TabIndex = 10;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.label2.Location = new System.Drawing.Point(374, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(116, 38);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "PLC Index";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label1.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(116, 38);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Name";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // txbName
+            // 
+            this.txbName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbName.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.txbName.Location = new System.Drawing.Point(125, 3);
+            this.txbName.Name = "txbName";
+            this.txbName.Size = new System.Drawing.Size(243, 27);
+            this.txbName.TabIndex = 1;
+            // 
+            // txbPLCIdx
+            // 
+            this.txbPLCIdx.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbPLCIdx.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.txbPLCIdx.Location = new System.Drawing.Point(496, 3);
+            this.txbPLCIdx.Name = "txbPLCIdx";
+            this.txbPLCIdx.Size = new System.Drawing.Size(245, 27);
+            this.txbPLCIdx.TabIndex = 1;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 2;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 83.33334F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tableLayoutPanel4.Controls.Add(this.btnUpdate, 1, 1);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.lbxModelNameList, 1, 0);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 2;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1305, 546);
+            this.tableLayoutPanel4.TabIndex = 10;
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnUpdate.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.btnUpdate.Location = new System.Drawing.Point(1090, 499);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(212, 44);
+            this.btnUpdate.TabIndex = 11;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 3;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel5.Controls.Add(this.gbCarModel, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.gbOption, 2, 0);
+            this.tableLayoutPanel5.Controls.Add(this.gbEngine, 1, 0);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 1;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(1081, 490);
+            this.tableLayoutPanel5.TabIndex = 0;
+            // 
+            // lbxModelNameList
+            // 
+            this.lbxModelNameList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbxModelNameList.Font = new System.Drawing.Font("맑은 고딕", 11F, System.Drawing.FontStyle.Bold);
+            this.lbxModelNameList.FormattingEnabled = true;
+            this.lbxModelNameList.ItemHeight = 20;
+            this.lbxModelNameList.Location = new System.Drawing.Point(1090, 3);
+            this.lbxModelNameList.Name = "lbxModelNameList";
+            this.lbxModelNameList.Size = new System.Drawing.Size(212, 490);
+            this.lbxModelNameList.TabIndex = 10;
+            // 
+            // FormCarRecipe
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1305, 546);
+            this.Controls.Add(this.tableLayoutPanel4);
+            this.Name = "FormCarRecipe";
+            this.Text = "FormCarRecipe";
+            this.Load += new System.EventHandler(this.FormCarRecipe_Load);
+            this.gbCarModel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCarModel)).EndInit();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.gbOption.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCarOptType)).EndInit();
+            this.flowLayoutPanel3.ResumeLayout(false);
+            this.gbEngine.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCarEngineType)).EndInit();
+            this.flowLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel6.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.GroupBox gbCarModel;
+        private System.Windows.Forms.DataGridView dgvCarModel;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.Button btnAddCarModel;
+        private System.Windows.Forms.Button btnDelCarModel;
+        private System.Windows.Forms.Button btnModCarModel;
+        private System.Windows.Forms.GroupBox gbOption;
+        private System.Windows.Forms.DataGridView dgvCarOptType;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
+        private System.Windows.Forms.Button btnAddCarOpt;
+        private System.Windows.Forms.Button btnDelCarOpt;
+        private System.Windows.Forms.Button btnModCarOpt;
+        private System.Windows.Forms.GroupBox gbEngine;
+        private System.Windows.Forms.DataGridView dgvCarEngineType;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel6;
+        private System.Windows.Forms.Button btnAddCarEngineType;
+        private System.Windows.Forms.Button btnDelCarEngineType;
+        private System.Windows.Forms.Button btnModCarEngineType;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txbName;
+        private System.Windows.Forms.TextBox txbPLCIdx;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.ListBox lbxModelNameList;
+        private System.Windows.Forms.Button btnOpenRecipeFolder;
+        private System.Windows.Forms.Button btnUpdate;
+    }
+}

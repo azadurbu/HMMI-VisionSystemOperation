@@ -1,0 +1,206 @@
+﻿namespace VisionSystemOperation.Forms
+{
+    partial class FormErrorInfomation
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.rtbErrInfoMsg = new System.Windows.Forms.RichTextBox();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.btnShowAreaInspForm = new System.Windows.Forms.Button();
+            this.btnCamInitialize = new System.Windows.Forms.Button();
+            this.btnPLCInitialize = new System.Windows.Forms.Button();
+            this.btnLightInitialize = new System.Windows.Forms.Button();
+            this.btnStartInspSeq = new System.Windows.Forms.Button();
+            this.btnResultOK = new System.Windows.Forms.Button();
+            this.btnResultNG = new System.Windows.Forms.Button();
+            this.btnInitSequnce = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // rtbErrInfoMsg
+            // 
+            this.rtbErrInfoMsg.BackColor = System.Drawing.Color.MintCream;
+            this.rtbErrInfoMsg.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.rtbErrInfoMsg.Location = new System.Drawing.Point(28, 12);
+            this.rtbErrInfoMsg.Name = "rtbErrInfoMsg";
+            this.rtbErrInfoMsg.Size = new System.Drawing.Size(1174, 236);
+            this.rtbErrInfoMsg.TabIndex = 3;
+            this.rtbErrInfoMsg.Text = "This is Rich Text Box\nTest";
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.Color.Green;
+            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnClose.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnClose.Location = new System.Drawing.Point(996, 350);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(192, 42);
+            this.btnClose.TabIndex = 6;
+            this.btnClose.Text = "Close";
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnShowAreaInspForm
+            // 
+            this.btnShowAreaInspForm.BackColor = System.Drawing.Color.Green;
+            this.btnShowAreaInspForm.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnShowAreaInspForm.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnShowAreaInspForm.Location = new System.Drawing.Point(271, 316);
+            this.btnShowAreaInspForm.Name = "btnShowAreaInspForm";
+            this.btnShowAreaInspForm.Size = new System.Drawing.Size(192, 42);
+            this.btnShowAreaInspForm.TabIndex = 4;
+            this.btnShowAreaInspForm.Text = "Show Inspection";
+            this.btnShowAreaInspForm.UseVisualStyleBackColor = false;
+            this.btnShowAreaInspForm.Click += new System.EventHandler(this.btnShowAreaInspForm_Click);
+            // 
+            // btnCamInitialize
+            // 
+            this.btnCamInitialize.BackColor = System.Drawing.Color.Green;
+            this.btnCamInitialize.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnCamInitialize.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnCamInitialize.Location = new System.Drawing.Point(28, 263);
+            this.btnCamInitialize.Name = "btnCamInitialize";
+            this.btnCamInitialize.Size = new System.Drawing.Size(192, 42);
+            this.btnCamInitialize.TabIndex = 5;
+            this.btnCamInitialize.Text = "Camera Initialize";
+            this.btnCamInitialize.UseVisualStyleBackColor = false;
+            this.btnCamInitialize.Click += new System.EventHandler(this.btnCamInitialize_Click);
+            // 
+            // btnPLCInitialize
+            // 
+            this.btnPLCInitialize.BackColor = System.Drawing.Color.Green;
+            this.btnPLCInitialize.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnPLCInitialize.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnPLCInitialize.Location = new System.Drawing.Point(28, 316);
+            this.btnPLCInitialize.Name = "btnPLCInitialize";
+            this.btnPLCInitialize.Size = new System.Drawing.Size(192, 42);
+            this.btnPLCInitialize.TabIndex = 5;
+            this.btnPLCInitialize.Text = "PLC Initailize";
+            this.btnPLCInitialize.UseVisualStyleBackColor = false;
+            this.btnPLCInitialize.Click += new System.EventHandler(this.btnPLCInitialize_Click);
+            // 
+            // btnLightInitialize
+            // 
+            this.btnLightInitialize.BackColor = System.Drawing.Color.Green;
+            this.btnLightInitialize.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnLightInitialize.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnLightInitialize.Location = new System.Drawing.Point(271, 263);
+            this.btnLightInitialize.Name = "btnLightInitialize";
+            this.btnLightInitialize.Size = new System.Drawing.Size(192, 42);
+            this.btnLightInitialize.TabIndex = 4;
+            this.btnLightInitialize.Text = "Light Initailize";
+            this.btnLightInitialize.UseVisualStyleBackColor = false;
+            this.btnLightInitialize.Click += new System.EventHandler(this.btnLightInitialize_Click);
+            // 
+            // btnStartInspSeq
+            // 
+            this.btnStartInspSeq.BackColor = System.Drawing.Color.Green;
+            this.btnStartInspSeq.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnStartInspSeq.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnStartInspSeq.Location = new System.Drawing.Point(530, 263);
+            this.btnStartInspSeq.Name = "btnStartInspSeq";
+            this.btnStartInspSeq.Size = new System.Drawing.Size(192, 42);
+            this.btnStartInspSeq.TabIndex = 4;
+            this.btnStartInspSeq.Text = "Start Seq";
+            this.btnStartInspSeq.UseVisualStyleBackColor = false;
+            this.btnStartInspSeq.Click += new System.EventHandler(this.btnStartInspSeq_Click);
+            // 
+            // btnResultOK
+            // 
+            this.btnResultOK.BackColor = System.Drawing.Color.Green;
+            this.btnResultOK.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnResultOK.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnResultOK.Location = new System.Drawing.Point(728, 263);
+            this.btnResultOK.Name = "btnResultOK";
+            this.btnResultOK.Size = new System.Drawing.Size(192, 42);
+            this.btnResultOK.TabIndex = 4;
+            this.btnResultOK.Text = "Result OK";
+            this.btnResultOK.UseVisualStyleBackColor = false;
+            this.btnResultOK.Click += new System.EventHandler(this.btnResultOK_Click);
+            // 
+            // btnResultNG
+            // 
+            this.btnResultNG.BackColor = System.Drawing.Color.Green;
+            this.btnResultNG.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnResultNG.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnResultNG.Location = new System.Drawing.Point(728, 316);
+            this.btnResultNG.Name = "btnResultNG";
+            this.btnResultNG.Size = new System.Drawing.Size(192, 42);
+            this.btnResultNG.TabIndex = 4;
+            this.btnResultNG.Text = "Result NG";
+            this.btnResultNG.UseVisualStyleBackColor = false;
+            this.btnResultNG.Click += new System.EventHandler(this.btnResultNG_Click);
+            // 
+            // btnInitSequnce
+            // 
+            this.btnInitSequnce.BackColor = System.Drawing.Color.Green;
+            this.btnInitSequnce.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold);
+            this.btnInitSequnce.ForeColor = System.Drawing.Color.AliceBlue;
+            this.btnInitSequnce.Location = new System.Drawing.Point(996, 265);
+            this.btnInitSequnce.Name = "btnInitSequnce";
+            this.btnInitSequnce.Size = new System.Drawing.Size(192, 42);
+            this.btnInitSequnce.TabIndex = 4;
+            this.btnInitSequnce.Text = "Initailze Seq";
+            this.btnInitSequnce.UseVisualStyleBackColor = false;
+            this.btnInitSequnce.Click += new System.EventHandler(this.btnInitSequnce_Click);
+            // 
+            // FormErrorInfomation
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
+            this.ClientSize = new System.Drawing.Size(1244, 417);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnLightInitialize);
+            this.Controls.Add(this.btnResultNG);
+            this.Controls.Add(this.btnResultOK);
+            this.Controls.Add(this.btnInitSequnce);
+            this.Controls.Add(this.btnStartInspSeq);
+            this.Controls.Add(this.btnShowAreaInspForm);
+            this.Controls.Add(this.btnPLCInitialize);
+            this.Controls.Add(this.btnCamInitialize);
+            this.Controls.Add(this.rtbErrInfoMsg);
+            this.Name = "FormErrorInfomation";
+            this.Text = "FormErrorInfomation";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FormErrorInfomation_FormClosed);
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.RichTextBox rtbErrInfoMsg;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnShowAreaInspForm;
+        private System.Windows.Forms.Button btnCamInitialize;
+        private System.Windows.Forms.Button btnPLCInitialize;
+        private System.Windows.Forms.Button btnLightInitialize;
+        private System.Windows.Forms.Button btnStartInspSeq;
+        private System.Windows.Forms.Button btnResultOK;
+        private System.Windows.Forms.Button btnResultNG;
+        private System.Windows.Forms.Button btnInitSequnce;
+    }
+}

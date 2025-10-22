@@ -1,0 +1,71 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VisionSystemOperation.Inspection.MotorCar.Model
+{
+    public struct sEngineType
+    {
+        public string Name;
+        public int index;
+
+        public sEngineType(string name, int idx)
+        {
+            this.Name = name;
+            this.index = idx;
+        }
+        public sEngineType CopyTo()
+        {
+            sEngineType newObj = new sEngineType(this.Name, this.index);
+
+            return newObj;
+        }
+    }
+    public struct sOptionType
+    {
+        public string Name;
+        public int index;
+
+        public sOptionType(string name, int idx)
+        {
+            this.Name = name;
+            this.index = idx;
+        }
+        public sOptionType CopyTo()
+        {
+            sOptionType newObj = new sOptionType(this.Name, this.index);
+
+            return newObj;
+        }
+    }
+
+    public class Car
+    {
+        public int Index { get; set; } = -1;
+        public string ModelName { get; set; } = "None";
+
+        public sEngineType EngineType { get; set; } = new sEngineType("None", -1);
+        public sOptionType OptionType { get; set; } = new sOptionType("None", -1);
+
+        public Car CopyTo()
+        {
+            Car newObj = new Car();
+
+            newObj.Index = this.Index;
+            newObj.ModelName = this.ModelName;
+
+            newObj.EngineType = this.EngineType.CopyTo();
+            newObj.OptionType = this.OptionType.CopyTo();
+
+            return newObj;
+        }
+
+        public string GetCarFullName()
+        {
+            return ModelName + "_" + EngineType.Name + "_" + OptionType.Name ;
+        }
+
+    }
+}

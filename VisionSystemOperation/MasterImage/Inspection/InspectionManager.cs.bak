@@ -1,0 +1,775 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Drawing;
+
+using Cognex.VisionPro;
+using Cognex.VisionPro.PMAlign;
+using OpenCvSharp;
+using OpenCvSharp.Extensions;
+//using Cognex.VisionPro.CalibFix;
+
+using Inspection.Utility;
+using VisionSystemOperation.Inspection.Model;
+using VisionSystemOperation.Inspection.MotorCar.Model;
+using VisionSystemOperation.Device;
+
+namespace VisionSystemOperation.Inspection
+{
+    public enum ResultConstants { OK, NG, ERR };
+    public enum ResultAlign { EmptyFilename, FileNotExist, Failed, Accepted };
+
+    public class ROIResult
+    {
+        // Alignment 된 이미지.
+        public double Score { get; set; } = 0;
+        public string RoiName { get; set; } = "None";
+        public CogImage8Grey RoiImage { get; set; } = new CogImage8Grey();
+        public ResultConstants Result { get; set; } = ResultConstants.OK;
+        public CogPMAlignResult PMResult { get; set; } = new CogPMAlignResult();
+        public CogRectangle TrainRectangle { get; set; } = new CogRectangle();
+        public ROIResult CopyTo()
+        {
+            ROIResult newResult = new ROIResult();
+
+            newResult.Score = this.Score;
+            newResult.RoiName = this.RoiName;
+            if(this.RoiImage != null)
+                newResult.RoiImage = this.RoiImage.Copy(CogImageCopyModeConstants.CopyPixels);
+            newResult.Result = this.Result;
+            newResult.TrainRectangle = this.TrainRectangle.Copy(CogCopyShapeConstants.All);
+
+            return newResult;
+        }
+    }
+
+    public class InspectionResult
+    {
+        public DateTime TactTime = DateTime.Now;
+        public int CamNum { get; set; } = 0;
+        public double Average { get; set; } = 0; // 평균
+        public string CarName { get; set; } = "None";
+        public string ImageSavePath { get; set; } = "None";
+        // 먼저 OK로 해놓고. NG가 나오면 NG처리.
+        public ResultConstants Result { get; set; } = ResultConstants.OK;
+
+        public List<ROIResult> ROIResults { get; set; } = new List<ROIResult>();
+
+        public InspectionResult CopyTo()
+        {
+            InspectionResult newInspResult = new InspectionResult();
+
+            newInspResult.CamNum = this.CamNum;
+            newInspResult.TactTime = new DateTime(this.TactTime.Ticks, DateTimeKind.Local);
+            newInspResult.Average = this.Average;
+            newInspResult.CarName = this.CarName;
+            newInspResult.Result = this.Result;
+            newInspResult.ImageSavePath = this.ImageSavePath;
+
+            for (int i = 0; i < ROIResults.Count; i++)
+            {
+                newInspResult.ROIResults.Add(ROIResults[i].CopyTo());
+            }
+
+            return newInspResult;
+        }
+        public void Clear()
+        {
+            CamNum = 0;
+            Average = 0;
+            CarName = "";
+            Result = ResultConstants.OK;
+            ROIResults.Clear();
+        }
+    }
+
+    public class CaliData
+    {
+        public static double PMAlignDefaultSocre = 0.65;
+        public int Score { get; set; } = 0;
+        public Rectangle CaliRect { get; set; } = new Rectangle();
+
+        public CaliData CopyTo()
+        {
+            CaliData newCali = new CaliData();
+            newCali.CaliRect = new Rectangle(this.CaliRect.X, this.CaliRect.Y, this.CaliRect.Width, this.CaliRect.Height);
+            newCali.Score = this.Score;
+
+            return newCali;
+        }
+    }
+
+    public class InspectionParameter { public List<InspParam> Params { get; set; } = new List<InspParam>(); }
+
+    public class InspectionManager
+    {
+        public string VIN_ID { get; set; } = "";
+        public CaliData Cali { get; set; } = new CaliData();
+        public List<InspectionResult> InspResults { get; set; } = new List<InspectionResult>();
+        public Car CurCar { get; set; } = new Car();
+        public List<CogGraphicInteractiveCollection> ResultGraphics { get; set; } = new List<CogGraphicInteractiveCollection>();
+        public List<Bitmap> ResultImages { get; set; } = new List<Bitmap>();
+        public List<InspectionParameter> InspParams { get => mInspParams; }
+
+        public ResultConstants Result { get; set; } = ResultConstants.OK;
+
+        private List<Thread> mInspThreads = new List<Thread>();
+        //public InspParam CurModel { get; }
+        private List<InspectionParameter> mInspParams = new List<InspectionParameter>();
+        private object _endCheckingLock = new object();
+        private object _resultCopyLock = new object();
+
+        public InspectionManager(int camCount)
+        {
+            InspParams.Clear();
+            mInspThreads.Clear();
+            InspResults.Clear();
+
+            for (int i = 0; i < camCount; i++)
+            {
+                InspParams.Add(new InspectionParameter());
+
+                Car car = new Car();
+                Thread thread = new Thread(() => RunInsp(ref car, null, 0));
+                mInspThreads.Add(thread);
+
+                InspResults.Add(new InspectionResult());
+
+                ResultGraphics.Add(new CogGraphicInteractiveCollection());
+
+                ResultImages.Add(new Bitmap(1, 1));
+            }
+        }
+
+        public void initData(int camCount)
+        {
+            InspResults.Clear();
+            ResultImages.Clear();
+            ResultGraphics.Clear();
+
+            for (int i = 0; i < camCount; i++)
+            {
+                InspResults.Add(new InspectionResult());
+
+                ResultGraphics.Add(new CogGraphicInteractiveCollection());
+
+                ResultImages.Add(new Bitmap(1, 1));
+            }
+        }
+
+        public ResultAlign ProcCalibration()
+        {
+            ResultAlign result = ResultAlign.Failed;
+            
+
+            return result;
+        }
+
+        private bool IsError(CogPMAlignMultiTool cogPMAligns, ref string msg)
+        {
+            bool result = false;
+            if (cogPMAligns.Results == null)
+            {
+                msg = "Result is null";
+                result = true;
+            }
+            else if (cogPMAligns.RunStatus.Result != CogToolResultConstants.Accept)
+            {
+                msg = "Result: "+ cogPMAligns.RunStatus.Result.ToString() + ",  " + cogPMAligns.RunStatus.Message;
+                result = true;
+                //Machine.mLogger.log("[OCR Pattern] align failed Accepted: " + PMAlignTool.RunStatus.Message, LogType.ERROR, false);
+            }
+
+            return result;
+        }
+
+        public string GetResultString()
+        {
+            string str = "";
+
+            try
+            {
+                foreach (InspectionResult inspResult in InspResults)
+                {
+                    str += (inspResult.CarName + "/CamNo: " + inspResult.CamNum.ToString() + "/AVG: " + inspResult.Average.ToString() + "/Result: " + inspResult.Result.ToString());
+                    str += "\r\n";
+
+                    foreach (ROIResult item in inspResult.ROIResults)
+                    {
+                        str += item.RoiName + " / "
+                            + "Score: " + item.Score.ToString("F2") + " / "
+                            + "\r\n";
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                string errStr = ex.ToString();
+            }
+
+            return str;
+        }
+
+        private Bitmap GetDrawImage(CogImage8Grey src, List<ROIResult> roiResults)
+        {
+            Bitmap bitmap = null;
+
+            Mat mat = BitmapConverter.ToMat(src.ToBitmap());
+
+            foreach (ROIResult roi in roiResults)
+            {
+                if(roi.TrainRectangle != null)
+                {
+                    Rect roiRect = new Rect((int)roi.TrainRectangle.X, (int)roi.TrainRectangle.Y, (int)roi.TrainRectangle.Width, (int)roi.TrainRectangle.Height);
+                    if (roi.Result == ResultConstants.OK)
+                        mat.Rectangle(roiRect, Scalar.GreenYellow);
+                    else
+                        mat.Rectangle(roiRect, Scalar.Red);
+                }
+            }
+
+            bitmap = BitmapConverter.ToBitmap(mat);
+            return bitmap;
+        }
+
+        private void DrawResult(CogPMAlignResult cogPMAlignResult, ROIResult roiResult, InspParam inspParam, int camIdx)
+        {
+            try
+            {
+                if(cogPMAlignResult != null)
+                {
+                    CogCompositeShape pattern = cogPMAlignResult.CreateResultGraphics(CogPMAlignResultGraphicConstants.MatchFeatures);
+                    ResultGraphics[camIdx].Add(pattern);
+                }
+
+                CogGraphicLabel label = new CogGraphicLabel();
+
+                label.X = inspParam.ROI.X - 5;
+                label.Y = inspParam.ROI.Y - 5;
+
+                label.Text = "Name: " + roiResult.RoiName;
+                label.Text += (", Score: " + (roiResult.Score).ToString("F2"));
+                label.Font = new Font("Consolas", 8, FontStyle.Bold);
+
+                label.Color = (roiResult.Result == ResultConstants.OK) ? CogColorConstants.Green : CogColorConstants.Red;
+                ResultGraphics[camIdx].Add(label);
+
+                if (roiResult != null)
+                {
+                    if (roiResult.TrainRectangle != null)
+                    {
+                        roiResult.TrainRectangle.Color = (roiResult.Result == ResultConstants.OK) ? CogColorConstants.Green : CogColorConstants.Red;
+                    }
+                    else
+                        roiResult.TrainRectangle.Color = CogColorConstants.Red;
+
+                    roiResult.TrainRectangle.LineWidthInScreenPixels += 3;
+                    roiResult.TrainRectangle.Interactive = false;
+                    ResultGraphics[camIdx].Add(roiResult.TrainRectangle);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+            
+        }
+
+        public bool IsFinished()
+        {
+            bool r = true;
+            lock (_endCheckingLock)
+            {
+                foreach (Thread item in mInspThreads)
+                {
+                    if (item == null) continue;
+                    if(item.IsAlive)
+                    {
+                        r = false;
+                        break;
+                    }
+                }
+            }
+            if(r)
+            {
+                Result = ResultConstants.OK;
+                foreach (InspectionResult item in InspResults)
+                {
+                    if(item.Result != ResultConstants.OK)
+                    {
+                        Result = ResultConstants.NG;
+                        //jskim 20250408 check using Camera s
+                        break;
+                    }
+                }
+            }
+
+            return r;
+        }
+
+        public void RunInspByAsync(ref Car curCar, CogImage8Grey curImg, string VinID, int camIdx)
+        {
+            Car car = curCar.CopyTo();
+            VIN_ID = VinID;
+
+            mInspThreads[camIdx] = new Thread(() => RunInsp(ref car, curImg, camIdx));
+            mInspThreads[camIdx].Start();
+
+        }
+        
+        private void SetImageSavePath(ref InspectionResult insp)
+        {
+            DateTime resultTime = insp.TactTime;
+            string carModelName = insp.CarName;
+            
+            DateTime now = DateTime.Now;
+            insp.ImageSavePath = string.Format(@"{0:00}\{1:00}\{2:00}\{3}\{4}\", now.Year, now.Month, now.Day, carModelName, VIN_ID);
+        }
+
+        private void ResultProcess(ref CogPMAlignMultiTool cogPMAligns, ref InspectionResult insp, InspParam inspParam, string paramName)
+        {
+            double judgeThreshold = cogPMAligns.RunParams.PMAlignRunParams.AcceptThreshold;
+
+            CogPMAlignResults cogResult = cogPMAligns.Results.PMAlignResults;
+
+            for (int i = 0; i < cogResult.Count; i++)
+            {
+                ROIResult roiResult = new ROIResult();
+                roiResult.RoiName = paramName + "_" + cogResult[i].ModelName;
+                roiResult.Score = cogResult[i].Score;
+                insp.Average += cogResult[i].Score;
+
+                roiResult.Result = ResultConstants.OK;
+                if (cogResult[i].Score < judgeThreshold)
+                {
+                    roiResult.Result = ResultConstants.NG;
+                }
+                roiResult.PMResult = new CogPMAlignResult(cogResult[i]);
+
+                if (cogPMAligns.Operator.Count != 0)
+                {
+                    List<ICogRegion> selResult = cogPMAligns.Operator.Where(pattern => pattern.Name == cogResult[i].ModelName).Select(pattern => pattern.Pattern.TrainRegion).ToList();
+                    if (selResult.Count > 0)
+                    {
+                        roiResult.TrainRectangle = new CogRectangle();
+                        roiResult.TrainRectangle.X = inspParam.ROI.X;
+                        roiResult.TrainRectangle.Y = inspParam.ROI.Y;
+                        roiResult.TrainRectangle.Width = inspParam.ROI.Width;
+                        roiResult.TrainRectangle.Height = inspParam.ROI.Height;
+                    }
+                    //roiResult.TrainRectangle = selResult[0].EnclosingRectangle(CogCopyShapeConstants.All);
+                }
+                else
+                {
+                    roiResult.TrainRectangle = null;
+                }
+
+                DrawResult(cogResult[i], roiResult, inspParam, insp.CamNum);
+
+                //CogImage8Grey resultROIImage = new CogImage8Grey();
+                //DrawRoiImage(ref resultROIImage, cogResult[i], curImg);
+                //roiResult.RoiImage = resultROIImage;
+
+                insp.ROIResults.Add(roiResult);
+
+                Machine.logger.WriteAsync(eLogType.INSPECTION, $"Pattern Matching Result. Cam:{insp.CamNum}, ROI Name:{roiResult.RoiName}, ROI Score:{roiResult.Score}");
+            }
+        }
+
+        private void JudgeProc(ref CogPMAlignMultiTool cogPMAligns, ref InspectionResult insp, InspParam inspParam, string paramName)
+        {
+            string errMsg = "";
+            if (IsError(cogPMAligns, ref errMsg))
+            {
+                insp.Result = ResultConstants.ERR;
+
+                ROIResult roiResult = new ROIResult();
+                roiResult.RoiName = paramName + "_None";
+                roiResult.Score = -1;
+                insp.Average = -1;
+
+                roiResult.Result = ResultConstants.ERR;
+                roiResult.PMResult = null;
+                roiResult.TrainRectangle = new CogRectangle();
+                roiResult.TrainRectangle.X = inspParam.ROI.X;
+                roiResult.TrainRectangle.Y = inspParam.ROI.Y;
+                roiResult.TrainRectangle.Width = inspParam.ROI.Width;
+                roiResult.TrainRectangle.Height = inspParam.ROI.Height;
+
+                insp.ROIResults.Add(roiResult);
+                Machine.logger.WriteAsync(eLogType.INSPECTION, $"Pattern Error. ROI Name:{inspParam.Name}, Error:{errMsg}");
+
+                //roiResult.TrainRectangle = selResult[0].EnclosingRectangle(CogCopyShapeConstants.All);
+            }
+            else
+            {
+                if (cogPMAligns.Results.PMAlignResults.Count == 0)
+                {
+                    Machine.logger.WriteAsync(eLogType.INSPECTION, $"Pattern Matching Result count is zero. ROI Name:{inspParam.Name}, Error:{errMsg}");
+                    ZeroProcess(ref cogPMAligns, ref insp, inspParam, paramName);
+                }
+                else
+                {
+                    ResultProcess(ref cogPMAligns, ref insp, inspParam, paramName);
+                }
+
+            }
+            if(insp.Result == ResultConstants.OK)
+            {
+                for (int i = 0; i < insp.ROIResults.Count; i++)
+                {
+                    if(insp.ROIResults[i].Result == ResultConstants.NG)
+                    {
+                        insp.Result = ResultConstants.NG;
+                        break;
+                    }
+
+                }
+            }
+            SetImageSavePath(ref insp);
+        }
+
+        private void ZeroProcess(ref CogPMAlignMultiTool cogPMAligns, ref InspectionResult insp, InspParam inspParam, string paramName)
+        {
+            CogPMAlignMulti cogPMAlignPatternItems = cogPMAligns.Operator;
+            foreach (CogPMAlignPatternItem item in cogPMAlignPatternItems)
+            {
+                ROIResult roiResult = new ROIResult();
+                roiResult.RoiName = paramName + "_" + item.Name;
+                roiResult.Score = -1;
+                insp.Average += -1;
+
+                roiResult.Result = ResultConstants.NG;
+                roiResult.PMResult = null;
+
+                roiResult.TrainRectangle = new CogRectangle();
+                roiResult.TrainRectangle.X = inspParam.ROI.X;
+                roiResult.TrainRectangle.Y = inspParam.ROI.Y;
+                roiResult.TrainRectangle.Width = inspParam.ROI.Width;
+                roiResult.TrainRectangle.Height = inspParam.ROI.Height;
+                //roiResult.TrainRectangle = item.Pattern.TrainRegion.EnclosingRectangle(CogCopyShapeConstants.All);
+
+                DrawResult(null, roiResult, inspParam, insp.CamNum);
+
+                insp.ROIResults.Add(roiResult);
+            }
+        }
+
+        public InspectionResult RunInsp(ref Car curCar, CogImage8Grey curImg, int camIdx)
+        {
+            Machine.logger.WriteAsync(eLogType.INSPECTION, $"Start Inspection. CAM:{camIdx}, CAR:{curCar.GetCarFullName()}");
+
+            CurCar = curCar;
+
+            //
+            ProcCalibration();
+
+            InspectionResult insp = new InspectionResult();
+            insp.CarName = curCar.GetCarFullName();
+
+            try
+            {
+                foreach (InspParam inspParam in mInspParams[camIdx].Params)
+                {
+                    if (!inspParam.Use)
+                    {
+                        Machine.logger.WriteAsync(eLogType.INSPECTION, $"No use Inspection. CAM:{camIdx}, ROI Name:{inspParam.Name}");
+                        continue;
+                    }
+
+                    CogPMAlignMultiTool cogPMAligns = ((CogPMAlignMultiTool)CogSerializer.LoadObjectFromFile(inspParam.VppPath));
+                    cogPMAligns.InputImage = curImg.Copy(CogImageCopyModeConstants.CopyPixels);
+
+                    CogRectangle cogRectangle = new CogRectangle();
+                    cogRectangle.X = inspParam.ROI.X;
+                    cogRectangle.Y = inspParam.ROI.Y;
+                    cogRectangle.Width = inspParam.ROI.Width;
+                    cogRectangle.Height = inspParam.ROI.Height;
+                    cogRectangle.TipText = inspParam.Name;
+
+                    cogPMAligns.SearchRegion = cogRectangle;
+                    cogPMAligns.Run();
+                    Machine.logger.WriteAsync(eLogType.INSPECTION, $"Finished Pattern matching. CAM:{camIdx}, ROI Name:{inspParam.Name}");
+
+                    insp.CamNum = camIdx;
+
+                    JudgeProc(ref cogPMAligns, ref insp, inspParam, inspParam.Name);
+                    Machine.logger.WriteAsync(eLogType.INSPECTION, $"Judge Pattern Result. CAM:{camIdx}, ROI Name:{inspParam.Name}");
+
+
+                }
+                insp.Average /= insp.ROIResults.Count;
+
+                ResultImages[camIdx] = GetDrawImage(curImg, insp.ROIResults);
+                //ResultImages[camIdx].Save(@"C:\WorkSpace\Hanmech\Project\대명TS\Program\WorkingSpace\Main Program\VisionSystemOperation\bin\ResultImages" + camIdx.ToString() + ".bmp");
+            }
+            catch (Exception ex)
+            {
+                string strErr = ex.ToString();
+                Result = ResultConstants.ERR;
+            }
+
+            lock (_resultCopyLock)
+            {
+                InspResults[camIdx] = insp;
+            }
+
+            Machine.logger.WriteAsync(eLogType.INSPECTION, $"End Inspection. CAM:{camIdx}, CAR:{curCar.GetCarFullName()}");
+
+            return insp;
+        }
+
+        public bool IsExist(int camIdx, string modelName)
+        {
+            bool r = false;
+
+            List<InspParam> inspParams =  mInspParams[camIdx].Params;
+
+            for (int i = 0; i < inspParams.Count; i++)
+            {
+                if (inspParams[i].Name == modelName)
+                {
+                    r = true;
+                    break;
+                }
+            }
+
+            return r;
+        }
+
+        public bool AddInspParam(int camIdx, InspParam param)
+        {
+            bool r = true;
+            if(!IsExist(camIdx, param.Name))
+            {
+                mInspParams[camIdx].Params.Add(param);
+            }
+            else
+            {
+                r = false;
+            }
+
+            return r;
+        }
+        public void DelInspParam(int camIdx, string name)
+        {
+            for (int i = mInspParams[camIdx].Params.Count - 1; i >= 0; i--)
+            {
+                if(mInspParams[camIdx].Params[i].Name == name)
+                {
+                    mInspParams[camIdx].Params.RemoveAt(i);
+                    break;
+                }
+            }
+        }
+        public void ModifyInspParam(int camIdx, string oldName, string newName)
+        {
+            for (int i = mInspParams[camIdx].Params.Count - 1; i >= 0; i--)
+            {
+                if (mInspParams[camIdx].Params[i].Name == oldName)
+                {
+                    mInspParams[camIdx].Params[i].Name = newName;
+
+                    if(File.Exists(mInspParams[camIdx].Params[i].VppPath))
+                    {
+                        FileInfo fi = new FileInfo(mInspParams[camIdx].Params[i].VppPath);
+                        string dstPath = fi.DirectoryName + @"\PM_Parameter_" + newName + $"_{camIdx}.vpp";
+                        mInspParams[camIdx].Params[i].VppPath = dstPath;
+                        File.Copy(fi.FullName, dstPath);
+                        File.Delete(fi.FullName);
+                    }
+                    break;
+                }
+            }
+        }
+        public void ModifyInspParam(int camIdx, string oldName, InspParam newParam)
+        {
+            for (int i = mInspParams[camIdx].Params.Count - 1; i >= 0; i--)
+            {
+                if (mInspParams[camIdx].Params[i].Name == oldName)
+                {
+                    mInspParams[camIdx].Params[i] = newParam;
+                    break;
+                }
+            }
+        }
+
+        public InspParam GetParam(int camIdx, string name)
+        {
+            InspParam curParam = null;
+
+            for (int i = mInspParams[camIdx].Params.Count - 1; i >= 0; i--)
+            {
+                if (mInspParams[camIdx].Params[i].Name == name)
+                {
+                    curParam = mInspParams[camIdx].Params[i];
+                    break;
+                }
+            }
+
+            return curParam;
+        }
+
+        private void LoadParams(XmlElement configElement)
+        {
+            XmlElement operationElement = configElement["InspectioniParam"];
+            if (operationElement == null)
+                return;
+
+            int InspModelCount = 1;
+            mInspParams.Clear();
+            InspModelCount = Convert.ToInt32(HanMechXmlHelper.GetValue(operationElement, "InspCount", InspModelCount.ToString()));
+            for (int i = 0; i < InspModelCount; i++)
+                mInspParams.Add(new InspectionParameter());
+
+            int camCount = 0;
+            foreach (InspectionParameter camInspParam in mInspParams)
+            {
+                string camElementName = "CAM_" + camCount.ToString();
+                XmlElement paramElement = operationElement[camElementName];
+                if (paramElement == null)
+                    continue;
+
+                int paramCount = Convert.ToInt32(HanMechXmlHelper.GetValue(paramElement, "InspModelCount", InspModelCount.ToString()));
+                for (int i = 0; i < paramCount; i++)
+                    camInspParam.Params.Add(new InspParam());
+
+                string name = "InspModel_";
+                int count = 0;
+                foreach (InspParam item in camInspParam.Params)
+                {
+                    string elementName = name + count.ToString();
+                    XmlElement inspParamElement = paramElement[elementName];
+                    if (inspParamElement == null)
+                        return;
+
+                    item.Name = HanMechXmlHelper.GetValue(inspParamElement, "Name", item.Name);
+                    item.Use = Convert.ToBoolean(HanMechXmlHelper.GetValue(inspParamElement, "Use", item.Use.ToString()));
+                    item.VppPath = HanMechXmlHelper.GetValue(inspParamElement, "VppPath", item.VppPath);
+
+                    Rectangle newRect = new Rectangle();
+                    newRect.X = Convert.ToInt32(HanMechXmlHelper.GetValue(inspParamElement, "X", newRect.X.ToString()));
+                    newRect.Y = Convert.ToInt32(HanMechXmlHelper.GetValue(inspParamElement, "Y", newRect.Y.ToString()));
+                    newRect.Width = Convert.ToInt32(HanMechXmlHelper.GetValue(inspParamElement, "Width", newRect.Width.ToString()));
+                    newRect.Height = Convert.ToInt32(HanMechXmlHelper.GetValue(inspParamElement, "Height", newRect.Height.ToString()));
+                    item.ROI = newRect;
+
+                    count++;
+                }
+
+                camCount++;
+            }
+
+        }
+
+        private void SaveParams(XmlElement configElement)
+        {
+            XmlElement inspElement = configElement.OwnerDocument.CreateElement("", "InspectioniParam", "");
+            configElement.AppendChild(inspElement);
+
+            HanMechXmlHelper.SetValue(inspElement, "InspCount", mInspParams.Count.ToString());
+
+            int camCount = 0;
+            foreach (InspectionParameter camInspectionParam in mInspParams)
+            {
+                string camElementName = "CAM_" + camCount.ToString();
+                XmlElement paramElement = inspElement.OwnerDocument.CreateElement("", camElementName, "");
+                inspElement.AppendChild(paramElement);
+
+                HanMechXmlHelper.SetValue(paramElement, "InspModelCount", camInspectionParam.Params.Count.ToString());
+
+                string name = "InspModel_";
+                int count = 0;
+
+                foreach (InspParam item in camInspectionParam.Params)
+                {
+                    string paramElementName = name + count.ToString();
+                    XmlElement inspParamElement = paramElement.OwnerDocument.CreateElement("", paramElementName, "");
+                    paramElement.AppendChild(inspParamElement);
+
+                    HanMechXmlHelper.SetValue(inspParamElement, "Name", item.Name.ToString());
+                    HanMechXmlHelper.SetValue(inspParamElement, "Use", item.Use.ToString());
+                    HanMechXmlHelper.SetValue(inspParamElement, "VppPath", item.VppPath.ToString());
+
+                    HanMechXmlHelper.SetValue(inspParamElement, "X", item.ROI.X.ToString());
+                    HanMechXmlHelper.SetValue(inspParamElement, "Y", item.ROI.Y.ToString());
+                    HanMechXmlHelper.SetValue(inspParamElement, "Width", item.ROI.Width.ToString());
+                    HanMechXmlHelper.SetValue(inspParamElement, "Height", item.ROI.Height.ToString());
+
+                    count++;
+                }
+
+                camCount++;
+            }
+
+        }
+
+        public bool Load(string path)
+        {
+            bool r = true;
+            try
+            {
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                {
+                    string fullPath = path + "InspManagerParam.cfg";
+
+                    if(!File.Exists(fullPath))
+                    {
+                        Save(path);
+                        r = false;
+                    }
+
+                    XmlDocument xmlDocument = new XmlDocument();
+                    xmlDocument.Load(fullPath);
+                    XmlElement configElement = xmlDocument.DocumentElement;
+
+                    LoadParams(configElement);
+                }
+            }
+            catch (Exception ex)
+            {
+                r = false;
+            }
+
+            return r;
+        }
+
+        public bool Save(string path)
+        {
+            bool r = true;
+            try
+            {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+
+                string fullPath = path + "InspManagerParam.cfg";
+
+                XmlDocument xmlDocument = new XmlDocument();
+
+                HanMechXmlHelper.SaveDeclaration(xmlDocument);
+
+                XmlElement configElement = xmlDocument.CreateElement("", "InspectionParam", "");
+                xmlDocument.AppendChild(configElement);
+                SaveParams(configElement);
+
+                xmlDocument.Save(fullPath);
+
+            }
+            catch (Exception ex)
+            {
+
+                r = false;
+            }
+
+            return r;
+        }
+    }
+}

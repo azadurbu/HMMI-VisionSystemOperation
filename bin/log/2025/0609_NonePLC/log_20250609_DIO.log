@@ -1,0 +1,7 @@
+[0609 15:41:38.661ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 15:41:38.662ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 15:41:38.667ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 15:41:38.668ms] PLC Inform: Error Write Vision Sequence to PLC : Invalid comm driver
+[0609 15:41:58.941ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 15:41:58.941ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0609 15:41:58.941ms] PLC Inform: Failed Write Vision to PLC Data:

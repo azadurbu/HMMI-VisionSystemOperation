@@ -1,0 +1,4 @@
+[0428 15:40:40.149ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0428 15:40:40.149ms] PLC Inform ERROR: PLC ERROR. : Invalid comm driver
+[0428 15:40:40.149ms] PLC Inform: Failed Write Vision to PLC Data:
+[0428 15:40:40.149ms] PLC Inform: Error Write Vision Sequence to PLC : Invalid comm driver

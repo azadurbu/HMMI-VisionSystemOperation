@@ -1,0 +1,478 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using VisionSystemOperation.Device;
+using VisionSystemOperation.Device.PLC_Library;
+using VisionSystemOperation.Inspection.MotorCar;
+using VisionSystemOperation.Inspection.MotorCar.Model;
+
+namespace VisionSystemOperation.Forms
+{
+    public enum ePLCDataGridViewHeader
+    {
+        NO,
+        TAG,
+        NAME,
+        VALUE,
+        //COMMENT,
+        COUNT
+    }
+
+    public partial class FormPLCInterface : Form
+    {
+        CarManager CarManager { get; set; } = new CarManager();
+        XGPLCManager PLC { get; set; } = new XGPLCManager("", 0);
+
+        public FormPLCInterface()
+        {
+            InitializeComponent();
+        }
+
+        private void FormPLCInterface_Load(object sender, EventArgs e)
+        {
+            CarManager.LoadDB();
+
+            PLC = Machine.plc;
+            PLC.Load();
+
+            Update(false);
+            InitPlcDataGridViewHeader();
+            UpdatePLCDataGridView("");
+            InitComboBox();
+        }
+        private void InitComboBox()
+        {
+            cbxInterfaceArea.Items.Add(lblVisionSeq.Text);
+            cbxInterfaceArea.Items.Add(lblPLCSeq.Text);
+            cbxInterfaceArea.Items.Add(lblPlcCarModel.Text);
+            cbxInterfaceArea.Items.Add(lblPlcCarEngine.Text);
+            cbxInterfaceArea.Items.Add(lblPlcCarOption.Text);
+
+            cbxInterfaceArea.SelectedIndex = 0;
+        }
+
+        private void UpdatePLCDataGridView(string interfaceType)
+        {
+            if (!PLC.IsConnected()) return;
+
+            CarManager.LoadDB();
+
+            char deviceType = PLC.Read_Model_StartAddress[1];
+            uint dataType = (int)eDataType.WORD;
+            long modelAddress = Int32.Parse(PLC.Read_Model_StartAddress.Substring(3, (PLC.Read_Model_StartAddress.Count() - 3)));
+            long engineAddress = Int32.Parse(PLC.Read_Eng_StartAddress.Substring(3, (PLC.Read_Eng_StartAddress.Count() - 3)));
+            long optionAddress = Int32.Parse(PLC.Read_Opt_StartAddress.Substring(3, (PLC.Read_Opt_StartAddress.Count() - 3)));
+
+            InitPLCDataGridViewRows(interfaceType);
+            //if (!PLC.Connect()) return;
+
+            try
+            {
+                int[] modelIdxs = CarManager.GetCarModelIndexList();
+                int[] engineIdxs = CarManager.GetCarOptEngIndexList(Inspection.MotorCar.eCarOptEngType.Engine);
+                int[] optionIdxs = CarManager.GetCarOptEngIndexList(Inspection.MotorCar.eCarOptEngType.Option);
+
+                if (interfaceType == lblVisionSeq.Text)
+                {
+                    int startBitIdx = 0;
+                    int endBitIdx = startBitIdx + (int)eVision2PLCSeq.SEQ_COUNT;
+                    PLC.CheckedVision2PLCSeq();
+                    for (int i = startBitIdx; i < endBitIdx; i++)
+                    {
+                        int bitIdx = (i - startBitIdx);
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.TAG, i].Value = string.Format($"{PLC.WriteVisionSeq_StartAddress}_Bit{i}");
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.NAME, i].Value = string.Format($"{((eVision2PLCSeq)bitIdx).ToString()}");
+
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.VALUE, i].Value = string.Format($"{PLC.IsVisionSeqRecvData[bitIdx].ToString()}");
+                        if (PLC.IsVisionSeqRecvData[bitIdx] == true)
+                            dgvPLCInterface.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+
+                    }
+                    dgvPLCInterface.FirstDisplayedScrollingRowIndex = startBitIdx;
+                }
+                else if (interfaceType == lblPLCSeq.Text)
+                {
+                    int startBitIdx = 0;
+                    int endBitIdx = startBitIdx + (int)ePLC2VisionSeq.SEQ_COUNT;
+                    PLC.CheckedPLC2VisionSeq(ePLC2VisionSeq.VISION_START);
+                    for (int i = startBitIdx; i < endBitIdx; i++)
+                    {
+                        int bitIdx = (i - startBitIdx);
+
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.TAG, i].Value = string.Format($"{PLC.Read_PlcSeq_StartAddress}_Bit{i}");
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.NAME, i].Value = string.Format($"{((ePLC2VisionSeq)bitIdx).ToString()}");
+
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.VALUE, i].Value = string.Format($"{PLC.IsSeqRecvData[bitIdx]}");
+                        if (PLC.IsSeqRecvData[bitIdx] == true)
+                            dgvPLCInterface.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+
+                    }
+                    dgvPLCInterface.FirstDisplayedScrollingRowIndex = startBitIdx;
+                }
+                else if (interfaceType == lblPlcCarModel.Text)
+                {
+                    int startBitIdx = modelIdxs.Min();
+                    int endBitIdx = modelIdxs.Max() + 1;
+                    if (endBitIdx > 16) endBitIdx = 16;
+
+                    char[] bitDatas = PLC.GetReadBitData(dataType, deviceType, modelAddress);
+
+                    for (int i = startBitIdx; i < endBitIdx; i++)
+                    {
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.TAG, i].Value = string.Format($"{PLC.Read_Model_StartAddress}_Bit{i}");
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.NAME, i].Value = string.Format($"{CarManager.GetCarModelNameByIndex(i).ToString()}");
+
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.VALUE, i].Value = string.Format($"{bitDatas[i]}");
+                        if (bitDatas[i] == '1')
+                            dgvPLCInterface.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+
+                    }
+                    dgvPLCInterface.FirstDisplayedScrollingRowIndex = startBitIdx;
+                }
+                else if (interfaceType == lblPlcCarEngine.Text)
+                {
+                    int startBitIdx = engineIdxs.Min();
+                    int endBitIdx = engineIdxs.Max() + 1;
+                    if (endBitIdx > 16) endBitIdx = 16;
+
+                    char[] bitDatas = PLC.GetReadBitData(dataType, deviceType, engineAddress);
+
+                    for (int i = startBitIdx; i < endBitIdx; i++)
+                    {
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.TAG, i].Value = string.Format($"{PLC.Read_Eng_StartAddress}_Bit{i}");
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.NAME, i].Value = string.Format($"{CarManager.GetCarEngineNameByIndex(i).ToString()}");
+
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.VALUE, i].Value = string.Format($"{bitDatas[i]}");
+                        if (bitDatas[i] == '1')
+                            dgvPLCInterface.Rows[i].DefaultCellStyle.BackColor = Color.Green;
+
+                    }
+                    dgvPLCInterface.FirstDisplayedScrollingRowIndex = startBitIdx;
+                }
+                else if (interfaceType == lblPlcCarOption.Text)
+                {
+                    //int startBitIdx = CarManager.OptionDB.Where(opt => opt.plcIBitIdx > -1).Min(opt => opt.plcIBitIdx);
+                    //int endBitIdx = CarManager.OptionDB.Where(opt => opt.plcIBitIdx < 16).Max(opt => opt.plcIBitIdx);
+                    //if (endBitIdx <= 0) endBitIdx = 1;
+
+                    char[] bitDatas = PLC.GetReadBitData(dataType, deviceType, optionAddress);
+
+                    int startBitIdx = 9999999;
+                    List<sOptionType> optionList = CarManager.OptionDB;
+                    for (int i = optionList.Count - 1; i >= 0 ; i--)
+                    {
+                        sOptionType opt = optionList[i];
+                        if (opt.plcIBitIdx == -1)   continue;
+
+
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.TAG, opt.plcIBitIdx].Value = string.Format($"{PLC.Read_Opt_StartAddress}_Bit{i}");
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.NAME, opt.plcIBitIdx].Value = string.Format($"{opt.Name}");
+
+                        dgvPLCInterface[(int)ePLCDataGridViewHeader.VALUE, opt.plcIBitIdx].Value = string.Format($"{bitDatas[opt.plcIBitIdx]}");
+                        if (bitDatas[opt.plcIBitIdx] == '1')
+                        {
+                            startBitIdx = Math.Min(startBitIdx, opt.plcIBitIdx);
+                            dgvPLCInterface.Rows[opt.plcIBitIdx].DefaultCellStyle.BackColor = Color.Green;
+                        }
+
+                    }
+
+                    if (startBitIdx > 15) startBitIdx = 0;
+                    dgvPLCInterface.FirstDisplayedScrollingRowIndex = startBitIdx;
+                }
+            }
+            catch (Exception ex)
+            {
+                string err = ex.ToString();
+            }
+        }
+
+        private void cbxInterfaceArea_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string curPlcInterface = cbxInterfaceArea.SelectedItem.ToString();
+            if (curPlcInterface == "") return;
+
+            UpdatePLCDataGridView(curPlcInterface);
+        }
+
+        private void InitPLCDataGridViewRows(string interfaceType)
+        {
+            dgvPLCInterface.Rows.Clear();
+
+            int defCount = 16;
+            if (interfaceType == lblPLCVinID.Text)
+                defCount = 16 * 5;
+
+            for (int i = 0; i < defCount; i++)//1Word == 2Byte == 16Bit
+            {
+                string[] dataRows = new string[(int)ePLCDataGridViewHeader.COUNT];
+
+                dgvPLCInterface.Rows.Add(dataRows);
+                dgvPLCInterface[(int)ePLCDataGridViewHeader.NO, i].Value = i.ToString();
+            }
+        }
+
+        private void InitPlcDataGridViewHeader()
+        {
+            try
+            {
+                ///Header
+                foreach (ePLCDataGridViewHeader item in Enum.GetValues(typeof(ePLCDataGridViewHeader)))
+                {
+                    if (item == ePLCDataGridViewHeader.COUNT) continue;
+
+                    dgvPLCInterface.Columns.Add(item.ToString(), item.ToString());
+                }
+                dgvPLCInterface.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                dgvPLCInterface.RowHeadersVisible = false;
+                //dgvPLCInterface.Columns[(int)ePLCDataGridViewHeader.COMMENT].ReadOnly = false; // Use CheckBox;
+
+                ///Add Row
+                
+                ///
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        private void btnPLCConnection_Click(object sender, EventArgs e)
+        {
+            if (txbPLCIP.Text == "") return;
+            if (txbPLCPort.Text == "") return;
+
+            int port = Int32.Parse(txbPLCPort.Text);
+            string plcIP = txbPLCIP.Text;
+
+            Machine.plc.IP = plcIP; Machine.plc.Port = port;
+            if (!Machine.plc.Connect())
+            {
+                MessageBox.Show("Failed PLC Connection");
+            }
+        }
+
+        private void btnReadyOn_Click(object sender, EventArgs e)
+        {
+            // Need to synchronization Sequence Vision Signal
+            int startBitIdx = 0;
+            PLC.CheckedVision2PLCSeq();
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.READY_ON)] = true;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.AUTO_START)] = true;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.EM_STOP)] = true;
+            PLC.WriteVistion2PLCSeq(PLC.IsVisionSeqRecvData, 16);
+
+            btnRefreshPLCMap_Click(null, null);
+        }
+
+        private void btnReadyOff_Click(object sender, EventArgs e)
+        {
+            int startBitIdx = 0;
+            PLC.CheckedVision2PLCSeq();
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.READY_ON)] = false;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.AUTO_START)] = false;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.EM_STOP)] = true;
+            PLC.WriteVistion2PLCSeq(PLC.IsVisionSeqRecvData, 16);
+
+            btnRefreshPLCMap_Click(null, null);
+        }
+
+        private void btnInspStart_Click(object sender, EventArgs e)
+        {
+            int startBitIdx = 0;
+            PLC.CheckedVision2PLCSeq();
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.VISION_START)] = true;
+            PLC.WriteVistion2PLCSeq(PLC.IsVisionSeqRecvData, 16);
+
+            btnRefreshPLCMap_Click(null, null);
+        }
+
+        private void btnResultOK_Click(object sender, EventArgs e)
+        {
+            int startBitIdx = 0;
+            PLC.CheckedVision2PLCSeq();
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.LAST_COMPL)] = true;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.VISION_NG)] = false;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.ERROR)] = false;
+            PLC.WriteVistion2PLCSeq(PLC.IsVisionSeqRecvData, 16);
+
+            btnRefreshPLCMap_Click(null, null);
+        }
+
+        private void btnResultNG_Click(object sender, EventArgs e)
+        {
+            int startBitIdx = 0;
+            PLC.CheckedVision2PLCSeq();
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.LAST_COMPL)] = false;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.VISION_NG)] = true;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.ERROR)] = false;
+            PLC.WriteVistion2PLCSeq(PLC.IsVisionSeqRecvData, 16);
+
+            btnRefreshPLCMap_Click(null, null);
+        }
+
+        private void btnResultERR_Click(object sender, EventArgs e)
+        {
+            int startBitIdx = 0;
+            PLC.CheckedVision2PLCSeq();
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.LAST_COMPL)] = false;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.VISION_NG)] = false;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.ERROR)] = true;
+            PLC.WriteVistion2PLCSeq(PLC.IsVisionSeqRecvData, 16);
+
+            btnRefreshPLCMap_Click(null, null);
+        }
+
+        private void btnInspEnd_Click(object sender, EventArgs e)
+        {
+            int startBitIdx = 0;
+            PLC.CheckedVision2PLCSeq();
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.VISION_END)] = true;
+            PLC.WriteVistion2PLCSeq(PLC.IsVisionSeqRecvData, 16);
+
+            btnRefreshPLCMap_Click(null, null);
+        }
+
+        private void btnInterAreaBitOn_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnInterAreaBitOff_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Update(bool IsUpdate)
+        {
+            if(IsUpdate)
+            {
+                string plcIP = txbPLCIP.Text;
+                string plcPort = txbPLCPort.Text;
+
+                string plcReadModel_StartAddress = txbPLCCarModelStartAddress.Text;
+                string plcReadEng_StartAddress = txbPLCCarEngStartAddress.Text;
+                string plcReadOpt_StartAddress = txbPLCCarOptStartAddress.Text;
+                string plcReadVinID_StartAddress = txbPLCVinIdStartAddress.Text;
+                string plcSeq_StartAddress = txbPLCSeqStartAddress.Text;
+                string visionSeq_StartAddress = txbVisionSeqStartAddress.Text;
+
+                Machine.plc.IP = plcIP;
+                Machine.plc.Port = Int32.Parse(plcPort);
+                Machine.plc.Read_Model_StartAddress = plcReadModel_StartAddress;
+                Machine.plc.Read_Eng_StartAddress = plcReadEng_StartAddress;
+                Machine.plc.Read_Opt_StartAddress = plcReadOpt_StartAddress;
+                Machine.plc.Read_VinID_StartAddress = plcReadVinID_StartAddress;
+                Machine.plc.Read_PlcSeq_StartAddress = plcSeq_StartAddress;
+                Machine.plc.WriteVisionSeq_StartAddress = visionSeq_StartAddress;
+            }
+            else
+            {
+                txbPLCIP.Text = Machine.plc.IP;
+                txbPLCPort.Text = Machine.plc.Port.ToString();
+                txbPLCCarModelStartAddress.Text = Machine.plc.Read_Model_StartAddress;
+                txbPLCCarEngStartAddress.Text = Machine.plc.Read_Eng_StartAddress;
+                txbPLCCarOptStartAddress.Text = Machine.plc.Read_Opt_StartAddress;
+                txbPLCVinIdStartAddress.Text = Machine.plc.Read_VinID_StartAddress;
+                txbVisionSeqStartAddress.Text = Machine.plc.WriteVisionSeq_StartAddress;
+                txbPLCSeqStartAddress.Text = Machine.plc.Read_PlcSeq_StartAddress;
+            }
+        }
+
+        private void btnPLCParamSave_Click(object sender, EventArgs e)
+        {
+            Update(true);
+            Machine.plc.Save();
+        }
+
+        private void btnReadVinID_Click(object sender, EventArgs e)
+        {
+            //if (!PLC.Connect()) return;
+            try
+            {
+                lblVinID.Text = PLC.ReadWordString(eReadSignalType.CAR_ID);
+            }
+            catch (Exception ex)
+            {
+                string err = ex.ToString();
+            }
+        }
+
+        private void btnSeqInitialize_Click(object sender, EventArgs e)
+        {
+;           Machine.plc.InitStatusFlagData();
+            Machine.plc.WriteVistion2PLCSeq(Machine.plc.IsVisionSeqRecvData, 16);
+        }
+
+        private void btnRefreshPLCMap_Click(object sender, EventArgs e)
+        {
+            string curPlcInterface = cbxInterfaceArea.SelectedItem.ToString();
+            if (curPlcInterface == "") return;
+
+            UpdatePLCDataGridView(curPlcInterface);
+        }
+
+        private void btnReadCarType_Click(object sender, EventArgs e)
+        {
+            int rModelIdx = 0;
+            int rEngineIdx = 0;
+            int[] rOptionArr = null;
+            int[] modelIdxs = CarManager.GetCarModelIndexList();
+            int[] engineIdxs = CarManager.GetCarOptEngIndexList(Inspection.MotorCar.eCarOptEngType.Engine);
+            int[] optionIdxs = CarManager.GetCarOptEngIndexList(Inspection.MotorCar.eCarOptEngType.Option);
+
+            PLC.ReadCarTypeIdx(ref modelIdxs, ref engineIdxs, ref optionIdxs, out rModelIdx, out rEngineIdx, out rOptionArr);
+            if (rModelIdx == -1) // Should not Model idx == -1
+            {
+                MessageBox.Show("Model Idx == -1, Check PLC Data");
+            }
+            else
+            {
+                Inspection.MotorCar.Model.Car car = CarManager.GetCarByIdx(rModelIdx, rEngineIdx, rOptionArr);
+
+                if (car != null)
+                    lblCarType.Text = car.GetCarFullName();
+                else
+                    lblCarType.Text = "Empty";
+            }
+
+        }
+
+        private void tmKeepAlive_Tick(object sender, EventArgs e)
+        {
+            bool r = PLC.IsVisionSeqRecvData[(int)eVision2PLCSeq.COM_CHK_FLICKER];
+
+            if (r)
+                btnAliveStatus.BackColor = Color.GreenYellow;
+            else
+                btnAliveStatus.BackColor = Color.OrangeRed;
+        }
+
+        private void chkKeepAlive_CheckedChanged(object sender, EventArgs e)
+        {
+            tmKeepAlive.Enabled = chkKeepAlive.Checked;
+
+            //if (chkKeepAlive.Checked)
+            //    btnAliveStatus.BackColor = Color.GreenYellow;
+            //else
+            //    btnAliveStatus.BackColor = Color.OrangeRed;
+        }
+
+        private void btnBTMachOK_Click(object sender, EventArgs e)
+        {
+            int startBitIdx = 0;
+            PLC.CheckedVision2PLCSeq();
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.BT_MATCH_OK)] = true;
+            PLC.IsVisionSeqRecvData[startBitIdx - (startBitIdx - (int)eVision2PLCSeq.BT_UNMATCH)] = false;
+            PLC.WriteVistion2PLCSeq(PLC.IsVisionSeqRecvData, 16);
+
+            btnRefreshPLCMap_Click(null, null);
+        }
+    }
+}

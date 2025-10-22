@@ -1,0 +1,18 @@
+[0609 15:42:43.884ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 15:42:43.890ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:42:43.890ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:42:43.891ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 15:42:43.891ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0609 15:43:01.531ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:43:01.531ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 15:43:01.531ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 16:15:01.935ms] PLC Inform: PLC ==> Connect Fail !! 
+
+[0609 16:15:01.942ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 16:15:01.943ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 16:15:01.944ms] PLC Inform: Failed Write Vision to PLC Data:
+[0609 16:15:01.945ms] PLC Inform: Error Write Vision Sequence to PLC : Connect failed
+[0609 17:02:15.128ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 17:02:15.130ms] PLC Inform ERROR: PLC ERROR. : Connect failed
+[0609 17:02:15.161ms] PLC Inform: Failed Write Vision to PLC Data:

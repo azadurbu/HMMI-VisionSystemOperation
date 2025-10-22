@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PLCParam>
+  <Param>
+    <IP>192.168.2.2</IP>
+    <Port>2004</Port>
+    <ReadModelStartAddress>%MW87003</ReadModelStartAddress>
+    <ReadEngStartAddress>%MW87005</ReadEngStartAddress>
+    <ReadOptStartAddress>%MW87007</ReadOptStartAddress>
+    <ReadVINIDStartAddress>%MW87012</ReadVINIDStartAddress>
+    <ReadPlcSeqStartAddress>%MW97010</ReadPlcSeqStartAddress>
+    <WriteVisionSeqStartAddress>%MW87000</WriteVisionSeqStartAddress>
+  </Param>
+</PLCParam>
