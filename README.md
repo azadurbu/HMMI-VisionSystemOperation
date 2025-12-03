@@ -26,7 +26,7 @@ Built using **C# WinForms**, **Cognex VisionPro**, **MSSQL**, and PLC signaling,
 
 * **Master Image & Model Management**
 
-  * Golden/master image references stored per car model.
+  * Master image references stored per car model.
   * Create custom models and options for new car types.
 
 * **Operator-Friendly UI**
@@ -52,7 +52,7 @@ Built using **C# WinForms**, **Cognex VisionPro**, **MSSQL**, and PLC signaling,
 ### **Vision-Based Car Feature Checks**
 
 * **Car Type & Feature Verification** – Inspects presence, orientation, and alignment of components.
-* **Master Image Comparison** – ROI-based inspection against golden images for each car model.
+* **Master Image Comparison** – ROI-based inspection against master images for each car model.
 * **Multi-Model & Option Support** – Configure ROIs, create custom models, and add new options for different car types.
 * **Manual Image Capture** – Operators can capture images on demand in addition to automatic capture.
 
@@ -91,7 +91,7 @@ VisionSystemOperation
  ├── Device             # Camera, PLC, I/O modules
  ├── Forms              # Operator and engineering UI screens
  ├── Log                # Application logs
- ├── MasterImage        # Golden/master images for each model
+ ├── MasterImage        # Master images for each model
  ├── Properties         # Application settings and metadata
  ├── Resources          # Static UI assets (icons, etc.)
  ├── bin                # Compiled output
